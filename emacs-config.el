@@ -470,6 +470,57 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;; (require 'anaconda-mode)
 ;; (add-hook 'elpy-mode-hook '(lambda () (anaconda-mode t)))
 
+;; Default options
+(tool-bar-mode -1)
+(show-paren-mode 1)
+(global-font-lock-mode t)
+(winner-mode 1) ; go back between layouts
+(global-visual-line-mode 1) ; visual line mode
+
+
+(setq confirm-kill-emacs 'yes-or-no-p
+      transient-mark-mode t
+      inhibit-splash-screen t
+      visible-bell t
+      indent-tabs-mode nil
+      sentence-end-double-space nil
+      ;; Scrolling
+      scroll-margin 3
+      scroll-conservatively 100000
+      scroll-preserve-screen-position 1)
+
+(put 'set-goal-column 'disabled nil)
+
+;; scrolling
+(put 'scroll-left 'disabled nil)
+(put 'scroll-right 'disabled nil)
+
+(put 'downcase-region 'disabled nil)
+
+;; For one-key
+;;(setq max-lisp-eval-depth 10000)
+;;(setq max-specpdl-size 10000)
+
+;; ;; Clipboard
+;; (setq mouse-drag-copy-region nil)
+;; (setq x-select-enable-primary t)
+;; (setq x-select-enable-clipboard t)
+
+(put 'narrow-to-region 'disabled nil)
+;; Delete trailing white spaces
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Revert buffers automatically
+(global-auto-revert-mode 1)
+
+;; Frame title
+(setq frame-title-format (concat "%b - emacs@" (system-name)))
+;; For mu4e
+(set-language-environment "UTF-8")
+
+;; Recursive mini-buffer
+(setq enable-recursive-minibuffers nil)
+
 ;;(load-theme 'tango-dark)
   ;;(load-theme 'tangotangofixed t)
   ;;(load-theme 'tango-2 t) ;; in MELPA repository
@@ -498,3 +549,21 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
       kept-new-versions 5
       kept-old-versions 2
       version-control t)
+
+(eval-after-load 'grep
+  '(define-key grep-mode-map
+    (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
+
+(eval-after-load 'wgrep
+  '(define-key grep-mode-map
+    (kbd "C-c C-c") 'wgrep-finish-edit))
+
+(projectile-global-mode t)
+
+(use-package projectile
+:ensure t
+:config
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
+(setq projectile-tags-command (expand-file-name "~/apps/bin/ctags -Re -f \"%s\" %s")))
+
+(show-time-since-init "EO Tmp")

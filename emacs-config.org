@@ -333,11 +333,8 @@ Facilitates loading packages.
 #+BEGIN_SRC emacs-lisp
 (show-time-since-init "EO Use-package")
 #+END_SRC
-* Major modes
-
-
-** ido
-*** turn ido on and setup some options
+* ido
+** turn ido on and setup some options
 #+begin_src emacs-lisp
   ;; ido: help with buffers / opening files
   (require 'ido)
@@ -364,7 +361,7 @@ Facilitates loading packages.
 #+RESULTS:
 | lambda | nil | (let ((oldmap (cdr (assoc (quote sam-keys-mode) minor-mode-map-alist))) (newmap (make-sparse-keymap))) (set-keymap-parent newmap oldmap) (define-key newmap (kbd C-SPC) (quote ido-restrict-to-matches)) (make-local-variable (quote minor-mode-overriding-map-alist)) (push (` (sam-keys-mode , newmap)) minor-mode-overriding-map-alist)) |
 
-*** recentf: open recent files
+** recentf: open recent files
 #+begin_src emacs-lisp
   ;; recent files (from Mickey at
   ;; http://www.masteringemacs.org/articles/2011/01/27/find-files-faster-recent-files-package/
@@ -389,7 +386,7 @@ Facilitates loading packages.
 #+RESULTS:
 : t
 
-*** ido everything
+** ido everything
 #+begin_src emacs-lisp
   ;; ido everything
   ;; (defvar ido-enable-replace-completing-read t
@@ -420,7 +417,7 @@ Facilitates loading packages.
 
 #+RESULTS:
 
-*** smex & idomenu
+** smex & idomenu
 #+BEGIN_SRC emacs-lisp
 ;; smex
 ;;(load-file "~/.emacs.d/site-lisp/smex.el") ;; use elpa instead
@@ -438,7 +435,7 @@ Facilitates loading packages.
 #+RESULTS:
 : idomenu
 
-** idedit
+* idedit
 #+begin_src emacs-lisp
   ;; Iedit: to replace things easily locally
   (load-file "~/.emacs.d/site-lisp/iedit.el")
@@ -447,15 +444,15 @@ Facilitates loading packages.
   (define-key isearch-mode-map (kbd "C-;") 'iedit-mode)
 #+end_src
 
-** Python
-*** Elpy
-**** Installation
+* Python
+** Elpy
+*** Installation
 - elpy v1.18.0 from melpa (the core package)
 - conda 20171122.716 (to manage conda envs) (create symbolic link from ~/.anaconda3 to your miniconda or anaconda install:
 : ln -s ~/miniconda3/ ~/.anaconda3
 - realgud 1.4.4 (awesome debugger)
-**** Virtual environments
-**** Interactive shell
+*** Virtual environments
+*** Interactive shell
 - For IPython<5, the ipython shell runs nicely in emacs with all the bells and whisles
 - For IPython>5, kind of works (using =ipython --simple-prompt -i=), but there's some issues with backspace key on OSX...
 so best to use the emacsified interactive shell via Elpy than the "native" shell (with char mode and line mode).
@@ -466,13 +463,13 @@ work in modern ipython shell).
 Best to do most of the editing in a buffer and send bits of codes to the shell for execution.
 | C-c C-c | send region or buffer to python buffer and go |
 | M-n     | send region or buffer to python buffer        |
-**** Auto-completion
+*** Auto-completion
 Use Jedi. Tooltips.
-**** Documentation
+*** Documentation
 - for functions: after opening, bracket, docs displayed in minibuffer
 - C-d: display documentation of symbol at point in minibuffer
       (C-M-v: scroll down other window, C-M-V scroll up other window)
-**** Code navigation
+*** Code navigation
 Needs emacs 25
 | M-.     | xref-find-definitions  | find definition of the identifier at point         |
 | M-,     | xref-pop-marker-stack  | pop tag from stack                                 |
@@ -484,19 +481,19 @@ Doesn't quite work work properly atm. Must do:
 - activate conda env
 - =M-x elpy-rpc-restart=
 
-**** Debugging with ipdb and realgud
-***** ipdb script
+*** Debugging with ipdb and realgud
+**** ipdb script
 Add following script (OS X) in the path
 #+BEGIN_SRC #sh
 #!/bin/bash
 ipython --simple-prompt -i -c "%run -d $@"
 #+END_SRC
-***** With IPython in Emacs
+**** With IPython in Emacs
 - run inferior shell =M-O=
 - activate pdb =%pdb on= or add code breakpoint via ipdb.set_trace() (see below)
 - execute buffer
 - this will drop into ipdb on error and will track line in emacs source code
-***** [DEPRECATED] Adding textual breakpoints
+**** [DEPRECATED] Adding textual breakpoints
 Use C-c C-b to add a breakpoint in a given line via Emacs. Then two options:
 - Outside of emacs: run code/tests via command line shell in environment with ipdb available, this will drop into a debugger.
 - Run code in emacs: run the code in the debugger. Better to use the approach below however (call realgud directly).
@@ -525,13 +522,13 @@ Use C-c C-b to add a breakpoint in a given line via Emacs. Then two options:
 #+END_SRC
 
 
-***** Run ipdb in realgud
+**** Run ipdb in realgud
 - =M-x realgud:ipdb= and put filename
 
-**** Version Control
+*** Version Control
 Magit. Enough said.
-**** Code coverage with pytest and coverage
-***** Running tests and collecting coverage data
+*** Code coverage with pytest and coverage
+**** Running tests and collecting coverage data
 #+BEGIN_SRC sh
 python -m pytest --cov=bmllreports tests/
 #+END_SRC
@@ -588,7 +585,7 @@ bmllreports/utils.py                                                            
 --------------------------------------------------------------------------------------------------------
 TOTAL                                                                                 2427   1761    27%
 #+END_SRC
-***** Displaying coverage data
+**** Displaying coverage data
 #+BEGIN_SRC sh
 coverage report -m
 #+END_SRC
@@ -862,7 +859,7 @@ TOTAL                                                                           
 # # ;;(setq sam-ipython-program-command "/Users/sinayoks/anaconda/envs/microblog/ipython")
 # # (setq sam-ipython-program-command "/Users/sinayoks/anaconda/bin/ipython")
 # # #+END_SRC
-***** pycoverage.el
+**** pycoverage.el
 Install the `pycoverage` package from melpa. The package is broken but
 the fix proposed in [[https://github.com/mattharrison/pycoverage.el/issues/9][this issue]] works:
 Replace =cov2emacs= in your =~/.emacs.d/elpa/pycoverage= directory by
@@ -901,7 +898,7 @@ if __name__ == '__main__':
 	(pycoverage-mode t)))))
 
 #+END_SRC
-**** Python Config
+*** Python Config
 
 #+BEGIN_SRC emacs-lisp
   ;; (require 'package)
@@ -965,7 +962,7 @@ if __name__ == '__main__':
   ;; (require 'anaconda-mode)
   ;; (add-hook 'elpy-mode-hook '(lambda () (anaconda-mode t)))
 #+END_SRC
-***** fixiing virtal envs
+**** fixiing virtal envs
 elpy doesn't work with conda envs out of the box,
 but this seems to fix the issues: add
 #+BEGIN_SRC emacs-list
@@ -983,7 +980,7 @@ elpy and they can be activated in the menu.
 # (define-key ein:notebook-mode-map (kbd "C-<enter>")
 #     'ein:worksheet-execute-cell-and-goto-next)
 # #+END_SRC
-** Other 
+* Other
 
 # ** beancount
 # #+BEGIN_SRC emacs-lisp
@@ -2088,7 +2085,7 @@ elpy and they can be activated in the menu.
 #     (auto-complete-mode 1))
 
 # #+end_src
-** Yasnippet
+* Yasnippet
 Install with MELPA
 #+BEGIN_SRC # emacs-lisp
   # (add-to-list 'load-path
@@ -3324,60 +3321,63 @@ Install with MELPA
 #   (unless (server-running-p) (server-start))
 # #+end_src
 
-# * COMMENT Options
-# #+begin_src emacs-lisp
-#   ;; Default options
-#   (tool-bar-mode -1)
-#   (show-paren-mode 1)
-#   (global-font-lock-mode t)
-#   (winner-mode 1) ; go back between layouts
-#   (global-visual-line-mode 1) ; visual line mode
+* Options
+#+begin_src emacs-lisp
+  ;; Default options
+  (tool-bar-mode -1)
+  (show-paren-mode 1)
+  (global-font-lock-mode t)
+  (winner-mode 1) ; go back between layouts
+  (global-visual-line-mode 1) ; visual line mode
 
 
-#   (setq confirm-kill-emacs 'yes-or-no-p
-#         transient-mark-mode t
-#         inhibit-splash-screen t
-#         visible-bell t
-#         indent-tabs-mode nil
-#         sentence-end-double-space nil
-#         ;; Scrolling
-#         scroll-margin 3
-#         scroll-conservatively 100000
-#         scroll-preserve-screen-position 1)
+  (setq confirm-kill-emacs 'yes-or-no-p
+        transient-mark-mode t
+        inhibit-splash-screen t
+        visible-bell t
+        indent-tabs-mode nil
+        sentence-end-double-space nil
+        ;; Scrolling
+        scroll-margin 3
+        scroll-conservatively 100000
+        scroll-preserve-screen-position 1)
 
-#   (put 'set-goal-column 'disabled nil)
+  (put 'set-goal-column 'disabled nil)
 
-#   ;; scrolling
-#   (put 'scroll-left 'disabled nil)
-#   (put 'scroll-right 'disabled nil)
+  ;; scrolling
+  (put 'scroll-left 'disabled nil)
+  (put 'scroll-right 'disabled nil)
 
-#   (put 'downcase-region 'disabled nil)
+  (put 'downcase-region 'disabled nil)
 
-#   ;; For one-key
-#   ;;(setq max-lisp-eval-depth 10000)
-#   ;;(setq max-specpdl-size 10000)
+  ;; For one-key
+  ;;(setq max-lisp-eval-depth 10000)
+  ;;(setq max-specpdl-size 10000)
 
-#   ;; ;; Clipboard
-#   ;; (setq mouse-drag-copy-region nil)
-#   ;; (setq x-select-enable-primary t)
-#   ;; (setq x-select-enable-clipboard t)
+  ;; ;; Clipboard
+  ;; (setq mouse-drag-copy-region nil)
+  ;; (setq x-select-enable-primary t)
+  ;; (setq x-select-enable-clipboard t)
 
-#   (put 'narrow-to-region 'disabled nil)
-#   ;; Delete trailing white spaces
-#   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+  (put 'narrow-to-region 'disabled nil)
+  ;; Delete trailing white spaces
+  (add-hook 'before-save-hook 'delete-trailing-whitespace)
 
-#   ;; Revert buffers automatically
-#   (global-auto-revert-mode 1)
+  ;; Revert buffers automatically
+  (global-auto-revert-mode 1)
 
-#   ;; Frame title
-#   (setq frame-title-format (concat "%b - emacs@" (system-name)))
-#   ;; For mu4e
-#   (set-language-environment "UTF-8")
+  ;; Frame title
+  (setq frame-title-format (concat "%b - emacs@" (system-name)))
+  ;; For mu4e
+  (set-language-environment "UTF-8")
 
-#   ;; Recursive mini-buffer
-#   (setq enable-recursive-minibuffers nil)
-# #+end_src
-** Color theme
+  ;; Recursive mini-buffer
+  (setq enable-recursive-minibuffers nil)
+#+end_src
+
+#+RESULTS:
+
+* Color theme
 #+BEGIN_SRC emacs-lisp
   ;;(load-theme 'tango-dark)
   ;;(load-theme 'tangotangofixed t)
@@ -3471,7 +3471,7 @@ Install with MELPA
 #   ;;(set-default-font "DejaVu Sans Mono-12 ")
 # #+end_src
 
-** Backups
+* Backups
 - Keep 7 emergency backups of files being edited in ~/.backup-dir
 - Keeps 5 latest versions, 2 oldest versions, deletes everything in between
 #+begin_src emacs-lisp
@@ -3536,7 +3536,64 @@ Install with MELPA
 #   ;;  '(speck-mouse ((((class color)) (:background "brown"))))
 #   ;;  '(speck-query ((((class color)) (:background "red")))))
 # #+end_src
-# * COMMENT Tmp
+* Software Projects
+** Searching and Replacing in a project
+*** Grep + wgrep
+- M-x rgrep + wgrep (C-c C-p to start and C-x C-s to save)
+- In dired buffer, mark files (% m) and use Q to interactively search and replace
+#+BEGIN_SRC emacs-lisp
+(eval-after-load 'grep
+  '(define-key grep-mode-map
+    (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
+
+(eval-after-load 'wgrep
+  '(define-key grep-mode-map
+    (kbd "C-c C-c") 'wgrep-finish-edit))
+#+END_SRC
+
+*** Occur + edit
+- use =M-s o= (occur) to search/replace active buffers (edit mode)
+- Use =occur= or =multi-occur= + edit mode (E) to search
+*** Projects
+**** Projectile
+- C-c p s g (projectile search grep)
+- C-c p s s (projectile search ag)
+- M-- C-s p s s (projectile search ag default files)
+- C-c p f (projectile search file)
+- C-c p o (projectile occur)
+#+BEGIN_SRC emacs-lisp
+(projectile-global-mode t)
+#+END_SRC
+
+**** Ag mode and wgrep-ag
+- install =ag= and =wgrep-ag=
+- M-x ag-project (bind to 'ap ??)
+** Projectile
+*** Install Exhuberant ctags
+#+BEGIN_SRC emacs-lisp
+(use-package projectile
+:ensure t
+:config
+(setq projectile-keymap-prefix (kbd "C-c C-p"))
+(setq projectile-tags-command (expand-file-name "~/apps/bin/ctags -Re -f \"%s\" %s")))
+#+END_SRC
+
+
+*** Keybindings
+| C-c C-p C-h | bindings help                                    |
+| C-c C-p f   | find file                                        |
+| C-c C-p d   | find directory                                   |
+| C-c C-p 4 f | find file other window                           |
+| C-c C-p T   | find test files                                  |
+| C-c C-p R   | Regenerate TAGS                                  |
+| C-c C-p D   | Dired project root                               |
+| C-c C-p t   | Toggle between test file and implementation file |
+| C-c C-p 4 t | Toggle other window                              |
+| C-c C-p r   | (query) replace in project!                      |
+| C-c C-p o   | multi-occur on currently opened project files    |
+| C-c C-p s s | search with ag                                   |
+| C-c C-p s g | search with grep                                 |
+* Tmp
 # ** beancount and money
 # #+BEGIN_SRC emacs-lisp
 # (fset 'sam/transactions-to-beancount
@@ -3612,59 +3669,6 @@ Install with MELPA
 # (setenv "DOCKER_CERT_PATH" "/Users/sinayoks/.docker/machine/machines/default3")
 # (setenv "DOCKER_MACHINE_NAME" "default3")
 # #+END_SRC
-# ** Software Projects
-# *** Searching and Replacing in a project
-# **** Grep + wgrep
-# - M-x rgrep + wgrep (C-c C-p to start and C-x C-s to save)
-# - In dired buffer, mark files (% m) and use Q to interactively search and replace
-# #+BEGIN_SRC emacs-lisp
-# (eval-after-load 'grep
-#   '(define-key grep-mode-map
-#     (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
-
-# (eval-after-load 'wgrep
-#   '(define-key grep-mode-map
-#     (kbd "C-c C-c") 'wgrep-finish-edit))
-# #+END_SRC
-# **** Occur + edit
-# - use =M-s o= (occur) to search/replace active buffers (edit mode)
-# - Use =occur= or =multi-occur= + edit mode (E) to search
-# **** Projects
-# ***** Projectile
-# - C-c p s g (projectile search grep)
-# - C-c p s s (projectile search ag)
-# - M-- C-s p s s (projectile search ag default files)
-# - C-c p f (projectile search file)
-# - C-c p o (projectile occur)
-# #+BEGIN_SRC emacs-lisp
-# (projectile-global-mode t)
-# #+END_SRC
-# ***** Ag mode and wgrep-ag
-# - install =ag= and =wgrep-ag=
-# - M-x ag-project (bind to 'ap ??)
-# *** Projectile
-# **** Install Exhuberant ctags
-# #+BEGIN_SRC emacs-lisp
-# (use-package projectile
-# :ensure t
-# :config
-# (setq projectile-keymap-prefix (kbd "C-c C-p"))
-# (setq projectile-tags-command (expand-file-name "~/apps/bin/ctags -Re -f \"%s\" %s")))
-# #+END_SRC
-# **** Keybindings
-# | C-c C-p C-h | bindings help                                    |
-# | C-c C-p f   | find file                                        |
-# | C-c C-p d   | find directory                                   |
-# | C-c C-p 4 f | find file other window                           |
-# | C-c C-p T   | find test files                                  |
-# | C-c C-p R   | Regenerate TAGS                                  |
-# | C-c C-p D   | Dired project root                               |
-# | C-c C-p t   | Toggle between test file and implementation file |
-# | C-c C-p 4 t | Toggle other window                              |
-# | C-c C-p r   | (query) replace in project!                      |
-# | C-c C-p o   | multi-occur on currently opened project files    |
-# | C-c C-p s s | search with ag                                   |
-# | C-c C-p s g | search with grep                                 |
 
 # ** Paredit
 # #+BEGIN_SRC emacs-lisp
@@ -4319,7 +4323,7 @@ Install with MELPA
 
 # # #+RESULTS:
 # # [[file:fig04-01.png]]
-# * timing
-# #+BEGIN_SRC emacs-lisp
-# (show-time-since-init "EO Tmp")
-# #+END_SRC
+* timing
+#+BEGIN_SRC emacs-lisp
+(show-time-since-init "EO Tmp")
+#+END_SRC

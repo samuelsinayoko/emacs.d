@@ -1,4 +1,89 @@
 
+;; Define the functions
+(defun sam/copy-buffer-file-name ()
+  "Copy buffer file name to clipboard"
+  (interactive)
+  (kill-new buffer-file-name)
+  (message "copied %s" buffer-file-name))
+(defun sam/reload-configuration ()
+  "Reload .emacs file"
+  (interactive)
+  (load-file emacs-init-file))
+;; Open previous / next line
+(defun sam/open-next-line (arg)
+  "Move to the next line and then opens a line.
+      See also `newline-and-indent'."
+  (interactive "p")
+  (end-of-line)
+  (open-line arg)
+  (next-line 1)
+  (indent-according-to-mode))
+(defun sam/open-previous-line (arg)
+  "Open a new line before the current one.
+       See also `newline-and-indent'."
+  (interactive "p")
+  (beginning-of-line)
+  (open-line arg)
+  (indent-according-to-mode))
+(defun sam/backward-kill-word-or-kill-region (&optional arg)
+  (interactive "p")
+  (if (region-active-p)
+      (copy-region-as-kill (region-beginning) (region-end))
+    (backward-kill-word arg)))
+(defun sam/transpose-comma (&optional N)
+  "Transpose words around comma. Point needs to be in word before
+  comma.
+  Useful to transpose the arguments of a function
+  definition when coding.
+  TODO: allow for negative arguments
+  "
+  (interactive "p")
+          (let (eol)
+    (save-excursion
+      (end-of-line)
+      (setq eol (point)))
+    (beginning-of-sexp)
+    (if (re-search-forward "\\(\\w+\\), \\(\\w+\\)"  eol t 1)
+        (replace-match "\\2, \\1")))
+  (if (and N (> N 1))
+      (transpose-comma (1- N))))
+
+(defun sam/kill-help-buffer()
+    "Kill buffer in other window"
+    (interactive)
+    ;;  (fset 'kill-help-buffer "\C-xoq")
+    (save-excursion
+      ;; Cycle window until we reach *Help* buffer
+      (while (not (equal (buffer-name) "*Help*"))
+        (select-window (next-window)))
+      (View-quit)))
+(defun copy-to-char (char)
+  "Copy region between point and char"
+  (interactive "cCopy to character:")
+  (if (char-table-p translation-table-for-input)
+      (setq char (or (aref translation-table-for-input char) char)))
+  (save-excursion
+    (kill-ring-save (point)
+                    (progn
+                      (search-forward (char-to-string char))
+                      (point)))))
+(defalias 'cc 'copy-to-char)
+
+                                        ;(global-set-key (kbd "\C-;") 'ipython-filter-private-attributes)
+;; From mastering emacs blog
+(defun sam/push-mark-no-activate () ;; use C-SPC C-SPC instead
+  "Pushes `point' to `mark-ring' and does not activate the region
+Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+  (interactive)
+  (push-mark (point) t nil)
+  (message "Pushed mark to ring"))
+
+(defun sam/jump-to-mark ()
+  "Jumps to the local mark, respecting the `mark-ring' order.
+This is the same as using \\[set-mark-command] with the prefix argument."
+  (interactive)
+  (set-mark-command 1))
+
 (define-minor-mode sam-keys-mode
   "Sam's keybindings, hopefully more convenient than emacs defaults. It is a global mode so it overwrides all other minor modes' bindings. "
   :lighter " Sam"
@@ -42,9 +127,9 @@
     (define-key map (kbd "C-M-[") 'shrink-window-horizontally)
     (define-key map "\M-=" 'balance-windows)
     ;; Registers
-    (define-key map (kbd "M-SPC") 'push-mark-no-activate)
+    (define-key map (kbd "M-SPC") 'sam/push-mark-no-activate)
     (define-key map (kbd "C-SPC") 'just-one-space)
-    (define-key map (kbd "M-<return>") 'jump-to-mark)
+    (define-key map (kbd "M-<return>") 'sam/jump-to-mark)
     ;; Comments
     (define-key map "\C-cc"  'comment-region)
     (define-key map "\C-cu"  'uncomment-region)
@@ -67,62 +152,3 @@
     map))
 
 (sam-keys-mode t)
-
-;; Define the functions
-(defun sam/copy-buffer-file-name ()
-  "Copy buffer file name to clipboard"
-  (interactive)
-  (kill-new buffer-file-name)
-  (message "copied %s" buffer-file-name))
-(defun sam/reload-configuration ()
-  "Reload .emacs file"
-  (interactive)
-  (load-file emacs-init-file))
-;; Open previous / next line
-(defun sam/open-next-line (arg)
-  "Move to the next line and then opens a line.
-      See also `newline-and-indent'."
-  (interactive "p")
-  (end-of-line)
-  (open-line arg)
-  (next-line 1)
-  (indent-according-to-mode))
-(defun sam/open-previous-line (arg)
-  "Open a new line before the current one.
-       See also `newline-and-indent'."
-  (interactive "p")
-  (beginning-of-line)
-  (open-line arg)
-  (indent-according-to-mode))
-(defun sam/backward-kill-word-or-kill-region (&optional arg)
-  (interactive "p")
-  (if (region-active-p)
-      (copy-region-as-kill (region-beginning) (region-end))
-    (backward-kill-word arg)))
-(defun sam/transpose-comma (&optional N)
-  "Transpose words around comma. Point needs to be in word before
-  comma.
-  Useful to transpose the arguments of a function
-  definition when coding.
-  TODO: allow for negative arguments
-  "
-  (interactive "p")
-  (let (eol)
-    (save-excursion
-      (end-of-line)
-      (setq eol (point)))
-    (beginning-of-sexp)
-    (if (re-search-forward "\\(\\w+\\), \\(\\w+\\)"  eol t 1)
-        (replace-match "\\2, \\1")))
-  (if (and N (> N 1))
-      (transpose-comma (1- N))))
-
-(defun sam/kill-help-buffer()
-    "Kill buffer in other window"
-    (interactive)
-    ;;  (fset 'kill-help-buffer "\C-xoq")
-    (save-excursion
-      ;; Cycle window until we reach *Help* buffer
-      (while (not (equal (buffer-name) "*Help*"))
-        (select-window (next-window)))
-      (View-quit)))
