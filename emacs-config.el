@@ -469,3 +469,32 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 (defalias 'cea 'sam/conda-env-activate)
 ;; (require 'anaconda-mode)
 ;; (add-hook 'elpy-mode-hook '(lambda () (anaconda-mode t)))
+
+;;(load-theme 'tango-dark)
+  ;;(load-theme 'tangotangofixed t)
+  ;;(load-theme 'tango-2 t) ;; in MELPA repository
+  ;;(load-theme 'tangotango t) ;; in MELPA repository
+  (load-theme 'naquadah t) ;; in MELPA repository
+  ;(load-theme 'badwolf t) ;; in MELPA repository
+  ;; Modify the block headers in org-mode to better isolated the code from the org-mode stuff
+  ;; (custom-theme-set-faces
+  ;;  'tangotango
+  ;;  '(org-block-begin-line ((t (:underline t :foreground "#888a85" :background "#2e3434"))))
+  ;;  '(org-block-end-line ((t (:foreground "#888a85" :overline t :background "#2e3434"))))
+;;  )
+(setq naquadah-p nil)
+(defun sam/toggle-theme ()
+  "Toggle NAQUADAH theme on and off"
+  (interactive)
+  (if naquadah-p
+      (enable-theme 'naquadah)
+    (disable-theme 'naquadah))
+  (setq naquadah-p (not naquadah-p)))
+
+;; Backups
+(setq backup-by-copying t
+      backup-directory-alist '(("." . "~/.backup-dir"))
+      delete-old-versions t
+      kept-new-versions 5
+      kept-old-versions 2
+      version-control t)
