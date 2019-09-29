@@ -1,0 +1,4327 @@
+* Basics
+Mostly the keybindings.
+[[file:basics.org]]
+* Load path
+#+begin_src emacs-lisp
+  ;; Add ~/.elisp to load path
+  (add-to-list 'load-path "~/.elisp")
+  (add-to-list 'load-path "~/.elisp/sam")
+  (load-file "~/.elisp/sam/sam.el")
+#+end_src
+** info
+This has to come before el-get!
+#+begin_src emacs-lisp
+  ;;;; Info files
+  (require 'info)
+  (setq Info-directory-list
+        (cons (expand-file-name "~/.info/") Info-default-directory-list))
+#+end_src
+*** .texi files
+Can be converted into .info files with =makeinfo=
+: makeinfo my-file.texi
+*** .info files
+**** Add info file permanently
+- Copy file to a folder in `Info-default-directory-list' (e.g. ~/.info)
+- Add file and description to =dir= file. If the file is called =monky.info= you can add
+: * Monky: (monky).                     User interface for Mercurial (Hg).
+**** Opening .info files in Dired
+#+BEGIN_SRC emacs-lisp
+  (require 'dired)
+  (define-key dired-mode-map "I"
+    (lambda () (interactive)
+      (info (dired-get-filename))))
+#+END_SRC
+
+* Functions
+#+begin_src emacs-lisp
+  ;; Load zap-up-to-char from Emacs's misc.el if necessary
+  (autoload 'zap-up-to-char "misc"
+  "Kill up to, but not including ARGth occurrence of CHAR.")
+
+  (defun reopen-file ()
+    (interactive)
+    (find-file (format "/ssh:%s:%s" (getenv "HOSTNAME") buffer-file-name)))
+
+  (defun store-buffer-name ()
+    (interactive)
+    (let ((s buffer-file-name))
+      (with-temp-buffer
+        (insert s)
+        (clipboard-kill-region (point-min) (point-max)))))
+
+  (defun unfill-paragraph ()
+    (interactive)
+    (let ((fill-column (point-max)))
+      (fill-paragraph nil)))
+
+  (defun unfill-region (start end)
+    (interactive "r")
+    (let ((fill-column (point-max)))
+      (fill-region start end nil)))
+
+
+  (defun sam/copy-buffer-file-name ()
+    "Copy buffer file name to clipboard"
+    (interactive)
+    (kill-new buffer-file-name)
+    (message "copied %s" buffer-file-name))
+  (global-set-key (kbd "C-c ;") 'sam/copy-buffer-file-name)
+
+  (defun reload-configuration ()
+    "Reload .emacs file"
+    (interactive)
+    (load-file emacs-init-file))
+
+  (defun pjoin (root &rest subpaths)
+    "Concatenate subpaths with root path"
+    (let ((directories (cons root subpaths)))
+      (directory-file-name (mapconcat 'file-name-as-directory directories ""))))
+
+  (defun undo-kill-buffer (arg)
+    "Re-open the last buffer killed.  With ARG, re-open the nth buffer."
+    (interactive "p")
+    (let ((recently-killed-list (copy-sequence recentf-list))
+          (buffer-files-list
+           (delq nil (mapcar (lambda (buf)
+                               (when (buffer-file-name buf)
+                                 (expand-file-name (buffer-file-name buf)))) (buffer-list)))))
+      (mapc
+       (lambda (buf-file)
+         (setq recently-killed-list
+               (delq buf-file recently-killed-list)))
+       buffer-files-list)
+      (find-file
+       (if arg (nth arg recently-killed-list)
+         (car recently-killed-list)))))
+
+  ;; Open previous / next line
+  (defun open-next-line (arg)
+    "Move to the next line and then opens a line.
+      See also `newline-and-indent'."
+    (interactive "p")
+    (end-of-line)
+    (open-line arg)
+    (next-line 1)
+    (indent-according-to-mode))
+  (defun open-previous-line (arg)
+    "Open a new line before the current one.
+       See also `newline-and-indent'."
+    (interactive "p")
+    (beginning-of-line)
+    (open-line arg)
+    (indent-according-to-mode))
+  (defun backward-kill-word-or-kill-region (&optional arg)
+        (interactive "p")
+        (if (region-active-p)
+            (copy-region-as-kill (region-beginning) (region-end))
+          (backward-kill-word arg)))
+
+  (defun transpose-comma (&optional N)
+    "Transpose words around comma. Point needs to be in word before
+  comma.
+  Useful to transpose the arguments of a function
+  definition when coding.
+  TODO: allow for negative arguments
+  "
+    (interactive "p")
+    (let (eol)
+      (save-excursion
+        (end-of-line)
+        (setq eol (point)))
+      (beginning-of-sexp)
+      (if (re-search-forward "\\(\\w+\\), \\(\\w+\\)"  eol t 1)
+          (replace-match "\\2, \\1")))
+    (if (and N (> N 1))
+        (transpose-comma (1- N))))
+
+  (global-set-key (kbd "C-,") 'transpose-comma)
+
+  (defun visit-dot-emacs ()
+    "Visit ~/.emacs.d/emacs-config.org file"
+    (interactive)
+    (find-file "~/.emacs.d/emacs-config.org"))
+  (defun visit-dot-gnus ()
+    "Visit ~/.emacs.d/gnus.d/.gnus file"
+    (interactive)
+    (find-file "~/.emacs.d/gnus.d/gnus-config.el"))
+  (defun visit-org-notes ()
+    "Visit org-mode notes file"
+    (interactive)
+    (find-file "~/Dropbox/docs/org/notes.org"))
+
+
+  (defun eshell/clear ()
+    "Clears the shell buffer ala Unix's clear or DOS' cls"
+    (interactive)
+    ;; the shell prompts are read-only, so clear that for the duration
+    (let ((inhibit-read-only t))
+      ;; simply delete the region
+      (delete-region (point-min) (point-max))))
+
+  (defun kill-help-buffer()
+    "Kill buffer in other window"
+    (interactive)
+                                          ;  (fset 'kill-help-buffer "\C-xoq")
+    (save-excursion
+      ;; Cycle window until we reach *Help* buffer
+      (while (not (equal (buffer-name) "*Help*"))
+        (select-window (next-window)))
+      (View-quit)))
+
+  (defun my-backup-file-name (fpath)
+    "Return a new file path of a given file path.
+  If the new path's directories does not exist, create them."
+    (let (backup-root bpath)
+      (setq backup-root "~/.emacs.d/backup")
+      (setq bpath (concat backup-root fpath "~"))
+      (make-directory (file-name-directory bpath) bpath)
+      bpath
+      )
+    )
+  (defun toggle-fullscreen (&optional f)
+    (interactive)
+    (let ((current-value (frame-parameter nil 'fullscreen)))
+      (set-frame-parameter nil 'fullscreen
+                           (if (equal 'fullboth current-value)
+                               (if (boundp 'old-fullscreen) old-fullscreen nil)
+                             (progn (setq old-fullscreen current-value)
+                                    'fullboth)))))
+  (global-set-key (kbd "<f11>") 'toggle-fullscreen)
+  (global-set-key (kbd "<f1>") 'compile)
+
+(defun eval-and-replace (value)
+  "Evaluate the sexp at point and replace it with its value"
+  (interactive (list (eval-last-sexp nil)))
+  (kill-sexp -1)
+  (insert (format "%S" value)))
+
+(defun set-exec-path-from-shell-PATH ()
+  "Set up Emacs' `exec-path' and PATH environment variable to match that used by the user's shell.
+
+This is particularly useful under Mac OSX, where GUI apps are not started from a shell."
+  (interactive)
+  (let ((path-from-shell (replace-regexp-in-string "[ \t\n]*$" "" (shell-command-to-string "$SHELL --login -i -c 'echo $PATH'"))))
+    (setenv "PATH" path-from-shell)
+    (setq exec-path (split-string path-from-shell path-separator))))
+#+end_src
+
+
+* Variables
+** Aliases
+#+begin_src emacs-lisp
+    ;;;; Aliases
+(defalias 'sf 'text-scale-adjust) ;; set font
+(defalias 'eb 'eval-buffer)
+(defalias 'er 'eval-region)
+(defalias 'ee 'eval-expression)
+(defalias 'lf 'load-file)
+(defalias 'sh 'my-term)
+(defalias 'nsh 'my-term-new)
+(defalias 'rb 'revert-buffer)
+(defalias 'fb 'fit-window-to-buffer) ;; fit window height to buffer content
+(defalias 'ff 'fit-frame-to-buffer) ;; fit frame height to buffer content
+(defalias '.e 'visit-dot-emacs)
+(defalias '.b (lambda () (interactive)
+		(find-file "~/.emacs.d/basics.org")))
+(defalias '.i (lambda () (interactive)
+		(find-file "~/.emacs.d/init.el")))
+(defalias '.g 'visit-dot-gnus)
+(defalias '.n 'visit-org-notes)
+(defalias 'mc 'kmacro-set-counter)
+(defalias 'mi 'kmacro-insert-counter)
+#+end_src
+** Defvars
+#+begin_src emacs-lisp
+  (defvar emacs-init-file "~/.emacs.d/init.el")
+  (defvar gnus-init-file "~/.emacs.d/gnus.d/gnus-config.el")
+
+  ;;;; System specific variables
+  (defvar linux-p nil "Linux machine")
+  (defvar ms-windows-p nil "MS Windows machine")
+  (defvar cygwin-p nil "Cygwin")
+  (defvar mac-osx-p nil "Mac OS X")
+  (defvar home-p nil "Home box")
+  (defvar office-p nil "Office box")
+  (defvar isvr-p nil "ISVR box")
+  (cond ((eq system-type 'darwin) (setq mac-osx-p t))
+        ((eq system-type 'cygwin) (setq cygwin-p t))
+        ((eq system-type 'ms-dos) (setq ms-windows-p t))
+        ((or (eq system-type 'gnu)
+             (eq system-type 'gnu/linux)
+             (eq system-type 'gnu/kfreebsd)) (setq linux-p t)))
+
+  ;;;; Global variables
+  (defvar HOME (getenv "HOME")
+    "Home directory name")
+  (defvar DEV (pjoin HOME "dev")
+    "Development directory")
+  (defvar APPS (pjoin HOME "apps")
+    "Applications directory")
+  (defvar DBOX (pjoin HOME "Dropbox")
+    "Dropbox directory")
+  (defvar PYTHON (pjoin HOME "miniconda3" "bin")    "Python bin directory")
+  ;;(defvar PYTHON "/usr/bin" "Python bin directory")
+
+  ;; Autoindent open-*-lines
+  (defvar newline-and-indent t
+    "Modify the behavior of the open-*-line functions to cause them to autoindent.")
+
+#+end_src
+** Local infos
+#+begin_src emacs-lisp
+  (when (string-equal (getenv "HOSTNAME") "sal")
+    (setq office-p t))
+  (when (string-equal (getenv "HOSTNAME") "uos-208569")
+    (setq isvr-p t)) ;; this doesn't work for some reason
+  (when (string-equal system-name "utcss")
+    (setq home-p t)) ;; this doesn't work for some reason
+  ;;(unless (file-exists-p "~/Dropbox/docs/organisation/")
+  ;;  (setq isvr-p t))
+
+  (when mac-osx-p ;; For MacOSX
+    (setq mac-command-key-is-meta t)
+    (setq mac-command-modifier 'meta)
+    (setq browse-url-browser-function (quote browse-url-default-macosx-browser))
+    (setq exec-path (cons "/usr/local/bin" exec-path))
+    (setq exec-path (cons "/usr/texbin" exec-path))
+    (setq exec-path (cons "/usr/local/texlive/2014/bin/x86_64-darwin//pdflatex" exec-path))
+    (setq exec-path (cons (expand-file-name "~/bin") exec-path))
+    ;; (setq exec-path (cons  "/Library/Frameworks/EPD64.framework/Versions/Current/bin" exec-path))
+    (setq ns-use-srgb-colorspace t)
+    (setenv "PATH" (concat
+                    (expand-file-name "~/bin") ":"
+                    (expand-file-name "~/apps/bin") ":"
+                    PYTHON ":"
+                    "/opt/local/bin" ":"
+                    "/usr/local/texlive/2014/bin/x86_64-darwin/" ":"
+                    (getenv "PATH") ":"
+                    "/usr/local/bin" ":"
+                    "/usr/texbin"))
+    )
+
+  ;; "/Library/Frameworks/EPD64.framework/Versions/Current/bin" ":")))
+  ;;(setq reftex-default-bibliography "~/Dropbox/Phd/BIBLIOGRAPHY/biblio_phd.bib"))
+  (when office-p
+    (setq browse-url-browser-function 'browse-url-generic
+          browse-url-generic-program "google-chrome"))
+  ;; Make sure PYTHON binaries are in the path
+  (setq exec-path (cons PYTHON exec-path))
+  ;; Make sure APPS/bin is in the path
+  ;;(setq exec-path (cons (pjoin APPS "bin") exec-path))
+  ;; (add-hook 'gnus-article-mode-hook
+  ;;           (lambda ()
+  ;;             (set (make-local-variable 'w3m-goto-article-function)
+  ;;                  'browse-url)))
+
+  ;; PDF viewer
+  (defvar pdf-viewer "okular" "pdf viewer")
+  (cond (office-p (setq pdf-viewer "okular"))
+        (mac-osx-p (setq pdf-viewer "open")))
+  ;; Don't use --dired with ls
+  (setq ls-lisp-use-insert-directory-program nil)
+  (require 'ls-lisp)
+
+#+end_src
+
+
+* Use-package
+Facilitates loading packages.
+#+BEGIN_SRC emacs-lisp
+;; (unless (package-installed-p 'use-package)
+;;   (package-install 'use-package))
+;;(eval-when-compile
+;;  (require 'use-package))
+(require 'use-package)
+;;(setq use-package-verbose t)
+;;(setq load-prefer-newer t)
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+(show-time-since-init "EO Use-package")
+#+END_SRC
+* Major modes
+
+
+** ido
+*** turn ido on and setup some options
+#+begin_src emacs-lisp
+  ;; ido: help with buffers / opening files
+  (require 'ido)
+  (ido-mode t)
+  (setq enable-recursive-minibuffers nil)
+  (setq ido-enable-flex-matching nil)
+  (setq ido-create-new-buffer 'always)
+  (setq ido-use-virtual-buffers t)
+  (setq ido-use-filename-at-point (quote guess))
+  (setq ido-use-url-at-point t)
+  (put 'ido-exit-minibuffer 'disabled nil)
+
+  ;; Overwride sam-key-mode's C-SPC
+  (add-hook 'minibuffer-inactive-mode-hook
+      (lambda ()
+        (let ((oldmap (cdr (assoc 'sam-keys-mode minor-mode-map-alist)))
+              (newmap (make-sparse-keymap)))
+          (set-keymap-parent newmap oldmap)
+          (define-key newmap (kbd "C-SPC") 'ido-restrict-to-matches)
+          (make-local-variable 'minor-mode-overriding-map-alist)
+          (push `(sam-keys-mode . ,newmap) minor-mode-overriding-map-alist))))
+#+end_src
+
+#+RESULTS:
+| lambda | nil | (let ((oldmap (cdr (assoc (quote sam-keys-mode) minor-mode-map-alist))) (newmap (make-sparse-keymap))) (set-keymap-parent newmap oldmap) (define-key newmap (kbd C-SPC) (quote ido-restrict-to-matches)) (make-local-variable (quote minor-mode-overriding-map-alist)) (push (` (sam-keys-mode , newmap)) minor-mode-overriding-map-alist)) |
+
+*** recentf: open recent files
+#+begin_src emacs-lisp
+  ;; recent files (from Mickey at
+  ;; http://www.masteringemacs.org/articles/2011/01/27/find-files-faster-recent-files-package/
+(use-package recentf
+  :config
+  ;;(require 'recentf)
+  ;;; get rid of `find-file-read-only' and replace it with something
+  ;;; more useful.
+  (global-set-key (kbd "C-x C-r") 'ido-recentf-open)
+  ;;; enable recent files mode.
+  (recentf-mode t)
+  ;;; 50 files ought to be enough.
+  (setq recentf-max-saved-items 200)
+  (defun ido-recentf-open ()
+    "Use `ido-completing-read' to \\[find-file] a recent file"
+    (interactive)
+    (if (find-file (ido-completing-read "Find recent file: " recentf-list))
+        (message "Opening file...")
+      (message "Aborting"))))
+#+end_src
+
+#+RESULTS:
+: t
+
+*** ido everything
+#+begin_src emacs-lisp
+  ;; ido everything
+  ;; (defvar ido-enable-replace-completing-read t
+  ;;   "If t, use ido-completing-read instead of completing-read if possible.
+
+  ;; Set it to nil using let in around-advice for functions where the
+  ;; original completing-read is required.  For example, if a function
+  ;; foo absolutely must use the original completing-read, define some
+  ;; advice like this:
+
+  ;;(defadvice foo (around original-completing-read-only activate)
+  ;;  (let (ido-enable-replace-completing-read) ad-do-it))")
+
+  ;; ;; Replace completing-read wherever possible, unless directed otherwise
+  ;; (defadvice completing-read
+  ;;   (around use-ido-when-possible activate)
+  ;;   (if (or (not ido-enable-replace-completing-read) ; Manual override disable ido
+  ;;           (boundp 'ido-cur-list)) ; Avoid infinite loop from ido calling this
+  ;;       ad-do-it
+  ;;     (let ((allcomp (all-completions "" collection predicate)))
+  ;;       (if allcomp
+  ;;           (setq ad-return-value
+  ;;                 (ido-completing-read prompt
+  ;;                                   allcomp
+  ;;                                   nil require-match initial-input hist def))
+  ;;         ad-do-it))))
+#+end_src
+
+#+RESULTS:
+
+*** smex & idomenu
+#+BEGIN_SRC emacs-lisp
+;; smex
+;;(load-file "~/.elisp/smex.el") ;; use elpa instead
+;;(smex-initialize)
+;; (setq smex-save-file "~/.emacs.d/.smex-items")
+;; (global-set-key (kbd "M-x") 'smex)
+;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
+;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
+;; idomenu
+;;(load-file "~/.elisp/idomenu.el")
+(autoload 'idomenu "idomenu" nil t)
+(global-set-key (kbd "M-/") 'idomenu)
+#+END_SRC
+
+#+RESULTS:
+: idomenu
+
+** idedit
+#+begin_src emacs-lisp
+  ;; Iedit: to replace things easily locally
+  (require 'iedit)
+  (define-key global-map (kbd "C-;") 'iedit-mode)
+  (define-key isearch-mode-map (kbd "C-;") 'iedit-mode)
+#+end_src
+
+** Python
+*** Elpy
+**** Installation
+- elpy v1.18.0 from melpa (the core package)
+- conda 20171122.716 (to manage conda envs) (create symbolic link from ~/.anaconda3 to your miniconda or anaconda install:
+: ln -s ~/miniconda3/ ~/.anaconda3
+- realgud 1.4.4 (awesome debugger)
+**** Virtual environments
+**** Interactive shell
+- For IPython<5, the ipython shell runs nicely in emacs with all the bells and whisles
+- For IPython>5, kind of works (using =ipython --simple-prompt -i=), but there's some issues with backspace key on OSX...
+so best to use the emacsified interactive shell via Elpy than the "native" shell (with char mode and line mode).
+This is merely OK, auto-completion is done via emacs and is minimal
+(no autocomplete on keyword arguments or other advanced features that
+work in modern ipython shell).
+
+Best to do most of the editing in a buffer and send bits of codes to the shell for execution.
+| C-c C-c | send region or buffer to python buffer and go |
+| M-n     | send region or buffer to python buffer        |
+**** Auto-completion
+Use Jedi. Tooltips.
+**** Documentation
+- for functions: after opening, bracket, docs displayed in minibuffer
+- C-d: display documentation of symbol at point in minibuffer
+      (C-M-v: scroll down other window, C-M-V scroll up other window)
+**** Code navigation
+Needs emacs 25
+| M-.     | xref-find-definitions  | find definition of the identifier at point         |
+| M-,     | xref-pop-marker-stack  | pop tag from stack                                 |
+| M-?     | xref-find-references   | find references of an identifier in current buffer |
+| C-c C-o | elpy-occur-definitions | list of functions and classes                      |
+
+Doesn't quite work work properly atm. Must do:
+- open python file
+- activate conda env
+- =M-x elpy-rpc-restart=
+
+**** Debugging with ipdb and realgud
+***** ipdb script
+Add following script (OS X) in the path
+#+BEGIN_SRC #sh
+#!/bin/bash
+ipython --simple-prompt -i -c "%run -d $@"
+#+END_SRC
+***** With IPython in Emacs
+- run inferior shell =M-O=
+- activate pdb =%pdb on= or add code breakpoint via ipdb.set_trace() (see below)
+- execute buffer
+- this will drop into ipdb on error and will track line in emacs source code
+***** [DEPRECATED] Adding textual breakpoints
+Use C-c C-b to add a breakpoint in a given line via Emacs. Then two options:
+- Outside of emacs: run code/tests via command line shell in environment with ipdb available, this will drop into a debugger.
+- Run code in emacs: run the code in the debugger. Better to use the approach below however (call realgud directly).
+
+#+BEGIN_SRC emacs-lisp
+  (defun python-add-breakpoint ()
+    "Add a break point"
+    (interactive)
+    (let ((debug-cmd "import ipdb; ipdb.set_trace()"))
+    ;;(let ((debug-cmd "from IPython.core.debugger import Tracer; Tracer()()"))
+      (save-excursion
+        ;; Insert line above and indent
+        ;; deal with special case of being at top of module
+        (if (= (forward-line -1) 0)
+            (progn
+              (end-of-line)
+              (newline-and-indent))
+          (beginning-of-line)
+          (newline-and-indent)
+          (forward-line -1))
+        (message (format "%s:%s" buffer-file-name (line-number-at-pos)))
+        (insert debug-cmd))
+      (highlight-lines-matching-regexp (concat "^[ ]*" debug-cmd))))
+
+
+#+END_SRC
+
+
+***** Run ipdb in realgud
+- =M-x realgud:ipdb= and put filename
+
+**** Version Control
+Magit. Enough said.
+**** Code coverage with pytest and coverage
+***** Running tests and collecting coverage data
+#+BEGIN_SRC sh
+python -m pytest --cov=bmllreports tests/
+#+END_SRC
+
+#+BEGIN_SRC text
+(bmll-reports2) sam@sam:~/dev/bmll-reports$ python -m pytest --cov=bmllreports tests/
+=========================================================================================== test session starts ============================================================================================
+platform linux -- Python 3.4.5, pytest-3.4.2, py-1.5.2, pluggy-0.6.0
+Using --randomly-seed=1521650175
+rootdir: /home/sam/dev/bmll-reports, inifile: setup.cfg
+plugins: randomly-1.2.1, profiling-1.3.0, cov-2.5.1
+collected 40 items
+
+tests/unit/coverage/test_coverage.py .........                                                            [ 22%]
+tests/unit/quality/test_identity_engine.py ........                                                       [ 42%]
+tests/test_dummy.py .                                                                                     [ 45%]
+tests/unit/quality/test_runner.py ......                                                                  [ 60%]
+tests/unit/reference_data/test_daily_data_loader.py .....                                                 [ 72%]
+tests/unit/quality/test_fixture_mapper.py ...........                                                     [100%]
+
+---- generated xml file: /home/sam/dev/bmll-reports/junit.xml --------------------------------------------------
+
+----------- coverage: platform linux, python 3.4.5-final-0 -----------
+Name                                                                                 Stmts   Miss  Cover
+--------------------------------------------------------------------------------------------------------
+bmllreports/__init__.py                                                                 12      5    58%
+bmllreports/__main__.py                                                                 10     10     0%
+bmllreports/config.py                                                                   19      6    68%
+bmllreports/cost/__init__.py                                                             0      0   100%
+bmllreports/cost/parsing.py                                                             93     93     0%
+bmllreports/coverage/__init__.py                                                         6      0   100%
+bmllreports/coverage/__main__.py                                                         6      6     0%
+bmllreports/coverage/complete_days.py                                                  205    118    42%
+bmllreports/coverage/complete_securities.py                                            125    125     0%
+bmllreports/models/__init__.py                                                          32      3    91%
+bmllreports/models/coverage.py                                                          28      0   100%
+bmllreports/models/daily_data.py                                                        14      0   100%
+bmllreports/package_meta.py                                                             58     58     0%
+bmllreports/quality/engine/__init__.py                                                  25      2    92%
+bmllreports/quality/engine/constants.py                                                 13      0   100%
+bmllreports/quality/engine/fixture_mapper.py                                            74     19    74%
+bmllreports/quality/engine/identity.py                                                  87     10    89%
+bmllreports/quality/engine/runner.py                                                    80      5    94%
+bmllreports/quality/identities.py                                                        6      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/__init__.py                      11      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/_version.py                     277    157    43%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/securities/__init__.py            0      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/securities/normalization.py      35      0   100%
+bmllreports/reference_data/__init__.py                                                   0      0   100%
+bmllreports/reference_data/google_loader.py                                             67     16    76%
+bmllreports/utils.old/__init__.py                                                        0      0   100%
+bmllreports/utils.old/pandas.py                                                          6      6     0%
+bmllreports/utils.py                                                                    34     18    47%
+--------------------------------------------------------------------------------------------------------
+TOTAL                                                                                 2427   1761    27%
+#+END_SRC
+***** Displaying coverage data
+#+BEGIN_SRC sh
+coverage report -m
+#+END_SRC
+#+BEGIN_SRC text
+(bmll-reports2) sam@sam:~/dev/bmll-reports$ coverage report -m
+Name                                                                                 Stmts   Miss  Cover   Missing
+------------------------------------------------------------------------------------------------------------------
+bmllreports/__init__.py                                                                 12      5    58%   10-11, 15-17
+bmllreports/__main__.py                                                                 10     10     0%   2-16
+bmllreports/config.py                                                                   19      6    68%   48-49, 52-55
+bmllreports/cost/__init__.py                                                             0      0   100%
+bmllreports/cost/parsing.py                                                             93     93     0%   11-221
+bmllreports/coverage/__init__.py                                                         6      0   100%
+bmllreports/coverage/__main__.py                                                         6      6     0%   1-7
+bmllreports/coverage/complete_days.py                                                  205    118    42%   60-220, 238-260, 280-319, 341-347, 488-520, 588-596, 600-602, 624-641, 665-682, 686
+bmllreports/coverage/complete_securities.py                                            125    125     0%   1-444
+bmllreports/models/__init__.py                                                          32      3    91%   57-59
+bmllreports/models/coverage.py                                                          28      0   100%
+bmllreports/models/daily_data.py                                                        14      0   100%
+bmllreports/package_meta.py                                                             58     58     0%   3-104
+bmllreports/quality/engine/__init__.py                                                  25      2    92%   18-19
+bmllreports/quality/engine/constants.py                                                 13      0   100%
+bmllreports/quality/engine/fixture_mapper.py                                            74     19    74%   96-99, 120-123, 189, 200-201, 208-210, 221-226, 233-236
+bmllreports/quality/engine/identity.py                                                  87     10    89%   79-82, 139, 204-209, 245, 249
+bmllreports/quality/engine/runner.py                                                    80      5    94%   52, 76, 225-227
+bmllreports/quality/identities.py                                                        6      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/__init__.py                      11      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/_version.py                     277    157    43%   84-95, 100-103, 114-129, 139-158, 165, 178, 180-211, 226, 231-233, 243, 247, 263, 272-274, 279-284, 295-298, 310-312, 324-337, 352, 366-380, 391-402, 413-422, 434-442, 448, 455, 458, 461-470, 500-501, 509-518
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/securities/__init__.py            0      0   100%
+bmllreports/quality/notebooks/src/bmll-utils/bmllutils/securities/normalization.py      35      0   100%
+bmllreports/reference_data/__init__.py                                                   0      0   100%
+bmllreports/reference_data/google_loader.py                                             67     16    76%   21-22, 34-35, 95, 144-153, 177-179, 181, 186-188, 194
+bmllreports/utils.old/__init__.py                                                        0      0   100%
+bmllreports/utils.old/pandas.py                                                          6      6     0%   1-26
+bmllreports/utils.py                                                                    34     18    47%   13-25, 47-49, 70, 82-87, 94-95
+------------------------------------------------------------------------------------------------------------------
+TOTAL                                                                                 2427   1761    27%
+#+END_SRC
+# *** Archive
+# **** Debugging
+
+# **** Sam's python.el config
+# #+BEGIN_SRC #emacs-lisp
+#     ;;; Python
+#     ;;; python.el
+#     ;;(require 'python) ;; using python-mode instead
+#     ;; python-mode
+#     ;;(add-to-list 'load-path "~/.elisp/python-mode")
+#     ;;(setq py-install-directory (expand-file-name "~/.elisp/python-mode"))
+#     (require 'python-mode)
+#     ;;(setq py-shell-name (pjoin PYTHON "ipython"))
+#     ;;(setq py-python-command (pjoin PYTHON "ipython"))
+#     (setq py-python-command (pjoin PYTHON "ipython"))
+#     (setq py-python-command-args (if mac-osx-p
+#                                      (list "--colors=Linux" "--gui=osx" "--pylab=osx")
+#                                    (list "--colors=Linux" "--gui=qt" "--pylab=qt")))
+#     ;;(setq py-python-command-args '("-pylab" "-colors" "Linux"))
+#     (setq auto-mode-alist (cons '("\\.py$" . python-mode) auto-mode-alist))
+
+#     ;; sam-ipython-mode: full blown IPython terminal that can interact with script buffer
+#     (require 'sam-ipython)
+#     (add-hook 'python-mode-hook '(lambda () (sam-ipython-mode t)))
+
+#      ;;; Autocompletion with jedi
+#     ;;(add-to-list 'load-path "~/.emacs.d/elpa/jedi-20130714.1415")
+#     (require 'jedi)
+#     (setq jedi:server-command (list (pjoin PYTHON "python") jedi:server-script))
+#     ;(add-hook 'python-mode-hook 'jedi:setup)
+
+#     ;; Python syntax checking:
+#     ;; pyflakes, flake8 (installed with pip) & flymake (on the fly checking for emacs)
+#     (require 'sam-pyflakes-mode)
+#     (require 'flymake-cursor)
+#     ;;(add-hook 'python-mode-hook '(lambda () (sam-pyflakes-mode t)))
+
+#     (defun sam-python-serious-init ()
+#       "Init serious config for python with jedi auto-completion and pyflakes with flymake and pep8."
+#       (interactive)
+#       (jedi:setup)
+#       (sam-pyflakes-mode t)
+#       (flymake-mode t)
+#   )
+
+#   ;; Overwride global keybindings in sam-keys-mode
+#   ;;http://stackoverflow.com/questions/13102494/buffer-locally-overriding-minor-mode-key-bindings-in-emacs
+
+#   (add-hook 'term-mode-hook
+#     (lambda ()
+#       (let ((oldmap (cdr (assoc 'sam-keys-mode minor-mode-map-alist)))
+#             (newmap (make-sparse-keymap)))
+#         (set-keymap-parent newmap oldmap)
+#         (define-key newmap (kbd "M-j") 'term-send-left)
+#         (define-key newmap (kbd "M-l") 'term-send-right)
+#         (define-key newmap (kbd "C-y") 'term-paste)
+#         ;; Don't forget interactive because must be `commandp'
+#         ;; (define-key newmap (kbd "M-h") (lambda ()
+#         ;;                                  (interactive)
+#         ;;                                  (term-bol nil)))
+#         (define-key newmap (kbd "M-h") (lambda ()
+#                                          (interactive)
+#                                          (if (term-in-char-mode)
+#                                              (term-send-raw-string (kbd "C-a"))
+#                                            (term-bol nil))))
+#         (define-key newmap (kbd "M-;") (lambda ()
+#                                          (interactive)
+#                                          (if (term-in-char-mode)
+#                                              (term-send-raw-string (kbd "C-e"))
+#                                            (end-of-visual-line))))
+#         (define-key newmap (kbd "M-=") 'sam-ipython-toggle-view)
+#         (make-local-variable 'minor-mode-overriding-map-alist)
+#         (push `(sam-keys-mode . ,newmap) minor-mode-overriding-map-alist))))
+
+
+
+# #+END_SRC
+
+# #+RESULTS:
+# | (lambda nil (let ((oldmap (cdr (assoc (quote sam-keys-mode) minor-mode-map-alist))) (newmap (make-sparse-keymap))) (set-keymap-parent newmap oldmap) (define-key newmap (kbd M-j) (quote term-send-left)) (define-key newmap (kbd M-l) (quote term-send-right)) (define-key newmap (kbd C-y) (quote term-paste)) (define-key newmap (kbd M-h) (lambda nil (interactive) (if (term-in-char-mode) (term-send-raw-string (kbd C-a)) (term-bol nil)))) (define-key newmap (kbd M-;) (lambda nil (interactive) (if (term-in-char-mode) (term-send-raw-string (kbd C-e)) (end-of-visual-line)))) (define-key newmap (kbd M-=) (quote sam-ipython-toggle-view)) (make-local-variable (quote minor-mode-overriding-map-alist)) (push (` (sam-keys-mode , newmap)) minor-mode-overriding-map-alist))) | (lambda nil (local-set-key \357 (quote other-window))) | (lambda nil (setq autopair-dont-activate t) (local-set-key \357 (quote other-window))) | sam-setup-terminal |
+
+# # **** Emacs IPython Notebook (ein)
+# # #+BEGIN_SRC
+# #   ;; ;;; notebooks
+# #   (require 'ein) ;; install with MELPA (M-x list-packages)
+# #   (setq ein:console-security-dir (pjoin HOME ".ipython/profile_default/security"))
+# #   ;; (setq ein:console-executable (pjoin PYTHON "ipython"))
+# #   ;; ;; auto-completion using EIN and jedi.el (requires jedi: do "$ pip install jedi")
+# #   ;; (add-hook 'ein:connect-mode-hook 'ein:jedi-setup)
+# #   ;; (setq ein:use-auto-complete t)
+# # #+END_SRC
+# # **** IPython and babel
+# # See https://github.com/gregsexton/ob-ipython
+# # This looks great: use IPython session in Org Babel. Better than ein? Doesn't seem to work at the moment...
+# # #+BEGIN_SRC #emacs-lisp
+# # (add-to-list 'load-path "~/.elisp/ob-ipython")
+# # (require 'ob-ipython)
+# # #+END_SRC
+# # **** Old
+# # **** python-mode
+# # Unofficial python mode, more features than the official Emacs python mode (python.el). IPython support seems to be broken (03/06/2014) with version 6.1.3: starts ipython properly but then starts a separate terminal when evaluating buffer... :-(
+# # #+BEGIN_SRC
+# # (add-to-list 'load-path "~/.elisp/python-mode")
+# # (setq py-install-directory "~/.elisp/python-mode")
+# # (require 'python-mode)
+# # (setq py-shell-name (pjoin PYTHON "ipython"))
+
+# # #+END_SRC
+# # **** ipython
+# # #+BEGIN_SRC
+# #   ;; (add-to-list 'load-path "~/.elisp/python-mode")
+# #   ;; (setq py-install-directory "~/.elisp/python-mode")
+# #   ;; (require 'python-mode)
+# #   (setq py-shell-name (pjoin PYTHON "ipython"))
+# #   (require 'ipython)
+# # #+END_SRC
+# # **** Others
+# # #+BEGIN_SRC
+# #   ;; ;; (setq interpreter-mode-alist (cons '("python" . python-mode)
+# #   ;; ;;                                 interpreter-mode-alist))
+# #   ;; (setq py-execute-keep-temporary-file-p t) ; need this to allow pdb to keep track of topmost file
+# #   ;; ;; don't split window when executing script
+# #   ;; ;;(setq py-split-windows-on-execute-p nil)
+# #   ;; ;;(autoload 'python-mode "python-mode" "Python editing mode." t)
+# #   ;; ;;(require 'python)
+# #   ;; (require 'python-pep8)
+# #   ;; (require 'python-pylint)
+# #   ;; ;; Emacs Ipython Notebook
+# #   ;; ;;(add-to-list 'load-path "~/.elisp/tkf-emacs-ipython-notebook-85c6d2e/")
+# #   ;; ;;(require 'ein)
+# #   ;; ;; websocket
+# #   ;; ;;(add-to-list 'load-path "~/.elisp/websocket")
+# #   ;; ;;(require 'websocket)
+# #   ;; ipython
+# #   ;; (setq ipython-command (pjoin PYTHON "ipython"))
+# #   ;; (require 'ipython)
+
+# #   ;; ;;(require 'ipython)
+# #   ;; ;;(setq py-python-command-args '("-pylab" "-colors" "Linux"))
+# #   ;; (setq py-python-command-args nil)
+# #   ;; (defun py-describe-function ()
+# #   ;;   "Display documentation for symbol at point"
+# #   ;;   (interactive)
+# #   ;;   (let ((symbol (ac-get-python-symbol-at-point)))
+# #   ;;     (if symbol
+# #   ;;         (let*(help-string
+
+# #   ;;               (python-process (or (get-buffer-process (current-buffer))
+# #   ;;                                   (get-buffer-process "*IPython*")
+# #   ;;                                   (get-buffer-process (py-shell nil nil "ipython" 'noswitch nil))))
+# #   ;;               ;; (comint-output-filter-functions
+# #   ;;               ;;  (delq 'py-comint-output-filter-function comint-output-filter-functions))
+# #   ;;               (comint-output-filter-functions
+# #   ;;                (append comint-output-filter-functions
+# #   ;;                        '((lambda (string)
+# #   ;;                            (when (> (length string) 10)
+# #   ;;                              (setq help-string (ansi-color-filter-apply string)))
+# #   ;;                            (delete-region comint-last-output-start (process-mark python-process))))))
+# #   ;;               (ipython-help-command-string "%%pinfo %s \n")) ;; ipython < 0.12
+# #   ;;           (process-send-string python-process
+# #   ;;                                (format ipython-help-command-string symbol))
+# #   ;;           (accept-process-output python-process 1)
+# #   ;;           (with-output-to-temp-buffer "*Python Help*"
+# #   ;;             (with-current-buffer standard-output
+# #   ;;               (insert help-string))))
+# #   ;;       (message "Can't find symbol at point"))))
+
+# #   ;; ;; ;; python mode hook
+# #   ;; (add-hook 'python-mode-hook
+# #   ;;           (lambda ()
+# #   ;;             (setq py-shell-name "ipython")
+# #   ;;             ;(setq py-python-command-args '("-i" "--pylab"))
+# #   ;;             ;;(setq py-python-command-args '("-i" "--pylab"))
+# #   ;;             (setq py-python-command-args '("-i"))
+# #   ;;             (setq sp-autoescape-string-quote nil)
+# #   ;;             (define-key py-mode-map (kbd "C-M-n") 'py-execute-line)
+# #   ;;             (define-key py-mode-map "\M-n" 'py-execute-region)
+# #   ;;             (define-key py-mode-map (kbd "§") 'py-toggle-terminal)
+# #   ;;             (define-key py-mode-map (kbd "C-c h") 'py-describe-function)))
+
+# #   ;; (add-hook 'py-shell-hook
+# #   ;;           (lambda ()
+# #   ;;             (define-key py-shell-map (kbd "`") 'py-toggle-terminal)))
+
+# #   ;; ;; CHANGE: commented this 31/07
+# #   ;; ;; python path
+# #   ;; (defvar python-bin-path (pjoin APPS "bin"))
+# #   ;; (defvar python-dev-path (pjoin DEV "python"))
+# #   ;; (defun add-to-path (var dir &optional sep)
+# #   ;;   "Add a directory to path defined as environment variable.
+# #   ;; The default separator is ':'
+# #   ;; "
+# #   ;;   (unless sep
+# #   ;;     (setq sep ":"))
+# #   ;;   (setenv var (concat dir sep (getenv var))))
+# #   ;; (add-to-path "PYTHONPATH" python-dev-path)
+# #   ;; ;; (add-to-path "PYTHONPATH" "/home/sinayoks/apps/epd-7.2-2-rh5-x86_64/lib/python2.7/site-packages/ropemode-0.1_rc2-py2.7.egg:/home/sinayoks/apps/epd-7.2-2-rh5-x86_64/lib/python2.7/site-packages/rope-0.9.3-py2.7.egg")
+# #   ;; ;; (add-to-path "PYTHONPATH" "/home/sinayoks/.elisp/python-mode/")
+# #   ;; (add-to-path "PATH" python-bin-path)
+
+# #   ;; Avoid going back to interactive window when executing code: allows to put shell in other frame
+# #   ;; (let ((py-preserve-buffer t))
+# #   ;;   (defadvice py-execute-and-restore (around py-execute-buffer)
+# #   ;;     "Preserves buffer layout.
+# #   ;; Useful to keep shall window in a different frame without having it being raised in the code frame."
+# #   ;;     (if (py-preserve-buffer)
+# #   ;;      (save-window-excursion
+# #   ;;        ad-do-it)
+# #   ;;       (ad-do-it))
+# #   ;;     (ad-activate 'py-execute-and-restore)))
+
+# #   ;; (setq ipython-completion-command-string "print(';'.join(__IP.Completer.all_completions('%s')))\n")
+# #   ;(require 'python-magic);; cycling
+# #   ;; Emacs for Python
+# #                                           ;(setenv "PYMACS_PYTHON" "python2.7")
+# #   ;; (setq pymacs-load-path '(;; path to rope
+# #   ;;                          "/home/sinayoks/apps/epd-7.2-2-rh5-x86_64/lib/python2.7/site-packages/rope-0.9.3-py2.7.egg"
+# #   ;;                          ;; path to ropemacs
+# #   ;;                          "/home/sinayoks/.elisp/python-mode/"))
+
+# #   ;; (require 'pymacs)
+# #   ;; (pymacs-load "ropemacs" "rope-")
+# #                                           ;(setq ropemacs-enable-autoimport t)
+# #                                           ;(load-file "~/.elisp/emacs-for-python/epy-init.el")
+# #                                           ;(epy-setup-checker "pyflakes %f")
+
+
+# # #+END_SRC
+# # **** Python Environments
+# # TODO: wrap this into an interactive function.
+# # #+BEGIN_SRC # emacs-lisp
+# # (setq sam-ipython-program-command "/Users/sinayoks/anaconda/envs/py3k/bin/ipython")
+# # ;;(setq sam-ipython-program-command "/Users/sinayoks/anaconda/envs/microblog/ipython")
+# # (setq sam-ipython-program-command "/Users/sinayoks/anaconda/bin/ipython")
+# # #+END_SRC
+***** pycoverage.el
+Install the `pycoverage` package from melpa. The package is broken but
+the fix proposed in [[https://github.com/mattharrison/pycoverage.el/issues/9][this issue]] works:
+Replace =cov2emacs= in your =~/.emacs.d/elpa/pycoverage= directory by
+#+BEGIN_SRC python
+#!/usr/bin/env python
+# Copyright (c) 2009 Matt Harrison
+import os
+import sys
+this_file = os.path.realpath(__file__)
+module_dirname = os.path.dirname(this_file)
+module_basename = os.path.basename(module_dirname)
+elpa_base_dir = os.path.dirname(os.path.join(module_dirname, '..'))
+cov2emacs_dir = os.path.join(elpa_base_dir, 'cov2emacslib')
+if not os.path.exists(cov2emacs_dir):
+    os.symlink(module_dirname, cov2emacs_dir)
+sys.path.append(
+    os.path.abspath(
+        os.path.join(
+            elpa_base_dir,
+            '..')))
+import cov2emacslib
+
+if __name__ == '__main__':
+    sys.exit(cov2emacslib.main(sys.argv))
+#+END_SRC
+
+#+BEGIN_SRC emacs-lisp
+;;(require 'linum)
+(require 'pycoverage)
+
+(defun maybe-pycoverage-mode ()
+  (interactive)
+  (when (derived-mode-p 'python-mode)
+    (progn
+      (unless (string-match-p "test_" (file-name-nondirectory (buffer-file-name)))
+	(pycoverage-mode t)))))
+
+#+END_SRC
+**** Python Config
+
+#+BEGIN_SRC emacs-lisp
+  ;; (require 'package)
+  ;; (add-to-list 'package-archives
+  ;;              '("elpy" . "http://jorgenschaefer.github.io/packages/"))
+  ;;(defalias 'workon 'conda-env-activate)
+  (defalias 'workon 'pyvenv-activate)
+  (require 'elpy)
+  (require 'sam-ipython)
+  ;; this seems to be needed to find the conda envs
+  ;; check that RPC is set to the correct python in elpy-config
+  (add-to-list 'load-path
+               ".emacs.d/elpa/yasnippet-20180204.1613")
+  (require 'yasnippet)
+  (elpy-enable)
+  ;;(add-hook elpy-mode-hook '(lambda () (sam-ipython-mode t))
+  (progn
+    (setenv "WORKON_HOME" (expand-file-name "~/.anaconda3/envs"))
+    (define-key elpy-mode-map (kbd "C-c C-c")
+      'elpy-shell-send-region-or-buffer-and-go)
+    (define-key elpy-mode-map (kbd "M-n")
+      'elpy-shell-send-region-or-buffer-and-step)
+    (define-key elpy-mode-map (kbd "M-O")
+      'elpy-shell-switch-to-shell)
+    (define-key elpy-mode-map (kbd "M-.")
+      'elpy-goto-definition))
+  (add-hook 'elpy-mode-hook
+            '(lambda ()
+               (setq python-shell-interpreter "ipython3")
+               ;; use simple prompt because IPython>=5 breaks elpy-shell
+               (setq python-shell-interpreter-args "--simple-prompt --pprint")
+               (setq elpy-rpc-backend "jedi")
+               (setq imenu-auto-rescan t)
+               (setq elpy-rpc-timeout 10)
+               (setenv "WORKON_HOME" (expand-file-name "~/.anaconda3/envs"))
+               (when (version<= "26.0.50" emacs-version)
+                 (display-line-numbers-mode))
+               ;; don't use pycoverage as it messes with line numbers
+               ;; in emacs 26
+               ;;(maybe-pycoverage-mode)
+               ))
+  (define-key inferior-python-mode-map (kbd "M-O")
+    'elpy-shell-switch-to-buffer)
+  (define-key elpy-mode-map (kbd "C-c C-b") 'python-add-breakpoint)
+  (defun sam/jupyter-console-existing ()
+    "Start Jupyter shell by attaching to an existing kernel"
+    (interactive)
+    (let ((kernel (read-string "Kernel id: ")) )
+      (setq python-shell-interpreter "jupyter"
+            python-shell-interpreter-args (format "console --simple-prompt --existing %s" kernel))
+      (elpy-shell-switch-to-shell)))
+  (defun sam/conda-env-activate ()
+    "activate conda environment.
+    TODO: add this to .dir-locals.el
+    ((nil . ((conda-project-env-name . \"mlbook\"))))
+    "
+    (interactive)
+    (conda-env-activate-for-buffer)
+    (elpy-rpc-restart))
+  (defalias 'cea 'sam/conda-env-activate)
+  ;; (require 'anaconda-mode)
+  ;; (add-hook 'elpy-mode-hook '(lambda () (anaconda-mode t)))
+#+END_SRC
+***** fixiing virtal envs
+elpy doesn't work with conda envs out of the box,
+but this seems to fix the issues: add
+#+BEGIN_SRC emacs-list
+		  (file-exists-p (format "%s/%s/../../bin/activate"
+                                         workon-home name))
+#+END_SRC
+[[help:pyvenv-virtualenv-list]]. This makes conda envs comptabile with
+elpy and they can be activated in the menu.
+# *** Ein Notebook
+# Jupyter Notebook inside emacs
+# Can we get code navigation to work???
+# #+BEGIN_SRC emacs-lisp
+# (require 'ein)
+# (require 'ein-notebook)
+# (define-key ein:notebook-mode-map (kbd "C-<enter>")
+#     'ein:worksheet-execute-cell-and-goto-next)
+# #+END_SRC
+** Other 
+
+# ** beancount
+# #+BEGIN_SRC emacs-lisp
+# (require 'beancount)
+# (add-to-list 'auto-mode-alist '("\\.beancount\\'" . beancount-mode))
+# #+END_SRC
+# ** org-mode
+# *** Main
+# #+begin_src emacs-lisp
+# ;; ;; Org-Mode
+# ;; (setq load-path (cons "~/.elisp/org-mode/lisp" load-path))
+# ;; (setq load-path (cons "~/.elisp/org-mode/contrib/lisp" load-path))
+# ;; (require 'org-install)
+# ;; (require 'org-exp-bibtex)
+# (use-package org-protocol)
+# ;; (require 'org-special-blocks)
+# ;; see http://orgmode.org/worg/org-contrib/org-special-blocks.html#Loading-it
+# ;;(when mac-osx-p
+# ;;  (require 'org-mac-protocol))
+# 					; settings
+# ;;(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+# (use-package org-install
+#   :defer t
+#   :init
+#   ;; fontify code in code blocks
+#   (setq org-src-fontify-natively t)
+
+#   (add-hook 'org-mode-hook
+# 	    (lambda ()
+# 	      ;; (org-set-local 'yas/trigger-key [tab])
+# 	      ;; (define-key yas/keymap [tab] 'yas/next-field-group)
+# 	      (local-set-key (kbd "M-h") 'beginning-of-visual-line)
+# 	      (local-set-key (kbd "M-a") 'set-mark-command)
+# 	      (local-set-key (kbd "C-c i") 'org-toggle-inline-images)
+# 	      ;;(speck-mode 1)
+# 	      ))
+#   (global-set-key "\C-cl" 'org-store-link)
+#   (global-set-key "\C-c\C-l" 'org-insert-link)
+#   (setq org-completion-use-ido t)
+#   (global-set-key "\C-ca" 'org-agenda)
+#   (global-set-key "\C-cb" 'org-iswitchb)
+#   (setq org-log-done t) ;; log time the task was closed
+#   (add-hook 'write-file-hooks 'time-stamp)
+#   (setq org-todo-keywords ; C-c C-t to switch between keywords
+# 	'((sequence "TODO(t)" "|" "DONE(d)")
+# 	  (sequence "TODO(t)" "STARTED(s)" "WAITING(w)" "|" "DONE(d)")
+# 	  (sequence "|" "CANCELED(c)")))
+#   (setq org-agenda-include-diary t) ; integreate diary
+#   (setq org-agenda-ndays 7)
+#   (setq org-deadline-warning-days 14)
+#   (add-hook 'org-mode-hook
+# 	    (lambda ()
+# 	      (setq org-clock-persist 'history)
+# 	      (org-clock-persistence-insinuate)
+# 	      (setq org-agenda-use-time-grid nil)
+# 	      (setq org-latex-to-pdf-process '("latexmk -pdf %f"))
+# 	      (setq org-file-apps
+# 		    (append '(
+# 			      ("png" . default)
+# 			      ("pdf" . "open %s")
+# 			      ) org-file-apps ))))
+# 					;(when (eq 0 (shell-command "rubber --version"))
+# 					;(setq org-latex-to-pdf-process '("rubber -d %f")))))
+
+# 					;            (speck-mode 1)))
+# 					; setup RefTeX to use Bibliography with org
+#   ;; (defun org-mode-reftex-setup ()
+#   ;;   (load-library "reftex")
+#   ;;   (and (buffer-file-name) (file-exists-p (buffer-file-name))
+#   ;;        (progn
+#   ;;          ;enable auto-revert-mode to update reftex when bibtex file changes on disk
+#   ;;          (global-auto-revert-mode t)
+#   ;;          (reftex-parse-all)
+#   ;;          ;add a custom reftex cite format to insert links
+#   ;;          (reftex-set-cite-format
+#   ;;           '((?b . "[[bib:%l][%l-bib]]")
+#   ;;             (?n . "[[notes:%l][%l-notes]]")
+#   ;;             (?p . "[[papers:%l][%l-paper]]")
+#   ;;             (?t . "%t")
+#   ;;             (?h . "** %t\n:PROPERTIES:\n:Custom_ID: %l\n:END:\n[[papers:%f][%l-paper]]"))))))
+#   ;; (define-key org-mode-map (kbd "C-c )") 'reftex-citation)
+#   ;; (define-key org-mode-map (kbd "C-c (") 'org-mode-reftex-search)
+
+#   (setq-default TeX-master t)
+#   ;;(setq reftex-default-bibliography "~/Dropbox/docs/BIBLIOGRAPHY/library.bib") ;; this doesn't work
+#   (setq reftex-default-bibliography "~/Dropbox/bib/biblio.bib")
+
+#   ;; (defun org-mode-reftex-setup ()
+#   ;;   (interactive)
+#   ;;   (load-library "reftex")
+#   ;;   (and (buffer-file-name)
+#   ;;        (file-exists-p (buffer-file-name))
+#   ;;        (reftex-parse-all))
+#   ;;   (define-key org-mode-map (kbd "\C-c )") 'reftex-citation))
+#   ;;(add-hook 'org-mode-hook 'org-mode-reftex-setup)
+
+#   ;; (defun org-mode-reftex-search ()
+#   ;;   ;;jump to the notes for the paper pointed to at from reftex search
+#   ;;   (interactive)
+#   ;;   (org-open-link-from-string (format "[[notes:%s]]" (reftex-citation t))))
+#   ;; ;; Abbreviations for biblio links in org-files
+#   ;; (let* ((biblio-path (file-name-directory reftex-default-bibliography))
+#   ;;        (bib (concat reftex-default-bibliography "::%s"))
+#   ;;        (notes (pjoin biblio-path "biblio.org::#%s"))
+#   ;;        (papers (pjoin biblio-path "papers/%s.pdf")))
+#   ;;   (setq org-link-abbrev-alist
+#   ;;         (list (cons "bib" bib)
+#   ;;               (cons "notes"  notes)
+#   ;;               (cons "papers" papers))))
+
+#   ;; ;; (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+#   (defun org-open-at-point-in-emacs ()
+#     "Open link in emacs.
+
+#       This is useful for org-drill to open images and sound
+#       files (using mplayer with openwith)"
+#     (interactive)
+#     (org-open-at-point nil))
+#   (add-hook 'org-mode-hook
+# 	    (lambda ()
+# 	      (local-set-key "\C-co" 'org-open-at-point-in-emacs)))
+#   ;;(add-hook 'org-mode-hook 'reftex-mode)
+#   ;; this should be very useful: e.g. when using a python script to generate a figure, add a link to the figure. If used to generate data fed to an asymptote script, link to the asymptote script.
+#   (global-set-key "\C-c L" 'org-insert-link-global)
+#   (global-set-key "\C-c o" 'org-open-at-point-global)
+#   (defun kill-org-buffers ()
+#     "Kill all org-buffers. Useful when using several computers"
+#     (interactive)
+#     (dolist (file '("todo.org" "agenda.org" "journal.org" "goals.org" "learning.org"))
+#       (let ((buffer (get-buffer file)))
+# 	(if buffer
+# 	    (kill-buffer-ask buffer)))))
+#   (eval-after-load "org"
+#     '(progn
+#        (define-prefix-command 'org-todo-state-map)
+#        (define-key org-mode-map "\C-cx" 'org-todo-state-map)
+#        (define-key org-todo-state-map "x"
+# 	 (lambda nil (interactive) (org-todo "CANCELLED")))
+#        (define-key org-todo-state-map "d"
+# 	 (lambda nil (interactive) (org-todo "DONE")))
+#        (define-key org-todo-state-map "s"
+# 	 (lambda nil (interactive) (org-todo "STARTED")))
+#        (define-key org-todo-state-map "w"
+# 	 (lambda nil (interactive) (org-todo "WAITING")))))
+#   ;; ;; org-publish: for publishing notes to a website
+#   ;; (require 'org-publish)
+#   ;; (setq org-publish-project-alist
+#   ;;       '(
+#   ;;         ("org-notes"
+#   ;;          :base-directory "~/Documents/org/"
+#   ;;          :base-extension "org"
+#   ;;          :publishing-directory "~/Documents/html"
+#   ;;          :recursive t
+#   ;;          :publishing-function org-publish-org-to-html
+#   ;;          :headline-levels 3             ; Just the default for this project.
+#   ;;          :auto-preamble t
+#   ;;          :style "<link rel=\"stylesheet\" href=\"org.css\" type=\"text/css\" />"
+#   ;;                                         ; sitemap
+#   ;;          :auto-sitemap t                ; Generate sitemap.org automagically...
+#   ;;          :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
+#   ;;          :sitemap-title "Index"         ; ... with title 'Sitemap'.
+
+#   ;;          )
+#   ;;         ("org-static"
+#   ;;          :base-directory "~/Documents/org/"
+#   ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|py"
+#   ;;          :publishing-directory "~/Documents/html/"
+#   ;;          :recursive t
+#   ;;          :publishing-function org-publish-attachment
+#   ;;          )
+#   ;;         ("org" :components ("org-notes" "org-static"))
+#   ;;         ;; MHI only
+#   ;;         ("mhi-notes"
+#   ;;          :base-directory "~/Documents/org/mhi"
+#   ;;          :base-extension "org"
+#   ;;          :publishing-directory "~/Documents/html/mhi"
+#   ;;          :recursive t
+#   ;;          :publishing-function org-publish-org-to-html
+#   ;;          :headline-levels 3             ; Just the default for this project.
+#   ;;          :auto-preamble t
+#   ;;          :style "<link rel=\"stylesheet\" href=\"org.css\" type=\"text/css\" />"
+#   ;;                                         ; sitemap
+#   ;;          :auto-sitemap t                ; Generate sitemap.org automagically...
+#   ;;          :sitemap-filename "index.org"  ; ... call it sitemap.org (it's the default)...
+#   ;;          :sitemap-title "Index"         ; ... with title 'Sitemap'.
+
+#   ;;          )
+#   ;;         ("mhi-static"
+#   ;;          :base-directory "~/Documents/org/mhi"
+#   ;;          :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf\\|txt\\|py"
+#   ;;          :publishing-directory "~/Documents/html/mhi"
+#   ;;          :recursive t
+#   ;;          :publishing-function org-publish-attachment
+#   ;;          )
+#   ;;         ("mhi" :components ("mhi-notes" "mhi-static"))
+#   ;;         ))
+
+
+#   ;; ;; org-drill: for memorizing things like vocabulary
+#   ;; (require 'org-drill)
+#   ;; (setq org-learn-always-reschedule t
+#   ;;       org-drill-use-visible-cloze-face-p t
+#   ;;       org-drill-add-random-noise-to-intervals-p t
+#   ;;       org-drill-maximum-items-per-session 60)
+#   ;; Remember has been deprecated. Use org-capture instead
+#   ;; Remember
+#   ;; (require 'org-remember)
+#   ;; (org-remember-insinuate) ;; part of emacs (>= 23)
+#   ;;(define-key global-map "\C-cr" 'org-remember)
+#   ;;(define-key global-map "\C-cr" 'org-remember)
+#   (define-key global-map (kbd "C-c r") 'org-capture)
+#   ;;  (lambda () (interactive) (org-capture nil "r")))
+#   (if isvr-p
+#       (setq org-directory "~/Dropbox/docs/organisation/"
+# 	    org-mobile-directory "~/Dropbox/Apps/MobileOrg"
+# 	    org-mobile-inbox-for-pull "~/Dropbox/Apps/MobileOrg/flagged.org")
+#     (setq org-directory "~/Dropbox/docs/organisation/")
+#     (setq org-mobile-directory "~/Dropbox/Apps/MobileOrg")
+#     (setq org-mobile-inbox-for-pull "~/Dropbox/Apps/MobileOrg/flagged.org"))
+#   (setq remember-annotation-functions '(org-remember-annotation))
+#   (setq remember-handler-functions '(org-remember-handler))
+#   (add-hook 'remember-mode-hook 'org-remember-apply-template)
+#   (setq org-default-notes-file (concat org-directory "notes.org"))
+#   ;; (setq org-remember-templates
+#   ;;       '(("todo" ?t "** TODO %?\n  %i\n  %a" "todo.org" "Tasks")
+#   ;;         ("agenda" ?a "** %?\n  %i\n %^t \n  %a" "agenda.org")
+#   ;;         ("journal" ?j "** %U %?\n\n  %i\n  %a" "journal.org")
+#   ;;         ("idea" ?i "** %U %?\n\n  %i\n  %a" "idea.org")
+#   ;;         ("learn" ?l "* %U %?\n\n  %i\n  %a" "learn.org")
+#   ;;         ("ApScript remember" ?y "* %:shortdesc\n  %:initial\n   Source: %u, %c\n\n  %?" (concat org-directory "inbox.org"))
+#   ;;         ("ApScript note" ?z "* %?\n\n  Date: %u\n" (concat org-directory "inbox.org") "Notes")))
+#   (setq org-capture-templates
+# 	'(("t" "todo" entry (file+headline "todo.org" "Todos")
+# 	   "** TODO %? %i %a" :prepend)
+# 	  ("a" "agenda" entry (file+headline "agenda.org" "Agenda")
+# 	   "** %? %i %^t %a" :prepend)
+# 	  ("l" "learn" entry (file "learn.org")
+# 	   "* %U %? %i %a" :prepend)
+# 	  ("j" "journal" entry (file "journal.org")
+# 	   "** %U %? %i %a" :prepend)
+# 	  ("i" "idea" entry (file "idea.org")
+# 	   "** %U %? %i %a" :prepend)
+# 	  ;; ("y" "ApScript remember" entry (file+headline (concat org-directory "inbox.org") "")
+# 	  ;;  "* %:shortdesc %:initial Source: %u, %c %?")
+# 	  ;; ("z" "ApScript note" entry (file+headline (concat org-directory "inbox.org") "Notes")
+# 	  ;;  "* %? Date: %u ")
+# 	  ))
+
+#   ;; Use cleaner indented mode
+#   (setq org-startup-indented t)
+#   ;; ;; Experimenting with org-capture
+#   ;; (setq org-capture-templates
+#   ;;       `(("u"
+#   ;;          "Task: Read this URL"
+#   ;;          entry
+#   ;;          (file+headline "tasks.org" "Articles To Read")
+#   ;;          ,(concat "* TODO Read article: '%:description'\nURL: %c\n\n")
+#   ;;          :empty-lines 1
+#   ;;          :immediate-finish t)
+
+#   ;;         ("w"
+#   ;;          "Capture web snippet"
+#   ;;          entry
+#   ;;          (file+headline "my-facts.org" "Inbox")
+#   ;;          ,(concat "* Fact: '%:description'        :"
+#   ;;                   (format "%s" org-drill-question-tag)
+#   ;;                   ":\n:PROPERTIES:\n:DATE_ADDED: %u\n:SOURCE_URL: %c\n:END:\n\n%i\n%?\n")
+#   ;;          :empty-lines 1
+#   ;;          :immediate-finish t)
+#   ;;         ;; ...other capture templates...
+#   ;;         ))
+#   ;; from http://jcardente.blogspot.co.uk/2010/09/saving-weblinks-to-org-mode-from-safari.html
+#   ;; (setq org-capture-templates
+#   ;;       '(("tname" "Link" entry
+#   ;;         (file+headline org-default-notes-file "Links to Read")
+#   ;;         "* %a\n %?\n %i")))
+#   )
+
+# #+end_src
+
+# #+RESULTS:
+
+# *** Related
+# #+begin_src emacs-lisp
+#   ;; Calendar mode
+#   (add-hook 'calendar-mode-hook
+#             (lambda ()
+#               ;; days
+#               (define-key calendar-mode-map  "\M-l" 'calendar-forward-day)
+#               (define-key calendar-mode-map  "\M-j" 'calendar-backward-day)
+#               ;; weeks
+#               (define-key calendar-mode-map "\M-k" 'calendar-forward-week)
+#               (define-key calendar-mode-map "\M-i" 'calendar-backward-week)
+#               (define-key calendar-mode-map "\M-J" 'calendar-beginning-of-week)
+#               (define-key calendar-mode-map "\M-L" 'calendar-end-of-week)
+#               ;; months
+#               (define-key calendar-mode-map "\M-;" 'calendar-forward-month)
+#               (define-key calendar-mode-map "\M-h" 'calendar-backward-month)
+#               (define-key calendar-mode-map "\M-H" 'calendar-beginning-of-month)
+#               (define-key calendar-mode-map "\M-:" 'calendar-end-of-month)
+#               ;; year
+#               (define-key calendar-mode-map "\M-<" 'calendar-beginning-of-year)
+#               (define-key calendar-mode-map "\M->" 'calendar-end-of-year)
+#               ;; scrolling
+#               (define-key calendar-mode-map "\M-I"
+#                 'calendar-scroll-right-three-months)
+#               (define-key calendar-mode-map "\M-K"
+#                 'calendar-scroll-left-three-months)
+#               ;; marking
+#               (local-unset-key "\M-a")
+#               (local-unset-key "\M-h")
+#               (define-key calendar-mode-map "\M-a" 'calendar-set-mark)))
+#   ;; Diary
+#   (setq diary-file "~/.diary")
+#   ;; Agenda
+#   (require 'english-and-welsh-bank-holidays)
+#   (setq holiday-general-holidays nil) ; remove US holidays
+#   ;; Outlining (can be used in LaTeX mode and Python mode for instance)
+#   (add-hook 'outline-minor-mode-hook
+#             (lambda ()
+#               (define-key outline-minor-mode-map "\M-f" 'org-cycle)))
+# #+end_src
+# *** COMMENT MobileOrg auto sync
+# From http://kenmankoff.com/2012/08/17/emacs-org-mode-and-mobileorg-auto-sync/.
+# **** Push to org-mobile after saving org files
+# #+BEGIN_SRC #emacs-lisp
+# ;; Fork the work (async) of pushing to mobile
+# ;; https://gist.github.com/3111823 ASYNC org mobile push...
+# (require 'gnus-async)
+# ;; Define a timer variable
+# (defvar org-mobile-push-timer nil
+#   "Timer that `org-mobile-push-timer' used to reschedule itself, or nil.")
+# ;; Push to mobile when the idle timer runs out
+# (defun org-mobile-push-with-delay (secs)
+#    (when org-mobile-push-timer
+#     (cancel-timer org-mobile-push-timer))
+#   (setq org-mobile-push-timer
+#         (run-with-idle-timer
+#          (* 1 secs) nil 'org-mobile-push)))
+# ;; After saving files, start an idle timer after which we are going to push
+# (add-hook 'after-save-hook
+#  (lambda ()
+#    (if (or (eq major-mode 'org-mode) (eq major-mode 'org-agenda-mode))
+#      (dolist (file (org-mobile-files-alist))
+#        (if (string= (expand-file-name (car file)) (buffer-file-name))
+#            (org-mobile-push-with-delay 10)))
+#      )))
+# ;; Run after midnight each day (or each morning upon wakeup?).
+# (run-at-time "00:01" 86400 '(lambda () (org-mobile-push-with-delay 1)))
+# ;; Run 1 minute after launch, and once a day after that.
+# (run-at-time "1 min" 86400 '(lambda () (org-mobile-push-with-delay 1)))
+# #+END_SRC
+
+# #+RESULTS:
+# : [nil 21674 27489 39650 86400 (lambda nil (org-mobile-push-with-delay 1)) nil nil 0]
+
+# **** Pull changes
+# #+BEGIN_SRC #emacs-lisp
+# ;; watch mobileorg.org for changes, and then call org-mobile-pull
+# ;; http://stackoverflow.com/questions/3456782/emacs-lisp-how-to-monitor-changes-of-a-file-directory
+# (defun install-monitor (file secs)
+#   (run-with-timer
+#    0 secs
+#    (lambda (f p)
+#      (unless (< p (second (time-since (elt (file-attributes f) 5))))
+#        (org-mobile-pull)))
+#    file secs))
+# (defvar monitor-timer (install-monitor (concat org-mobile-directory "/mobileorg.org") 30)
+#   "Check if file changed every 30 s.")
+# #+END_SRC
+
+# #+RESULTS:
+# : monitor-timer
+
+# *** COMMENT org and iCal
+# http://orgmode.org/worg/org-contrib/org-mac-iCal.html
+# block below doesn't work
+# #+BEGIN_SRC
+# (setq org-agenda custom-commands
+#       '(("I" "Import diary from iCal" agenda ""
+#          ((org-agenda-mode-hook
+#            (lambda ()
+#              (org-mac-iCal)))))))
+# #+END_SRC
+# Read manual on custom agenda view http://orgmode.org/manual/Custom-agenda-views.html#Custom-agenda-views
+# Probably not needed at this stage.
+
+# *** org and bibtex / reftex
+# Add this at the end of your org document
+# #+BEGIN_SRC latex
+# \bibliography{fidisco.bib}
+# \bibliographystyle{plain}
+# #+END_SRC
+
+# Run org-mode-reftex-setup to parse document and let reftex find the bib file, then use =C-c )= to link bib file.
+# #+BEGIN_SRC emacs-lisp
+# ;;(setq org-latex-pdf-process (quote ("texi2dvi -p -b -V %f")))
+
+# (defun org-mode-reftex-setup ()
+#   (interactive)
+#   (load-library "reftex")
+#   (and (buffer-file-name)
+#        (file-exists-p (buffer-file-name))
+#        (reftex-parse-all))
+#   (define-key org-mode-map (kbd "C-c )") 'reftex-citation))
+# (add-hook 'org-mode-hook 'org-mode-reftex-setup)
+# #+END_SRC
+# *** Markdown
+# #+BEGIN_SRC emacs-lisp
+# (eval-after-load "org"
+#   '(require 'ox-md nil t))
+# #+END_SRC
+
+# #+RESULTS:
+# : ox-md
+# ** terminal
+# Options:
+# - eshell: convenient but not a real shell so some programs will not work (e.g. top), and it is slow. It uses lisp though so it integrates very well with emacs.
+# - shell: terminal emulator, allows to move around easily and preserves emacs shortcuts. Again, not like a real shell though.
+# - term (ansi-term): a real shell within emacs. Problem is that some keybindings become unavailable.
+#   + Two modes: char mode (C-c C-k) is like a full shell, line mode (C-c C-j) allows to move around like in a real buffer.
+# Use bash in ansi-term
+#   + In char mode: C-x is passed to the terminal, use C-c instead to access emacs bindings starting with C-x. E.g. C-c o corersponds to C-x o and C-c M-x to M-x.
+# # Using =multi-term=. =C-ct= to open new terminal in current directory and =C-t= to move to the terminal.
+# #+BEGIN_SRC emacs-lisp
+#     ;;(require 'multi-term)
+#     (setq my-term "/bin/bash")
+#     (setq my-term-string "term")
+#   (defun sam-setup-terminal ()
+#     "Configure some bindings in terminal (ansi-term)"
+#     (interactive)
+#     (define-key term-raw-map (read-kbd-macro "\M-o") nil)
+#     (define-key term-raw-map (read-kbd-macro "\C-h") nil)
+#     (define-key term-raw-map (read-kbd-macro (kbd "TAB")) nil)
+#     (local-unset-key "\M-o")
+#     (local-unset-key "\M-x")
+#     ;; (local-unset-key "\C-h")
+#     ;; (local-unset-key (kbd "TAB"))
+#     ;;(yas/minor-mode 0)
+#     (setq autopair-dont-activate t)
+#     ;;(define-key term-raw-map (read-kbd-macro "\M-o") 'other-window)
+#     (local-set-key "\M-o" 'other-window)
+#     (local-set-key "\M-f" 'ido-switch-buffer)
+#     (local-set-key "\C-x M-x" 'smex)
+#     ;; (term-char-mode)
+#     )
+
+#   ;; (defadvice ansi-term (after sam-term-bindings)
+#   ;;   "Tweak the key bindings. Done here rather than with a hook because hooks doesn't seem to work properly."
+#   ;;   (sam-setup-terminal))
+
+#     (add-hook 'term-mode-hook 'sam-setup-terminal)
+
+#     ;; (add-hook 'term-mode-hook 'sam-setup-terminal)
+#     ;;           (lambda ()
+#     ;;             (message "Configuring term...")
+#     ;;             (define-key term-raw-map (read-kbd-macro "\M-o") nil)
+#     ;;             (define-key term-raw-map (read-kbd-macro "\C-h") nil)
+#     ;;             (define-key term-raw-map (read-kbd-macro (kbd "TAB")) nil)
+#     ;;             (local-unset-key "\M-o")
+#     ;;             ;; (local-unset-key "\C-h")
+#     ;;             ;; (local-unset-key (kbd "TAB"))
+#     ;;             (yas/minor-mode 0)
+#     ;;             (setq autopair-dont-activate t)
+#     ;;             ;;(define-key term-raw-map (read-kbd-macro "\M-o") 'other-window)
+#     ;;             (local-set-key "\M-o" 'other-window)
+#     ;;             (message "done.")))
+
+#     (defun my-term-new ()
+#       (interactive)
+#       (ansi-term my-term my-term-string))
+
+#     (defun my-term (&optional change-directory)
+#       "Swith to *term* buffer and optionally change to current directory."
+#       (interactive "P")
+#       (let ((pwd default-directory)
+#             (term (format "*%s*" my-term-string)))
+#         (if (not (get-buffer term))
+#             (ansi-term  my-term my-term-string)
+#           (switch-to-buffer term)
+#           (when change-directory
+#             ;(insert (format "pushd; cd %s" pwd))
+#             (comint-send-string term (format "pushd; cd %s\n" pwd))))))
+#     ;;(local-set-key "\M-o" 'other-window)
+#     ;;(global-set-key "\C-ct" 'my-term)
+#     (global-set-key (kbd "C-c C-t") 'my-term-new)
+
+#   ;; multi terminal
+#   (add-hook 'term-mode-hook
+#             (lambda ()
+#               (setq autopair-dont-activate t)
+#               (local-set-key "\M-o" 'other-window)
+#               ;;(yas/minor-mode 0))
+#               ))
+#   (global-set-key "\C-ct" 'my-term-new)
+#   ;;(global-set-key "\C-c C-t" 'multi-term-next)
+#   ;;(global-set-key (kbd "C-c C-t") 'multi-term-next)
+#   ;; fix colors
+#   ;; (setq ansi-term-color-vector [unspecified "#3f3f3f" "#cc9393" "#7f9f7f" "#f0dfaf" "#8cd0d3" "#dc8cc3" "#93e0e3" "#dcdccc"])
+#   ;; (setq ansi-term-color-vector
+#   ;;       [unspecified "#000000" "#963F3C" "#5FFB65" "#FFFD65" "#0082FF" "#FF2180" "#57DCDB" "#FFFFFF"])
+#   (add-hook 'term-mode-hook
+#             (lambda ()
+#               (local-set-key "\M-o" 'other-window)
+#               ;;(yas/minor-mode nil)
+#               ))
+
+#   ;; ;; term
+#   ;; (defface term-color-black
+#   ;;   '((t (:foreground "#000000" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-red
+#   ;;   '((t (:foreground "#963F3C" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-green
+#   ;;   '((t (:foreground "#5ffb65" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-yellow
+#   ;;   '((t (:foreground "#fffd65" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-blue
+#   ;;   '((t (:foreground "#0082ff" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-magenta
+#   ;;   '((t (:foreground "#ff2180" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-cyan
+#   ;;   '((t (:foreground "#57dcdb" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; (defface term-color-white
+#   ;;   '((t (:foreground "#ffffff" :background "#272822")))
+#   ;;   "Unhelpful docstring.")
+#   ;; '(term-default-fg-color ((t (:inherit term-color-white))))
+#   ;; '(term-default-bg-color ((t (:inherit term-color-black))))
+#   ;;
+#   ;; ;; ansi-term colors
+#   ;; (setq ansi-term-color-vector
+#   ;;   [term term-color-black term-color-red term-color-green term-color-yellow
+#   ;;     term-color-blue term-color-magenta term-color-cyan term-color-white])
+# #+END_SRC
+# ** eshell
+# Fancy prompt https://www.emacswiki.org/emacs/EshellPrompt
+# #+BEGIN_SRC emacs-lisp
+#   (defmacro with-face (str &rest properties)
+#     `(propertize ,str 'face (list ,@properties)))
+
+# ;; get background color for header-bg
+# ;;(require 'naquadah-theme)
+# ;;(naquadah-get-colors 'background)
+#   (defun shk-eshell-prompt ()
+#     (let ((header-bg "#262B2C"))
+#       (concat
+#        (with-face (concat (eshell/pwd) " ") :background header-bg)
+#        (with-face (format-time-string "(%Y-%m-%d %H:%M) " (current-time)) :background header-bg :foreground "#888")
+#        (with-face
+#         (or (ignore-errors (format "(%s)" (vc-responsible-backend default-directory))) "")
+#         :background header-bg)
+#        (with-face "\n" :background header-bg)
+#        (with-face user-login-name :foreground "blue")
+#        "@"
+#        (with-face "localhost" :foreground "green")
+#        (if (= (user-uid) 0)
+#            (with-face " #" :foreground "red")
+#          " $")
+#        " ")))
+#   (setq eshell-prompt-function 'shk-eshell-prompt)
+# (setq eshell-highlight-prompt nil)
+
+# #+END_SRC
+# ** speck
+# Spell check with Hunspell and speck-mode (word-linke interactive spell-check).
+# #+BEGIN_SRC emacs-lisp
+# (use-package speck
+#   ;;(require 'speck)
+#   :defer t
+#   :config
+#   (setq dicpath (expand-file-name "~/.dicts/"))
+#   (setq speck-engine (quote Hunspell)) ; use Ispell if Hunspell doesn't work
+#   (setq speck-hunspell-library-directory dicpath)
+#   (setq speck-hunspell-dictionary-alist
+# 	'(("en" . "en_GB")
+# 	  ("hu" . "hu_HU")
+# 	  ("fr" . "fr_FR")))
+
+#   ;; (setq speck-hunspell-language-options
+#   ;;       (quote (("de" utf-8 nil t nil)
+#   ;;            ("en" utf-8 nil nil nil)
+#   ;;            ("hu" utf-8 nil nil)
+#   ;;            ("fr" utf-8 nil nil ))))
+#   (defun speck-change-dictionary-and-revert-buffer (name)
+#     "Change (default) dictionary and revert buffer.
+
+#   This is because one can not change dictionary on the fly for some reason."
+#     (interactive "sDictionary: ")
+#     (setq speck-hunspell-default-dictionary-name name)
+#     (setq speck-hunspell-extra-arguments '("-i" "iso-8859-1"))
+#     ;; always use utf-8
+#     ;;(setq speck-hunspell-extra-arguments '("-i" "utf-8"))
+#     (revert-buffer))
+#   (defalias 'dic 'speck-change-dictionary-and-revert-buffer)
+#   (setq speck-hunspell-default-dictionary-name "en"))
+# #+END_SRC
+
+# ** COMMENT gnus
+# #+begin_src # emacs-lisp
+#   ;;;; Mail -> see .gnus
+#   (require 'gnus)
+#   (setq gnus-home-directory "~/.emacs.d/gnus.d/")
+#   (setq gnus-directory "~/.emacs.d/gnus.d/News/")
+#   (setq message-directory "~/.emacs.d/gnus.d/Mail/")
+#   (setq nnfolder-directory "~/.emacs.d/gnus.d/Mail/archive/")
+#   (setq gnus-init-file "~/.emacs.d/gnus.d/gnus-config.el")
+#   (setq mail-user-agent 'message-user-agent)
+#   (setq mail-user-agent 'gnus-user-agent)
+#   ;;(add-hook 'message-mode-hook 'color-theme-tangotango)
+#   ;; use org-mode in emails
+#   ;; (add-hook 'message-mode-hook 'turn-on-orgstruct)
+#   ;; (add-hook 'message-mode-hook 'turn-on-orgstruct++)
+#   ;; (add-hook 'message-mode-hook 'turn-on-orgtbl)
+#   ;; gmail
+#   ;; (setq send-mail-function 'smtpmail-send-it)
+#   ;; (setq smtpmail-smtp-server "smtp.gmail.com")
+#   ;; (setq smtpmail-smtp-service 587)
+#   ;; (setq smtpmail-auth-credentials '(("smtp.gmail.com" 587 "samuel.sinayoko@gmail.com" nil)))
+#   ;; (setq smtpmail-starttls-credentials '(("smtp.gmail.com" 587 nil nil)))
+#   ;; Send mail using SMTP via smtp.soton.ac.uk.
+#   ;;(setq smtpmail-smtp-server "smtp.soton.ac.uk")
+#                                           ;(setq smtpmail-smtp-server "smtp.hermes.ac.uk")
+#   ;; Send mail using SMTP on the mail submission port 587.
+#                                           ;(setq smtpmail-smtp-service 587)
+
+#   ;; Offlineimap
+#   ;;(require 'offlineimap)
+#   ;;(add-hook 'gnus-before-startup-hook 'offlineimap)
+
+# #+end_src
+# *** BBDB
+# #+begin_src emacs-lisp
+#   ;;;; Big Brother Database (BBDB) / Address book
+#   (require 'message)
+#   ;(define-key message-mode-map (kbd "<tab>") 'bbdb-complete-name)
+#   ;;(define-key message-mode-map (kbd "<tab>") 'yas/expand)
+#   (define-key message-mode-map (kbd "M-;") 'move-end-of-line)
+#   (add-to-list 'load-path "~/.elisp/bbdb")
+#   (require 'bbdb-autoloads)
+#   (require 'bbdb)
+#   (bbdb-insinuate-message)
+#   (bbdb-initialize  'gnus 'message)
+# #+end_src
+# ** COMMENT o-blog
+# *** Load o-blog
+# #+BEGIN_SRC #emacs-lisp
+# (add-to-list 'load-path "~/.elisp/o-blog")
+# (require 'o-blog)
+# #+END_SRC
+# *** Compile / Publish blog
+# #+begin_src #emacs-lisp
+#   ;;(defvar sam-blog-file (pjoin DBOX "o-blog" "sinayoko.org") "Full path to o-blog website org filename.")
+#   (defvar sam-blog-file (pjoin DBOX "pelican" "pages" "pages.org") "Full path to o-blog website org filename.")
+#   (defvar sam-blog-directory (file-name-directory sam-blog-file) "Directory of o-blog website.")
+#   (defvar sam-blog-template-directory (pjoin sam-blog-directory "my-templates-production") "Directory of o-blog templates.")
+
+#   (require 'less-css-mode)
+#   (require 'sam-html-scrape)
+
+#   (defun blog ()
+#     "Generate blog with o-blog"
+#     (interactive)
+#     (save-excursion
+#       (org-publish-blog sam-blog-file)))
+
+#   (defun publish-blog ()
+#     "Push blog to server. Note the trailing slash in rsync to copy the content of the directory. "
+#     (interactive)
+#     (blog)
+#     ;; -u : update files that are newer only
+#     ;; -a: archive mode  (recursive, timestamp, preserver links etc)
+#     ;; -z: compress
+#     ;; Change ~/.ssh/config to add alias to connect to host without login
+#     (shell-command (format "rsync -L -avuz %s/ soton:public_html" (pjoin sam-blog-directory "sinayoko"))
+#                    "*o-blog*"))
+
+# #+end_src
+
+# #+RESULTS:
+# : publish-blog
+
+# *** Make headers active
+# #+begin_src #emacs-lisp
+#   (defun sam-blog-fix-headers ()
+#     "Fix headers so they get highlighted in each page
+
+#   For each static page, replace \"<li>Page Title</li>\" by \"<li class=\"active\">Page Title</li>\".
+#   "
+#     (loop for post in STATIC do
+#           (progn
+#             (message "Processing static page \"%s\"" (ob:post-title post))
+#               (let ((filename (concat
+#                                (file-name-as-directory (ob:blog-publish-dir BLOG))
+#                                (ob:post-htmlfile post))))
+
+#                 (with-temp-buffer
+#                   (message "   - filename: %s" filename)
+#                   (insert-file-contents filename)
+#                   ;;(goto-char (point-min))
+#                   ;; (while (not (looking-at "<li>"))
+#                   ;;   (progn
+#                   ;;     (search-forward (file-name-nondirectory (ob:post-htmlfile post)))
+#                   ;;     (beginning-of-line)
+#                   ;;     (skip-chars-forward "[:space:]")))
+#                   (goto-char (point-min))
+#                   (when (search-forward
+#                          (format "<li><a href=\"./%s\">"
+#                                  (file-name-nondirectory (ob:post-htmlfile post)))
+#                          nil t)
+#                     (beginning-of-line)
+#                     (message "   - line: %s" (thing-at-point 'line))
+#                     (replace-string "<li>" "<li class=\"active\">" nil (point)
+#                                     (save-excursion (end-of-line) (point)))
+#                     (write-file filename)))))))
+
+#   (add-hook 'o-blog-after-publish-hook 'sam-blog-fix-headers)
+# #+end_src
+# *** Publications / Bib
+# #+begin_src #emacs-lisp
+#   (defvar sam-blog-bibfile (pjoin DBOX "publications" "sinayoko.bib") "Bibtex file containing my publications.")
+#   (defvar sam-blog-export-bib-p nil "True if bibliography should be exported")
+#   (defvar jabref-cmd (if mac-osx-p (shell-quote-argument "/Applications/JabRef 5.app/Contents/MacOS/./JavaApplicationStub")
+#                        "java -jar ~/scratch/apps/bin/JabRef-2.9.2.jar") "JabRef command to be called from shell")
+
+#   (defun sam-blog-set-bibfile ()
+#     (interactive)
+#     (setq sam-blog-bibfile (ido-read-file-name "Bibliography file: " (pjoin DBOX))))
+
+#   (defun sam-blog-toggle-export-bib ()
+#     "Toggle bib switch and indicate state"
+#     (interactive)
+#     (princ (setq sam-blog-export-bib-p (not sam-blog-export-bib-p)))
+#     (let ((foo 'sam-blog-jabref-export-publications-template))
+#       (if sam-blog-export-bib-p
+#           (add-hook 'o-blog-before-publish-hook foo)
+#         (remove-hook 'o-blog-before-publish-hook foo))))
+
+
+#   (defun jabref-export-bib (bib &optional html format)
+#     "Export bibliography in bibtex file to html using JabRef.
+#   - bib: path to bibtex file
+#   - html: export filename.
+#   - format: jabref format (see end of `jabref --help`). Defaults to Table References with Bibliography.
+#   Available export formats: html, listrefs, o-blog, simplehtml, tablerefs,
+#           tablerefsabsbib, pelican.
+#   "
+#     (interactive)
+#     (setq bib (expand-file-name bib))
+#     (if (not html)
+#         (setq html (format "%s.html" (file-name-sans-extension bib))))
+#     (if (not format)
+#         (setq format "tablerefsabsbib"))
+#     (let ((cmd (format "%s -n -o %s,%s %s" jabref-cmd html format bib)))
+#       ;;(message "DBG: %s" cmd)
+#       (shell-command cmd)))
+
+#   (defun sam-blog-jabref-export-publications-template (&optional bibtex-file)
+#     "Export publications template using JabRef.
+
+#   Takes bibtex-file and exports table using custom export format.
+#   The o-blog export format is integrated to the website. The header
+#   file had to be included separately in the header template."
+#     (interactive)
+#     (if (not bibtex-file)
+#         (setq bibtex-file sam-blog-bibfile))
+#     ;;(setq html (pjoin sam-blog-template-directory "blog_static_jabref.html"))
+#     ;;(jabref-export-bib bibtex-file html "o-blog")
+#     (setq html (pjoin DBOX "pelican" "content" "pages" "publications.html"))
+#     (jabref-export-bib bibtex-file html "pelican"))
+
+
+#   (defun jabref-make-plugin (bibfile filename)
+#     (interactive)
+#     "Export bibliography using JabRef."
+#     (save-excursion
+#       (let* ((jabref-cmd
+#               (if mac-osx-p (shell-quote-argument "/Applications/JabRef 5.app/Contents/MacOS/./JavaApplicationStub")
+#                 "jabref"))
+#              (bib (expand-file-name bibfile))
+#              (html (format "%s.html" (file-name-sans-extension bib))))
+#         ;; Export bibfile to html
+#         (shell-command (concat jabref-cmd " -n -o " html ",tablerefsabsbib " bib))
+#         ;; Create plugin
+#         (find-file filename)
+#         (erase-buffer)
+#         (insert (sam-html-scrape-file-tag html "script"))
+#         (insert (sam-html-scrape-file-tag html "style"))
+#         (save-buffer))))
+
+#   (defun sam-blog-relative-link (&optional talk-p)
+#     (interactive)
+#     (insert (format
+#              "  %s = {%s},"
+#              (if talk-p "file" "talk")
+#              (file-relative-name (ido-read-file-name "file:") DBOX))))
+
+#   (defun sam-blog-delete-starting-comma (string)
+#     (interactive)
+#     (with-temp-buffer
+#       (insert string)
+#       (goto-char 1)
+#       (skip-chars-forward "[:whitespace:]\n")
+#       (if (looking-at ", ") (delete-char 2))
+#       (buffer-string)))
+# #+end_src
+# ** mu4e
+# #+BEGIN_SRC emacs-lisp
+# (when mac-osx-p
+#   ;; mu-0.9.9.6: installed with homebrew
+#   (add-to-list 'load-path "~/.elisp/mu4e"))
+# (when isvr-p
+#   ;; mu-0.9.8.1: couldn't compile newer version
+#   (add-to-list 'load-path "$APPS/share/emacs/site-lisp/mu4e"))
+# (when home-p
+#   ;; mu-0.9.9.5-3: installed with apt-get
+#   (add-to-list 'load-path "/usr/share/emacs24/site-lisp/mu4e/"))
+# (use-package mu4e
+#   :config
+#   ;; these are actually the defaults
+#   (setq
+#    mu4e-maildir       (expand-file-name "~/.mail/soton")   ;; top-level Maildir
+#    ;;mu4e-maildir       "~/Maildir/SOTON"   ;; top-level Maildir
+#    mu4e-sent-folder   "/Sent"       ;; folder for sent messages
+#    mu4e-drafts-folder "/Drafts"     ;; unfinished messages
+#    mu4e-trash-folder  "/Trash"      ;; trashed messages
+#    mu4e-refile-folder "/Archive")   ;; saved messages
+#   ;; ;; Getting email
+#   ;; (setq
+#   ;;  ;;mu4e-get-mail-command "mbsync SOTON; echo 1"  ;; or fetchmail, or ...
+#   ;;  mu4e-get-mail-command (if isvr-p
+#   ;;                            "true"  ; done with cron see ~/apps/bin/mailsync
+#   ;; 			   "mail-sync")  ;; use a script
+
+#   ;;  ;;mu4e-get-mail-command "getmail"     ;; or fetchmail, or ...
+#   ;;  mu4e-update-interval 300)             ;; update interval in secs
+
+#   ;; (add-hook 'mu4e-index-updated-hook
+#   ;;           '(lambda ()
+#   ;;              (shell-command (concat "~/bin/mail-notify " (number-to-string mu4e-update-interval)))))
+#   ;; ;; Keep mbsync happy
+#   ;; (setq mu4e-change-filenames-when-moving t)
+
+#   ;; ;; Queue emails when offline
+#   ;; (setq smtpmail-queue-mail nil  ;; don't start in queuing mode
+#   ;;       smtpmail-queue-dir   "~/.mail/soton/Outbox/cur")
+
+#   ;; ;; Automatically apply marks when leaving
+#   ;; (setq mu4e-headers-leave-behavior 'apply)
+
+#   ;; ;; Don't show sent emails or duplicates
+#   ;; (setq mu4e-headers-skip-duplicates t)
+
+#   ;; ;; Use fancy chars
+#   ;; (setq mu4e-use-fancy-chars t)
+#   ;; ;; HTML emails (requires html2text)
+#   ;; ;;(setq mu4e-html2text-command "html2text -utf8 -width 72")
+#   ;; (setq mu4e-html2text-command "w3m -dump -T text/html")
+
+#   ;; ;; - display email in browser (aV)
+#   ;; (add-to-list 'mu4e-view-actions
+#   ;; 	       '("ViewInBrowser" . mu4e-action-view-in-browser) t)
+
+#   ;; Sending mail
+#   (setq user-mail-address "s.sinayoko@soton.ac.uk")
+#   (setq user-full-name "Sam Sinayoko")
+#   ;; tell message-mode how to send mail
+#   (setq message-send-mail-function 'smtpmail-send-it)
+#   ;; if our mail server lives at smtp.example.org; if you have a local
+#   ;; mail-server, simply use 'localhost' here.
+#   (setq smtpmail-smtp-server "smtp.soton.ac.uk")
+#   ;; encrypted authinfo file
+#   ;;(setq smtpmail-auth-credentials (expand-file-name "~/.emacs.d/gnus.d/authinfo.gpg"))
+#   (setq smtpmail-auth-credentials nil)
+#   (setq smtpmail-starttls-credentials
+#         '(("smtp.soton.ac.uk" 587 nil nil)))
+
+#   ;; Compose emails
+#   ;; Signature
+#   (setq mu4e-compose-signature t)
+#   ;; De-activate openwith-mode
+#   (add-hook 'mu4e-compose-mode-hook (lambda ()
+# 				      ;;(local-unset-key (kbd "\M-;"))
+# 				      (setq openwith-mode nil)
+# 				      ;;(sam-keys)
+# 				      ))
+#   ;;(require 'gnus-art) ;; we want this to get proper syntax highlighting
+
+#   ;; Mail queue
+#   (setq smtpmail-queue-dir (expand-file-name "~/.mail/soton/Outbox/cur"))
+#   ;; - kill buffer on sending email
+#   (setq message-kill-buffer-on-exit t)
+
+#   ;; Switch to mu4e
+#   (global-set-key (kbd "C-c n") 'mu4e)
+#   ;; Set the user agent to mu4e so we can compose an email with C-x m
+#   (setq mail-user-agent (if isvr-p
+#                             'mu4e-user-agent
+#                           'message-user-agent))
+
+
+#   ;; Activate gnus-dired and teach it how to recognize mu4e compose buffers
+#   ;; View images inline
+#   ;; enable inline images
+#   (setq mu4e-view-show-images t)
+#   ;; use imagemagick, if available
+#   (when (fboundp 'imagemagick-register-types)
+#     (imagemagick-register-types))
+
+#   ;; Bookmarks
+#   (add-to-list 'mu4e-bookmarks
+#                ;; big messages
+#                '("size:5M..500M"       "Big messages"     ?B))
+#   (add-to-list 'mu4e-bookmarks
+#                ;; Cambridge
+#                '("(to:ss2059@cam.ac.uk) OR (to:s.sinayoko@eng.cam.ac.uk)" "Cambridge" ?c))
+#   (add-to-list 'mu4e-bookmarks
+#                ;; Simone project
+#                '("(f:Mancini) AND (t:Tournour) OR (f:Tournour) AND (t:Mancini)" "Simone" ?s))
+#   (add-to-list 'mu4e-bookmarks
+#                ;; Alastair project
+#                '("(f:Alastair) AND (t:Anurag) OR (t:Alastair) AND ((f:Sinayoko) OR (f:Anurag) OR (f:Joan))" "Alastair" ?a))
+#   (add-to-list 'mu4e-bookmarks
+#                ;; Benshuai project
+#                '("(f:Benshuai OR bl362) AND (t:Sinayoko) OR (t:Benshuai OR bl362) AND (f:Sinayoko OR Azarpeyvand)" "Benshuai" ?b))
+
+#   ;; Shortcuts to folders (j+letter)
+#   (setq mu4e-maildir-shortcuts
+#         '( ("/INBOX"     . ?i)
+#            ("/Archive"   . ?a)
+#            ("/Sent"      . ?s)))
+
+#   ;; Attachments
+#   (setq mu4e-attachment-dir  "~/.mail/attachments")
+
+#   ;; Make mu4e talk to org-mode
+#   ;;(require 'org-mu4e))
+#   )
+
+#   (defun gnus-dired-mail-buffers ()
+#     "Return a list of active message buffers."
+#     (let (buffers)
+#       (save-current-buffer
+#         (dolist (buffer (buffer-list t))
+#           (set-buffer buffer)
+#           (when (and (derived-mode-p 'message-mode)
+#                      (null message-sent-message-via))
+#             (push (buffer-name buffer) buffers))))
+#       (nreverse buffers)))
+#   (use-package gnus-dired
+#   ;; make the `gnus-dired-mail-buffers' function also work on
+#     ;; message-mode derived modes, such as mu4e-compose-mode
+#     :config
+#     (setq gnus-dired-mail-mode 'mu4e-user-agent)
+#     (add-hook 'dired-mode-hook 'turn-on-gnus-dired-mode))
+
+
+# #+END_SRC
+
+# #+RESULTS:
+# *** Mail splitting / filtering / refiling
+# See [[info:mu4e#Refiling%20messages][mu4e manual info:mu4e#Refiling messages]]
+# #+BEGIN_SRC emacs-lisp
+# ;; Mail splitting / filtering / refiling
+# ;; List of subjects and their respective refile folders.
+# (setq my-mu4e-subject-alist
+#       '(
+# 	;; Sent from iPhone
+# 	("Todo" . "/Todo")
+# 	("TODO" . "/Todo")
+# 	;; Training
+# 	("Staff Booking System" . "/Admin/.Training")
+# 	;; Research Gate
+# 	("ResearchGate" . "/Share/.ResearchGate")
+# 	))
+
+# (defun my-mu4e-refile-folder-function (msg)
+#   "Set the refile folder for MSG."
+#   (let* ((subject (mu4e-message-field msg :subject))
+# 	 (folder (or (cdar (member* subject my-mu4e-subject-alist
+# 				    :test #'(lambda (x y)
+# 					      (string-match (car y) x))))
+# 		     "/Archive")))
+#     folder))
+
+# (setq mu4e-refile-folder 'my-mu4e-refile-folder-function)
+
+# #+END_SRC
+
+# #+RESULTS:
+# : my-mu4e-refile-folder-function
+# ** occur
+# - Makes it easy to grep current buffer or active buffers (multi-occur)
+# - Occur buffer can be edited directly using edit mode! (press e)
+# - Combine with ibuffer to select all buffers matching a certain mode (* M) or use the following
+# #+BEGIN_SRC emacs-lisp
+# (eval-when-compile
+#   (require 'cl))
+
+# (defun get-buffers-matching-mode (mode)
+#   "Returns a list of buffers where their major-mode is equal to MODE"
+#   (let ((buffer-mode-matches '()))
+#    (dolist (buf (buffer-list))
+#      (with-current-buffer buf
+#        (if (eq mode major-mode)
+#            (add-to-list 'buffer-mode-matches buf))))
+#    buffer-mode-matches))
+
+# (defun multi-occur-in-this-mode ()
+#   "Show all lines matching REGEXP in buffers with this major mode."
+#   (interactive)
+#   (multi-occur
+#    (get-buffers-matching-mode major-mode)
+#    (car (occur-read-primary-args))))
+
+# ;; global key for `multi-occur-in-this-mode' - you should change this.
+# (global-set-key (kbd "C-<f2>") 'multi-occur-in-this-mode)
+# #+END_SRC
+
+# * COMMENT Minor modes
+# # ** one-key
+# # Get some help on key bindings
+# # #+begin_src emacs-lisp
+# # (require 'one-key)
+# # (defalias '1key 'one-key-open-associated-menu-set)
+# # #+end_src
+# ** google
+# #+begin_src emacs-lisp
+#   (add-to-list 'load-path "~/.elisp/google-maps")
+#   (use-package google-maps)
+#   ;;(require 'google-maps) ; this is extremely cool
+# #+end_src
+# ** tramp
+# #+begin_src emacs-lisp
+#   ;; Tramp
+#   ;; to open files remotely  C-x C-f /remote.host.com:/home/sam/
+#   ;; to open files as root C-x C-f /sudo::/etc/sysconfig/iptables
+#   (setq tramp-default-method "ssh")
+# #+end_src
+# ** abbrevs
+# #+begin_src emacs-lisp
+#   ;; abbreviations
+#   (setq-default abbrev-mode t)
+#   (setq save-abbrevs t)
+#   (define-abbrev-table 'global-abbrev-table
+#     '(("'alpha" "α" nil 0)
+#       ("'beta" "β" nil 0)
+#       ("'gamma" "γ" nil 0)
+#       ("'theta" "θ" nil 0)
+#       ("'omega" "ω" nil 0)
+#       ("'Omega" "Ω" nil 0)
+#       ("'kappa" "κ" nil 0)
+#       ("'epsilon" "ε" nil 0)
+#       ("'phi" "φ" nil 0)
+#       ("'infty" "∞" nil 0)
+#       ("'utcss" "sinayoks@utcss.eng.cam.ac.uk" nil 0)
+#       ("'stokes" "ss2059@stokes.eng.cam.ac.uk" nil 0)
+#       ("'sal" "ss2059@sal.eng.cam.ac.uk" nil 0)
+#       ))
+# #+end_src
+# ** bookmarks
+# Requires =ido=.
+# #+begin_src emacs-lisp
+#   ;; bookmarks
+#   ;;(require 'bookmark) ;; needed
+#   (setq bookmark-save-flag 1) ; save bookmarks automatically
+#   (define-key global-map "\M-U" 'bookmark-set)
+#   (define-key global-map "\M-O" 'ido-bookmark-jump)
+#   (define-key global-map "\C-xl" 'bookmark-bmenu-list)
+#   (defalias 'bks 'bookmark-set)
+#   (defalias 'bkj 'ido-bookmark-jump)
+#   (defalias 'bkl 'bookmark-bmenu-list)
+
+#   (defun ido-bookmark-jump (bookmark)
+#     "Jump to bookmark BOOKMARK (a point in some file) using ido-mode.
+#   Changed the interactive part of the function `bookmark-jump' to use ido"
+#     (interactive
+#      (list (ido-completing-read "Jump to bookmark" (bookmark-all-names) nil t)))
+#     (unless bookmark
+#       (error "No bookmark specified"))
+#     (bookmark-maybe-historicize-string bookmark)
+#     (bookmark-jump bookmark))
+# #+end_src
+# ** ielm
+# Elisp REPL.
+# #+begin_src emacs-lisp
+#   ;; Autocompletion in ielm. Also use C-c C-b to change active buffer
+#   ;;   from Mickey (Mastering Emacs)
+#   (defun ielm-auto-complete ()
+#     "Enables `auto-complete' support in \\[ielm]."
+#     (setq ac-sources '(ac-source-functions
+#                        ac-source-variables
+#                        ac-source-features
+#                        ac-source-symbols
+#                        ac-source-words-in-same-mode-buffers))
+#     ;;(add-to-list 'ac-modes 'inferior-emacs-lisp-mode)
+#     (auto-complete-mode 1))
+
+# #+end_src
+** Yasnippet
+Install with MELPA
+#+BEGIN_SRC # emacs-lisp
+  # (add-to-list 'load-path
+  #               "~/.emacs.d/elpa/yasnippet-20140106.1009")
+  (require 'yasnippet)
+  ;;(yas/global-mode 1) ;; don't use globally
+  ;; (setq yas-snippet-dirs
+  ;;       '("~/.emacs.d/snippets"            ;; personal snippets
+  ;;         "~/.emacs.d/el-get/yasnippet/snippets"    ;; the default collection
+  ;;         ))
+
+  ;; ;; Option 1: global
+  ;; ;;(add-to-list 'load-path "~/.emacs.d//yasnippet")
+  ;; (add-to-list 'load-path "~/.elisp/yasnippet.el")
+  ;; (load-file "~/.elisp/yasnippet/yasnippet.el")
+  ;; (require 'yasnippet)
+  ;; (yas/global-mode 1)
+
+  ;; ;; Option 2: as a minor mode
+  ;; (yas-reload-all)
+  ;; (add-hook 'prog-mode-hook '(lambda () (yas-minor-mode)))
+
+  ;; (setq yas/prompt-functions '(yas/dropdown-prompt yas/ido-prompt))
+  ;; ;;--------------------------------
+  ;; ;; Make it work with auto-complete
+  ;; ;;--------------------------------
+  ;; ;; Put this in your .emacs:
+  ;; ;;              (require 'my-yas-funs)
+  ;; ;;
+  ;; ;; To use in a given major-mode, e.g., js-mode, use:
+  ;; ;;              (add-hook 'js-mode-hook (lambda () (yas/minor-mode-on)))
+  ;; ;;              (add-hook 'js-mode-hook (lambda () (add-to-list 'ac-sources `ac-new-yas-source)))
+  ;; ;;
+  ;; ;; Works best with the following:
+  ;; (require 'auto-complete)
+  ;; (define-key ac-complete-mode-map "\t" 'ac-complete)
+  ;; (define-key ac-complete-mode-map "\r" nil)
+  ;; (setq yas/trigger-key "TAB")
+  ;; ;;
+  ;; (require 'yasnippet)
+
+  ;; (defvar yas-candidates nil)
+
+  ;; (defun init-yas-candidates ()
+  ;;         (let ((table (yas/get-snippet-tables major-mode)))
+  ;;                 (if table
+  ;;                   (let (candidates (list))
+  ;;                                 (mapcar (lambda (mode)
+  ;;                                   (maphash (lambda (key value)
+  ;;                                         (push key candidates))
+  ;;                                   (yas/table-hash mode)))
+  ;;                                 table)
+  ;;                         (setq yas-candidates candidates)))))
+
+
+  ;; (defvar ac-new-yas-source
+  ;;         '(      (init . init-yas-candidates)
+  ;;                 (candidates . yas-candidates)
+  ;;                 (action . yas/expand)
+  ;;                 (symbol . "a")))
+
+  ;; (add-hook 'LaTeX-mode-hook (lambda ()
+  ;;                              (yas/minor-mode-on)
+  ;;                              (add-to-list 'ac-sources 'ac-new-yas-source)))
+#+END_SRC
+
+# ** LaTeX
+# Install AUCTeX with elpa
+# #+begin_src emacs-lisp
+# ;; AUCTeX
+# (use-package rainbow-delimiters)
+# 					;(unless mac-osx-p
+# ;;(add-to-list 'load-path "~/Apps/share/emacs/site-lisp")
+# ;;(add-to-list 'load-path "~/.elisp/auctex")
+# (use-package tex-site
+#   :ensure auctex
+#   :config
+#   ;;(load "auctex.el" nil t t)
+#   ;;(load "preview-latex.el" nil t t)
+
+#   ;;; TeXcount -> count words
+#   (eval-after-load "tex"
+#     '(add-to-list 'TeX-command-list
+# 		  (list "count" "texcount %s.tex" 'TeX-run-command nil t)))
+
+#   ;; Outlines in LaTeX
+#   ;;(load "latex-magic.el")
+#   ;;(require 'latex-magic)
+#   (defun tex-insert-point (&optional arg)
+#     "Insert point and newline"
+#     (interactive "P")
+#     (insert ".")
+#     (when (not arg)
+#       (newline)))
+#   (setq TeX-auto-save t)
+#   (setq TeX-parse-self t)
+#   (setq-default TeX-master t)
+#   (add-hook 'LaTeX-mode-hook 'visual-line-mode)
+#   ;;(add-hook 'LaTeX-mode-hook 'speck-mode)
+#   (add-hook 'LaTeX-mode-hook 'LaTeX-math-mode)
+#   (add-hook 'LaTeX-mode-hook 'outline-minor-mode)
+#   (add-hook 'LaTeX-mode-hook 'rainbow-delimiters-mode)
+#   (add-hook 'LaTeX-mode-hook (lambda ()
+#                                (setq LaTeX-includegraphics-read-file 'LaTeX-includegraphics-read-file-relative)))
+#   (setq reftex-plug-into-AUCTeX t)
+#   ;; Electric brackets for subscripts and superscripts
+#   ;;(setq TeX-electric-sub-and-superscript t)
+#   (setq TeX-brace-indent-level 4)
+#   ;;(setq TeX-electric-escape t) ;; to get suggestions when entering macros
+#   ;; Don't change case in abbrevs in LaTeX
+#   (load-file "~/.elisp/auto-complete-auctex.el")
+#   (require 'auto-complete-auctex)
+#   (add-hook 'LaTeX-mode-hook (lambda ()
+#                                (setq dabbrev-case-replace nil)
+#                                ;; (setq ac-sources '(
+#                                ;;                         ac-source-yasnippet
+#                                ;;                         ac-source-filename
+#                                ;;                         ac-source-files-in-current-dir))
+#                                (auto-complete-mode t)))
+
+#   ;; (setq ac-sources )
+#   ;; ))
+
+
+
+#   ;; RefTex
+#   (setq reftex-plug-into-AUCTeX t)
+#   (add-hook 'LaTeX-mode-hook 'turn-on-reftex)
+#   (setq reftex-save-parse-info t)
+#   (setq reftex-use-multiple-selection-buffers t))
+
+# #+end_src
+# *** cdlatex
+# #+begin_src emacs-lisp
+#   (load-file "~/.elisp/cdlatex.el")
+#   ;; CDLaTeX minor mode for fast math input
+#   (require 'cdlatex)
+#   ;;; modify the paren keymaps cause we use smartparens
+#   (define-key cdlatex-mode-map  "$"         nil)
+#   (define-key cdlatex-mode-map  "("         nil)
+#   (define-key cdlatex-mode-map  "{"         nil)
+#   (define-key cdlatex-mode-map  "["         nil)
+#   (define-key cdlatex-mode-map  "|"         nil)
+#   (define-key cdlatex-mode-map  "<"         nil)
+#   ;; ;;; make Yasnippet and cdlatex compatible
+#   ;; (defun yas/advise-indent-function (function-symbol)
+#   ;;   (eval `(defadvice ,function-symbol (around yas/try-expand-first activate)
+#   ;;            ,(format
+#   ;;              "Try to expand a snippet before point, then call `%s' as usual"
+#   ;;              function-symbol)
+#   ;;            (let ((yas/fallback-behavior nil))
+#   ;;              (unless (and (interactive-p)
+#   ;;                           (yas/expand))
+#   ;;                ad-do-it)))))
+#   ;; (yas/advise-indent-function 'cdlatex-tab)
+#   ;; (yas/advise-indent-function 'org-cycle)
+#   ;; (yas/advise-indent-function 'org-try-cdlatex-tab)
+
+#   (add-hook 'LaTeX-mode-hook 'turn-on-cdlatex)   ; with AUCTeX LaTeX mode
+# #+end_src
+# *** latex-extra
+# Adds some nice stuff to AUCTeX.
+# #+BEGIN_SRC emacs-lisp
+# (add-hook 'LaTeX-mode-hook #'latex-extra-mode)
+# #+END_SRC
+# *** visual wrap
+# - Taken from http://endlessparentheses.com/longlines-mode-in-latex.html?source=rss
+# - Best way to keep .tex file under version control with "one sentence per line" approach.
+# #+BEGIN_SRC emacs-lisp
+# ;;(require 'longlines nil t)
+# (add-hook 'LaTeX-mode-hook #'visual-line-mode)
+
+# ;; (defun longlines-encode-region (beg end &optional _buffer)
+# ;;   "Replace each soft newline between BEG and END with exactly one space.
+# ;; Hard newlines are left intact. The optional argument BUFFER exists for
+# ;; compatibility with `format-alist', and is ignored."
+# ;;   (save-excursion
+# ;;     (let ((reg-max (max beg end))
+# ;;           (mod (buffer-modified-p)))
+# ;;       (goto-char (min beg end))
+# ;;       ;; Changed this line to "swallow" indendation when decoding.
+# ;;       (while (search-forward-regexp " *\\(\n\\) *" reg-max t)
+# ;;         (let ((pos (match-beginning 1)))
+# ;;           (unless (get-text-property pos 'hard)
+# ;;             (goto-char (match-end 0))   ; This line too
+# ;;             (insert-and-inherit " ")
+# ;;             (replace-match "" :fixedcase :literal) ; This line too
+# ;;             (remove-text-properties pos (1+ pos) 'hard))))
+# ;;       (set-buffer-modified-p mod)
+# ;;       end)))
+
+# ;; (defun longlines-wrap-line ()
+# ;;   "If the current line needs to be wrapped, wrap it and return nil.
+# ;; If wrapping is performed, point remains on the line. If the line does
+# ;; not need to be wrapped, move point to the next line and return t."
+# ;;   (if (and (bound-and-true-p latex-extra-mode)
+# ;;            (null (latex/do-auto-fill-p)))
+# ;;       (progn (forward-line 1) t)
+# ;;     ;; The conditional above was added for latex equations. It relies
+# ;;     ;; on the latex-extra package (on Melpa).
+# ;;     (if (and (longlines-set-breakpoint)
+# ;;              ;; Make sure we don't break comments.
+# ;;              (null (nth 4 (parse-partial-sexp
+# ;;                            (line-beginning-position) (point)))))
+# ;;         (progn
+# ;;           ;; This `let' and the `when' below add indentation to the
+# ;;           ;; wrapped line.
+# ;;           (let ((indent (save-excursion (back-to-indentation)
+# ;;                                         (current-column))))
+# ;;             (insert-before-markers-and-inherit ?\n)
+# ;;             (backward-char 1)
+# ;;             (delete-char -1)
+# ;;             (forward-char 1)
+# ;;             (when (> indent 0)
+# ;;               (save-excursion
+# ;;                 (insert (make-string indent ? )))
+# ;;               (setq longlines-wrap-point
+# ;;                     (+ longlines-wrap-point indent))))
+# ;;           nil)
+# ;;       (if (longlines-merge-lines-p)
+# ;;           (progn (end-of-line)
+# ;;                  (if (or (prog1 (bolp) (forward-char 1)) (eolp))
+# ;;                      (progn
+# ;;                        (delete-char -1)
+# ;;                        (if (> longlines-wrap-point (point))
+# ;;                            (setq longlines-wrap-point
+# ;;                                  (1- longlines-wrap-point))))
+# ;;                    (insert-before-markers-and-inherit ?\s)
+# ;;                    (backward-char 1)
+# ;;                    (delete-char -1)
+# ;;                    (forward-char 1)
+# ;;                    ;; This removes whitespace added for indentation.
+# ;;                    (while (eq (char-after) ? )
+# ;;                      (delete-char 1)
+# ;;                      (setq longlines-wrap-point
+# ;;                            (1- longlines-wrap-point))))
+# ;;                  nil)
+# ;;         (forward-line 1)
+# ;;         t))))
+# #+END_SRC
+# ** File Management
+# #+begin_src emacs-lisp
+#     ;; Open file externaly
+#     (require 'openwith)
+#     (when linux-p
+#       (setq openwith-associations
+#             (quote (("\\.pdf\\'" "okular" (file))
+#                     ("\\.mp3\\'" "xmms" (file))
+#                     ("\\.docx?\\'" "oowriter" (file))
+#                     ("\\.\\(?:mpe?g\\|avi\\|wmv\\)\\'" "mplayer" ("-idx" file))
+#                     ("\\.\\(?:jp?g\\|png\\)\\'" "eog" (file))))))
+#     (when mac-osx-p
+#       (setq openwith-associations
+#             (quote (("\\.pdf\\'" "open" (file))
+# 		    ("\\.djvu\\'" "open" (file))
+#                     ("\\.\\(?:mp3\\|ogg\\|wav\\)\\'" "mplayer" ("-really-quiet" file))
+#                     ("\\.\\(?:mpe?g\\|avi\\|wmv\\)\\'" "mplayer" ("-idx" file))
+#                     ("\\.\\(?:jp?g\\|png\\)\\'" "open" (file))))))
+#     (openwith-mode nil)
+#     ;; Dired
+#     ;;(setq ls-lisp-verbosity nil)
+#     (require 'dired-tar)
+#     (require 'dired-x)
+#     (add-hook 'dired-mode-hook
+#               (lambda ()
+#                 (setq dired-omit-files-p t)
+#                 (setq dired-dwim-target t)
+#                 (setq dired-omit-files
+#                       (concat dired-omit-files "\\|^\\..+$"))
+#                 (when linux-p
+#                                             ;(setq dired-listing-switches "--time-style=locale --group-directories-first -alDphgG" )
+#                   (setq dired-listing-switches "-alp" ))))
+#     (add-hook 'dired-load-hook
+#               (lambda () (require 'dired-sort-menu)))
+#     ;; adivce shell-command so we can open multiple files asynchronously
+#      (defadvice shell-command (after shell-in-new-buffer (command &optional output-buffer error-buffer))
+#         (when (get-buffer "*Async Shell Command*")
+#           (with-current-buffer "*Async Shell Command*"
+#              (rename-uniquely))))
+#     (ad-activate 'shell-command)
+#     ;;(require 'dired+)
+#     ;; Open anything in dired
+#     (defun dired-xdg-open-file ()
+#     "Opens the current file in a Dired buffer."
+#     (interactive)
+#     (xdg-open-file (dired-get-file-for-visit)))
+
+#   (defun xdg-open-file (filename)
+#     "xdg-opens the specified file."
+#     (interactive "fFile to open: ")
+#     (let ((process-connection-type nil))
+#       (start-process "" nil "/usr/bin/xdg-open" filename)))
+
+#   ;;'e' usually does 'dired-find-file, same as RET, rebinding it here
+#   (add-hook 'dired-mode-hook
+#             (lambda ()
+#               (define-key dired-mode-map (kbd "e") 'dired-xdg-open-file)))
+
+
+#   (setq image-dired-external-viewer "/usr/bin/xdg-open")
+# #+end_src
+# *** Sunrise Commander
+# #+BEGIN_SRC #emacs-lisp
+#     ;; Orthodox file manager
+#     (load-file "~/.elisp/sunrise-commander.el")
+#     (load-file "~/.elisp/sunrise-x-modeline.el")
+#     (load-file "~/.elisp/sunrise-x-tabs.el")
+#     (require 'sunrise-commander)
+#     (ad-deactivate 'dired-dwim-target-directory)
+#     (ad-activate 'dired-dwim-target-directory)
+#     (require  'sunrise-x-modeline)
+#     (require  'sunrise-x-tabs)
+#     ;;(require  'sunrise-x-buttons)
+#     (global-set-key "\M-e" 'sunrise)
+#     (global-set-key "\M-E" 'sunrise-cd)
+#     ;(global-set-key "\C-ct" 'sr-term-cd) ; eshell to directory of current buffer
+#     (setq samvar t)
+#     (defun my-sr-setup ()
+#       (define-key sr-mode-map  [(meta l)] 'forward-char)
+#       (define-key sr-mode-map (kbd "M-;") 'move-end-of-line)
+#       (define-key sr-mode-map (kbd "M-a") 'set-mark-command)
+#       (local-set-key (kbd "C-c o") 'sr-synchronize-panes)
+#       (setq openwith-mode nil)
+#       ;; make sure both panes have the same defaults initially
+#       (sr-select-window 'right)
+#       (my-sr-panes-defaults)
+#       (sr-select-window 'left)
+#       (my-sr-panes-defaults)
+#       )
+#     (defun my-sr-panes-defaults ()
+#       (sr-omit-mode 1)
+#       (sr-hide-attributes)
+#       (if linux-p
+#           ;;(setq sr-listing-switches "--time-style=locale --group-directories-first -alDphgG" )
+#           (setq sr-listing-switches "-alp" )))
+#     (add-hook 'sr-start-hook 'my-sr-setup)
+
+#     ;; Using ls-lisp instead of external ls for portability
+#     ;;(require 'ls-lisp)
+#     ;;(setq ls-lisp-use-insert-directory-program nil)
+#     ;;(setq ls-lisp-dirs-first t)
+# #+END_SRC
+# ** Translation
+# #+begin_src emacs-lisp
+#   ;; BABEL: translations
+#   (autoload 'babel "babel"
+#     "Use a web translation service to translate the message MSG." t)
+#   (autoload 'babel-region "babel"
+#     "Use a web translation service to translate the current region." t)
+#   (autoload 'babel-as-string "babel"
+#     "Use a web translation service to translate MSG, returning a string." t)
+#   (autoload 'babel-buffer "babel"
+#     "Use a web translation service to translate the current buffer." t)
+# #+end_src
+# ** Docview
+# ;; LEARN: "s b" slice pdf to bounding box, doc-view-continuous
+# #+BEGIN_SRC emacs-lisp
+# (add-hook 'doc-view-mode-hook 'auto-revert-mode)
+# (let ((directory (pjoin HOME (if mac-osx-p "Tmp" "tmp") "docview")))
+#   (make-directory directory t)
+#   (setq doc-view-cache-directory directory))
+# #+END_SRC
+
+# #+RESULTS:
+# : /Users/sinayoks/Tmp/docview
+
+# ** Regular expressions Re-builder
+# Info: [[info:emacs#Regexps]],
+# Web: http://www.masteringemacs.org/articles/2011/04/12/re-builder-interactive-regexp-builder/
+
+# Use re-builder to test a regexp against the buffer. re-builder accepts different syntaxes:
+# - read : the syntax used in emacs-lisp. Requires crazy double escaping of brackets and slashes....
+# - string : the syntax used for interactive commands. Should be the default ideally.
+# - rx : a symoblic regexp engine that uses s-expressions. Recommanded for emacs-lisp.
+# Set default to =string=:
+# #+BEGIN_SRC emacs-lisp
+# (require 're-builder)
+# (setq reb-re-syntax 'string)
+# #+END_SRC
+# ** uniquify
+# Make buffer names unique by adding the folder name
+# #+BEGIN_SRC emacs-lisp
+# (require 'uniquify)
+# (setq uniquify-buffer-name-style 'post-forward uniquify-separator ":")
+# #+END_SRC
+# ** old
+# *** Sunrise commander
+# #+BEGIN_SRC
+# (require 'sunrise-commander)
+# (ad-deactivate 'dired-dwim-target-directory)
+# (ad-activate 'dired-dwim-target-directory)
+# (require  'sunrise-x-modeline)
+# (require  'sunrise-x-tabs)
+# (require  'sunrise-x-buttons)
+# (global-set-key "\M-e" 'sunrise)
+# (global-set-key "\M-E" 'sunrise-cd)
+# 					;(global-set-key "\C-ct" 'sr-term-cd) ; eshell to directory of current buffer
+# (setq samvar t)
+# (defun my-sr-setup ()
+#   (define-key sr-mode-map  [(meta l)] 'forward-char)
+#   (define-key sr-mode-map (kbd "M-;") 'move-end-of-line)
+#   (define-key sr-mode-map (kbd "M-a") 'set-mark-command)
+#   (local-set-key (kbd "C-c o") 'sr-synchronize-panes)
+#   (setq openwith-mode nil)
+#   ;; make sure both panes have the same defaults initially
+#   (sr-select-window 'right)
+#   (my-sr-panes-defaults)
+#   (sr-select-window 'left)
+#   (my-sr-panes-defaults)
+#   )
+# (defun my-sr-panes-defaults ()
+#   ;; Hide attributes
+#   (setq sr-show-file-attributes nil)
+#   (sr-display-attributes (point-min) (point-max) sr-show-file-attributes)
+#   (if linux-p
+#       ;;(setq sr-listing-switches "--time-style=locale --group-directories-first -alDphgG" )
+#       (setq sr-listing-switches "-alp" )))
+# (add-hook 'sr-start-hook 'my-sr-setup)
+# #+END_SRC
+# *** Others
+# # ** spelling
+# # #+begin_src emacs-lisp
+# #   ;; Spell checking
+# #   ;; Use hunspell instead of ispell
+# #   (require 'speck)
+# #   (setq dicpath (expand-file-name "~/.dicts/"))
+# #   (setq speck-engine (quote Hunspell)) ; use Ispell if Hunspell doesn't work
+# #   (setq speck-hunspell-library-directory dicpath)
+# #   (setq speck-hunspell-dictionary-alist
+# #         '(("en" . "en_GB")
+# #           ("hu" . "hu_HU")
+# #           ("fr" . "fr_FR")))
+
+# #   ;; (setq speck-hunspell-language-options
+# #   ;;       (quote (("de" utf-8 nil t nil)
+# #   ;;            ("en" utf-8 nil nil nil)
+# #   ;;            ("hu" utf-8 nil nil)
+# #   ;;            ("fr" utf-8 nil nil ))))
+# #   (defun speck-change-dictionary-and-revert-buffer (name)
+# #     "Change (default) dictionary and revert buffer.
+
+# #   This is because one can not change dictionary on the fly for some reason."
+# #     (interactive "sDictionary: ")
+# #     (setq speck-hunspell-default-dictionary-name name)
+# #     (setq speck-hunspell-extra-arguments '("-i" "iso-8859-1"))
+# #     ;; always use utf-8
+# #     ;;(setq speck-hunspell-extra-arguments '("-i" "utf-8"))
+# #     (revert-buffer))
+# #   (defalias 'dic 'speck-change-dictionary-and-revert-buffer)
+# #   (setq speck-hunspell-default-dictionary-name "en")
+# # #+end_src
+# # ** escreen
+# # #+begin_src emacs-lisp
+# #   ;; Escreen
+# #   (load "escreen")
+# #   (escreen-install)
+# #   ;(setq escreen-prefix-char "\C-z") ;; http://www.macs.hw.ac.uk/~hwloidl/cool-el.html
+# #   ;(global-set-key escreen-prefix-char 'escreen-prefix)
+# #   ;; add C-\ l to list screens with emphase for current one
+# #   (defun escreen-get-active-screen-numbers-with-emphasis ()
+# #     "what the name says"
+# #     (interactive)
+# #     (let ((escreens (escreen-get-active-screen-numbers))
+# #           (emphased ""))
+
+# #       (dolist (s escreens)
+# #         (setq emphased
+# #               (concat emphased (if (= escreen-current-screen-number s)
+# #                                    (propertize (number-to-string s)
+# #                                                ;;'face 'custom-variable-tag) " ")
+# #                                                'face 'info-title-3)
+# #                                                ;;'face 'font-lock-warning-face)
+# #                                                ;;'face 'secondary-selection)
+# #                                  (number-to-string s))
+# #                       " ")))
+# #       (message "escreen: active screens: %s" emphased)))
+
+# #   (global-set-key (kbd "C-\\ l") 'escreen-get-active-screen-numbers-with-emphasis)
+
+# #   (defun escreen-goto-last-screen-dim ()
+# #     (interactive)
+# #     (escreen-goto-last-screen)
+# #     (escreen-get-active-screen-numbers-with-emphasis))
+
+# #   (defun escreen-goto-prev-screen-dim (&optional n)
+# #     (interactive "p")
+# #     (escreen-goto-prev-screen n)
+# #     (escreen-get-active-screen-numbers-with-emphasis))
+
+# #   (defun escreen-goto-next-screen-dim (&optional n)
+# #     (interactive "p")
+# #     (escreen-goto-next-screen n)
+# #     (escreen-get-active-screen-numbers-with-emphasis))
+
+# #   (define-key escreen-map escreen-prefix-char 'escreen-goto-last-screen-dim)
+
+# #   (defun escreen-create-screen-dim ()
+# #     (interactive)
+# #     (escreen-create-screen)
+# #     (escreen-get-active-screen-numbers-with-emphasis))
+
+# #   (defun escreen-kill-screen-dim ()
+# #     (interactive)
+# #     (escreen-kill-screen)
+# #     (escreen-get-active-screen-numbers-with-emphasis))
+
+# #   (add-hook 'escreen-goto-screen-hook 'escreen-get-active-screen-numbers-with-emphasis)
+
+# #   (define-key escreen-map "c" 'escreen-create-screen-dim)
+# #   (define-key escreen-map "k" 'escreen-kill-screen-dim)
+
+# #   ;; (global-set-key (kbd "C-]") 'escreen-goto-next-screen)
+# #   ;(global-set-key (kbd "H-[") 'escreen-goto-prev-screen)
+# #   (global-set-key (kbd "C-]") 'escreen-goto-next-screen-dim)
+# #   ;(keyboard-translate ?\C-[ ?\H-[ )
+# #   (global-set-key (kbd "C-'") 'escreen-goto-prev-screen-dim)
+# # #+end_src
+# # ** expand region
+# # #+begin_src emacs-lisp
+# #   ;; Selecting with expand-region (from Magnar Sveen)
+# #   (add-to-list 'load-path "~/.elisp/expand-region.el")
+# #   (require 'expand-region)
+# #   (global-set-key (kbd "M-@") 'er/expand-region)
+# #   (global-set-key (kbd "M-~") 'er/contract-region)
+# # #+end_src
+# # ** ace jump
+# # #+begin_src emacs-lisp
+# #   ;; Ace jump: move quickly within visible buffer
+# #   (add-to-list 'load-path "~/.elisp/ace-jump-mode")
+# #   (require 'ace-jump-mode)
+# #   ;;(define-key global-map (kbd "M-b") 'ace-jump-mode)
+# # #+end_src
+# # ** key chord
+# # #+begin_src emacs-lisp
+# #   ;; ;; Key-chord
+# #   (require 'key-chord)
+# #   (key-chord-mode 1)
+# #   (key-chord-define-global "jk" 'ace-jump-mode)
+# #   ;; (key-chord-define-global ",." 'indent-relative-maybe)
+# # #+end_src
+# # ** autocomplete
+# # #+begin_src emacs-lisp
+# #   ;;; Autocomplete
+# #   (require 'pos-tip) ; bug: crashes emacs when moving window
+# #   (require 'auto-complete)
+# #   (require 'auto-complete-config)
+# #   ;;(add-to-list 'ac-dictionary-directories "~/.elisp//ac-dict")
+# #   (ac-config-default)
+# #   (global-auto-complete-mode t)
+
+# #   ;;(require 'ac-python) ;; for python completion
+
+# #   ;;; LaTeX
+# #   ;; Fix problem with Autopair
+# #   ;; (add-hook 'TeX-mode-hook
+# #   ;;           #'(lambda ()
+# #   ;;               (push ?`
+# #   ;;                     (getf autopair-dont-pair :never))))
+# # #+end_src
+
+# * COMMENT Programming modes
+# ** C
+# #+BEGIN_SRC emacs-lisp
+# (setq-default c-basic-offset 4)
+# #+END_SRC
+# *** Quincy
+# #+BEGIN_SRC emacs-lisp
+#     (defun quincy-program-name ()
+#       "Program name for current buffer"
+#       (file-name-sans-extension (file-name-nondirectory (buffer-file-name))))
+
+#     (defun quincy-compile ()
+#       "Save and compile this file"
+#       (interactive)
+#       (save-buffer)
+#       (compile (format "gcc -ansi -Wall -pedantic -o %s %s"
+#                        (quincy-program-name) (buffer-file-name))))
+
+#     (defun quincy-run ()
+#       "Run the file. Compile if buffer has changed."
+#       (interactive)
+#       (if (buffer-modified-p)
+#           (quincy-compile))
+#       (shell-command (quincy-program-name)))
+
+
+#     (global-set-key (kbd "<f6>") 'quincy-compile)
+#     (global-set-key (kbd "<f9>") 'quincy-run)
+# #+END_SRC
+
+# #+RESULTS:
+# : quincy-run
+
+
+# ** Others
+# #+begin_src emacs-lisp
+#      (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
+#      (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
+#      (add-hook 'ielm-mode-hook 'turn-on-eldoc-mode)
+# #+end_src
+# #+begin_src emacs-lisp
+#   ;;;; Programming
+#   (defvar compile-command "scons")
+#   ;;; Shut up compile saves
+#   (setq compilation-ask-about-save nil)
+#   ;;; Don't save *anything*
+#   (setq compilation-save-buffers-predicate '(lambda () nil))
+#   ;; ;; Autopair
+#   ;; (add-to-list 'load-path "~/.elisp/autopair")
+#   ;; (require 'autopair)
+#   ;; (autopair-global-mode t) ;; enable autopair in all buffers
+#   ;; (setq autopair-autowrap t) ;; to wrap character around selection -> GREAT!!
+#   ;; Smartparens
+#   (require 'smartparens)
+#   ;;(smartparens-global-mode t)
+#   (setq show-smartparens-global-mode t) ;; WARNING: may be slower than show-paren-mode
+#   ;; (define-key sp-keymap (kbd "M-.") 'sp-splice-sexp) ;; awesome: deletes enclosing parens
+#   ;; remove highilighting
+#   (setq sp-highlight-pair-overlay nil
+#         sp-highlight-wrap-overlay nil
+#         sp-highlight-wrap-tag-overlay nil)
+#   ;; ban insertion of apostrophe (') in strings, as it is used as
+#   ;; contraction marker in many natural languages
+#   (sp-add-ban-insert-pair-in-string "'")
+
+#   ;; Also disable it in common text modes
+#   (sp-add-local-ban-insert-pair "'" '(
+#                                       fundamental-mode
+#                                       text-mode
+#                                       tex-mode
+#                                       plain-tex-mode
+#                                       latex-mode
+#                                       markdown-mode
+#                                       gfm-mode
+#                                       rst-mode
+#                                       org-mode
+#                                       log-edit-mode
+
+#                                       ))
+
+#   ;; emacs is lisp hacking enviroment, so we set up some most common
+#   ;; lisp modes too
+#   (sp-with '(
+#              emacs-lisp-mode
+#              inferior-emacs-lisp-mode
+#              lisp-interaction-mode
+#              scheme-mode
+#              common-lisp-mode
+#              )
+#     ;; disable ' everywhere, it's the quote character!
+#     (sp-add-local-ban-insert-pair "'")
+#     ;; also disable the pseudo-quote inside code.  We keep it in
+#     ;; commends and strings for hyperlinks
+#     (sp-add-local-ban-insert-pair-in-code "`"))
+
+#   ;; mu4e: we don't want sp in headers: conflicts with narrowing
+#   (sp-with '(mu4e-headers-mode)
+#     ;; disable ' everywhere, it's the quote character!
+#     (sp-add-local-ban-insert-pair "/")
+#     (sp-add-local-ban-insert-pair "\\"))
+
+#   ;; ;; markdown based modes
+#   ;; (sp-with '(
+#   ;;            markdown-mode
+#   ;;            gfm-mode
+#   ;;            rst-mode
+#   ;;            )
+#   ;;   ;; overload the `' pair with ``, which is used for inline
+#   ;;   ;; code in markdown
+#   ;;   (sp-add-local-pair "`" "`"))
+
+#   ;; LaTeX modes
+#   (sp-add-pair "$" "$")
+#   (sp-with '(tex-mode
+#              plain-tex-mode
+#              latex-mode
+#              LaTeX-mode)
+#     ;; allow the dollar pair only in LaTeX related modes.  It
+#     ;; often marks a variable elsewhere
+#     (sp-add-local-allow-insert-pair "$")
+#     (sp-add-local-ban-insert-pair "`"))
+
+#   (sp-with 'python-mode
+#     (sp-add-local-ban-insert-pair "`"))
+#   ;;; Web
+#   (require 'palette) ; to help with colours
+#   ;; nXhtml mode
+#                                           ;(load "~/.elisp/nxhtml/autostart.el")
+#                                           ;(autoload 'css-mode "css-mode")
+#   ;;; Ruby
+#   (autoload 'ruby-mode "ruby-mode"
+#     "Mode for editing ruby source files" t)
+#   (setq auto-mode-alist
+#         (append '(("\\.rb$" . ruby-mode)) auto-mode-alist))
+#   (setq interpreter-mode-alist (append '(("ruby" . ruby-mode))
+#                                        interpreter-mode-alist))
+#   (autoload 'run-ruby "inf-ruby"
+#     "Run an inferior Ruby process")
+#   (autoload 'inf-ruby-keys "inf-ruby"
+#     "Set local key defs for inf-ruby in ruby-mode")
+#   (add-hook 'ruby-mode-hook
+#             (lambda ()
+#               (inf-ruby-keys)
+#               ))
+#   ;; Matlab
+#   (autoload 'matlab-mode "matlab" "Enter MATLAB mode." t)
+#   (setq auto-mode-alist (cons '("\\.m\\'" . matlab-mode) auto-mode-alist))
+#   (autoload 'matlab-shell "matlab" "Interactive MATLAB mode." t)
+#   (setq matlab-indent-function t) ; if you want function bodies indented
+#   (setq matlab-verify-on-save-flag nil)   ; turn off auto-verify on save
+#   (setq matlab-shell-command-switches '("-nojvm"))
+#   (add-hook 'matlab-mode-hook
+#             (lambda ()
+#               (setq fill-column 76)
+#               (load-library "matlab-change-bindings")))
+#   (add-hook 'matlab-shell-mode-hook
+#             (lambda ()
+#               (local-unset-key "\M-h")
+#               (local-unset-key "\M-j")))
+#   ;; Asymptote
+#   (autoload 'two-mode-mode "two-mode-mode.el" "Two-mode major mode." t)
+#   (require 'two-mode-mode)
+#   (add-to-list 'load-path (expand-file-name "~/software/bin"))
+#   (add-to-list 'load-path (expand-file-name "~/apps/bin"))
+#   (autoload 'asy-mode "asy-mode.el" "Asymptote major mode." t)
+#   (autoload 'lasy-mode "asy-mode.el" "hybrid Asymptote/Latex major mode." t)
+#   (autoload 'asy-insinuate-latex "asy-mode.el" "Asymptote insinuate LaTeX." t)
+#   (add-to-list 'auto-mode-alist '("\\.asy$" . asy-mode))
+#   ;; Indentation
+#   (setq c-default-style
+#         '((java-mode . "java") (awk-mode . "awk") (c++-mode . "stroustrup") (other . "gnu")))
+#   ;; C++
+#   (add-hook 'c++-mode-hook
+#             (lambda ()
+#               (speck-prog-mode)))
+#   ;; Close the compilation window if there was no error at all.
+#   (setq compilation-exit-message-function
+#         (lambda (status code msg)
+#           (when (and (eq status 'exit) (zerop code))
+#             (bury-buffer "*compilation*")
+#             (replace-buffer-in-windows "*compilation*"))
+#           (cons msg code)))
+#   ;; ;; Common Lisp
+#   ;; (require 'slime)
+#   ;; (setq inferior-lisp-program "/usr/bin/sbcl") ; your Lisp system
+#   ;; (slime-setup)
+#   ;; Lush
+#   ;;(load "lush.el")
+#   ;; Tuareg mode
+#   (setq auto-mode-alist (cons '("\\.ml\\w?" . tuareg-mode) auto-mode-alist))
+#   (autoload 'tuareg-mode "tuareg" "Major mode for editing Caml code" t)
+#   (autoload 'camldebug "camldebug" "Run the Caml debugger" t)
+#   (if (and (boundp 'window-system) window-system)
+#       (when (string-match "XEmacs" emacs-version)
+#         (if (not (and (boundp 'mule-x-win-initted) mule-x-win-initted))
+#             (require 'sym-lock))
+#         (require 'font-lock)))
+#   ;; Elisp
+#   (add-hook 'ielm-mode-hook 'ielm-auto-complete)
+#   (add-hook 'after-save-hook
+#             'executable-make-buffer-file-executable-if-script-p)
+#   ;; Eschell
+#   (defun eshell-auto-complete ()
+#     "Enables `auto-complete' support in \\[eshell]."
+#     (setq ac-sources '(
+#                        ;;ac-source-functions
+#                        ;; ac-source-variables
+#                        ;; ac-source-features
+#                        ;; ac-source-symbols
+#                        ac-source-abbrev
+#                        ac-source-words-in-same-mode-buffers))
+#     (auto-complete-mode-maybe))
+
+#   ;; eshell
+#   (add-hook 'eshell-mode-hook
+#             (lambda ()
+#               (setq pcomplete-cycle-completions nil)
+#               (local-set-key (kbd "M-h") 'eshell-bol)
+#                                           ;(eshell-auto-complete)))
+#               (setq ac-sources '(
+#                                  ac-source-functions
+#                                  ac-source-variables
+#                                  ac-source-features
+#                                  ac-source-symbols
+#                                  ac-source-abbrev
+#                                  ac-source-words-in-same-mode-buffers))
+#               (auto-commplete-mode t)))
+
+#   (setq pcomplete-cycle-completions t)
+#   ;; ;; GAS (Assembly)
+#   ;; (require 'gas-mode)
+#   ;; (add-to-list 'auto-mode-alist '("\\.S\\'" . gas-mode))
+#   ;; ;; Haskell
+#   ;; (load "~/.elisp/haskell-mode-2.4/haskell-site-file")
+#   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
+#   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
+#   ;; (add-hook 'haskell-mode-hook 'font-lock-mode)
+
+
+#   ;; Markdown
+#   (autoload 'markdown-mode "markdown-mode.el"
+#     "Major mode for editing Markdown files" t)
+#   (setq auto-mode-alist
+#         (cons '("\\.md" . markdown-mode) auto-mode-alist))
+
+#   ;; matlab
+#   (require 'matlab)
+
+#   ;; Version control
+#   (require 'mercurial)
+
+
+
+
+# #+end_src
+# ** Babel
+# Litterature programming with Org-mode. Transforms emacs into a notebook with support for multiple programming languages. Similar to IPython's notebook. Would be nice to find a way to transform a "Babel" notebook into an IPython notebook.
+
+# #+BEGIN_SRC emacs-lisp
+#       ;; ;; TODO Babel
+#       (setq org-confirm-babel-evaluate nil) ;; don't ask to eval code
+#       (setq org-babel-python-command "python3")
+#       (org-babel-do-load-languages
+#        'org-babel-load-languages
+#        '((emacs-lisp . t)
+#          (python . t)
+#          (ipython . t)
+#          (C . t)
+#          (fortran . t)
+#          (asymptote . t)
+#          (ditaa . t)
+#          (makefile . t)
+#          (calc . t)
+#          (org . t)
+#          (latex . t)
+#          (jupyter . t)
+#          (java . t)
+#          (shell . t)))
+
+#       (defun org-babel-remove-all-results ()
+#         "Remove all results in current buffer"
+#         (interactive)
+#         (while 1
+#           (org-babel-next-src-block)
+#           (org-babel-remove-result))
+#         )
+
+
+#       (defun org-execute-src-block-and-goto-next-block (&optional arg)
+#         (interactive "p")
+#         (if (not (looking-at "\\(#\\+BEGIN_SRC text\\|#\\+begin_src text\\)"))
+#             (kmacro-exec-ring-item (quote ("n" 0 "%d")) arg)
+#           (org-next-block 1)
+#           (kmacro-exec-ring-item (quote ("n" 0 "%d")) (1- arg))))
+
+#       ;; (fset 'org-execute-src-block-and-goto-next-block
+#       ;;       (lambda (&optional arg)
+#       ;;         "Execute src block in Babel and goto next. Allows to run one block after the other in quick succession."
+#       ;;         (interactive "p")
+#       ;;      (kmacro-exec-ring-item (quote ("n" 0 "%d")) arg)))
+
+
+#       (add-hook 'org-mode-hook
+#                 (lambda ()
+#                   (local-set-key
+#                    (kbd "C-M-<return>") 'org-execute-src-block-and-goto-next-block)
+#                   ))
+
+#           ;;;; Babel with Python
+#       ;; (require 'python-mode)
+#       ;; (setq org-babel-python-mode 'python-mode)
+#       ;; ;; Don't use ipython as the result is somewhat messed up (multiple prompts >>>)
+#       ;; ;; (setq org-babel-python-command
+#       ;; ;;       (pjoin PYTHON "ipython --no-banner --no-confirm-exit --classic --nosep"))
+#       ;; ;; (setq py-python-command (pjoin PYTHON "ipython"))
+#       ;; (setq org-babel-python-command (pjoin PYTHON "python"))
+#       ;; (setq py-python-command-args '("--colors=Linux" "--no-banner" "--classic" "--nosep"))
+#       ;; (setq python-version-checked t) ;; keep python.el happy
+
+#         ;;; Use syntax highlighting when exporting from org-mode to LaTeX / Beamer
+#       ;; http://stackoverflow.com/questions/21005885/export-org-mode-code-block-and-result-with-different-styles
+#       ;; - to list available themes: $ pygmentize -L styles
+#       ;; - to change the style: #+LaTeX_HEADER: \usemintedstyle{monokai}
+#       (require 'ox-latex)
+#       ;;(add-to-list 'org-latex-packages-alist '("" "minted"))
+#       (setq org-latex-listings 'minted)
+#       (setq org-latex-pdf-process
+#             '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+#               "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+#               "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))
+#       (setq org-latex-minted-options
+#             '(("bgcolor" "white") ("frame" "lines")))
+#       ;; Library of babel
+#       (defvar sam-library-of-babel-file (pjoin DBOX "docs" "org" "babel.org") "File containing my Babel Library of named blocks for easy reuse.")
+#       (org-babel-lob-ingest sam-library-of-babel-file)
+
+#       ;; toggle minted off when drafting the presentation because it's SLOW
+#       (defun org-latex-toggle-minted ()
+#         (interactive)
+#         (if org-latex-listings
+#             ;; Don't use minted to speed things up
+#             (progn
+#               (message "Basic listings")
+#               (setq org-latex-listings nil)
+#               (setq org-latex-packages-alist nil)
+#               (setq org-latex-pdf-process
+#                     '("pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f" "pdflatex -interaction nonstopmode -output-directory %o %f")))
+#           ;; Use minted
+#           (message "Minted listings")
+#           (setq org-latex-listings 'minted)
+#           (add-to-list 'org-latex-packages-alist '("" "minted"))
+#           (setq org-latex-pdf-process
+#                 '("pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+#                   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"
+#                   "pdflatex -shell-escape -interaction nonstopmode -output-directory %o %f"))))
+
+
+
+#     ;; Add extra envs to Beamer
+#       (require 'ox-beamer)
+#       (setq org-beamer-environments-extra nil) ;; needed?
+#       (add-to-list 'org-beamer-environments-extra
+#                    '("onlyenv" "O" "\\begin{onlyenv}%a" "\\end{onlyenv}"))
+
+
+#       ;; Use fancy verbatim blocks in org-babel beamer export
+#     (defun org-latex-filter-fancyvrb (text backend info)
+#       "Convert begin/end{verbatim} to begin/end{Verbatim}.
+#         Allows use of the fancyvrb latex package."
+#       (when (or (org-export-derived-backend-p backend 'beamer)
+#                 (org-export-derived-backend-p backend 'latex))
+#         (replace-regexp-in-string
+#          "\\\\\\(begin\\|end\\){verbatim}"
+#          "\\\\\\1{Verbatim}"
+#          text)))
+
+#     (add-to-list 'org-export-filter-final-output-functions
+#                  'org-latex-filter-fancyvrb)
+#     ;; Use utf8x instead of utf8 for latex export
+#     ;; this provides more characters, e.g. U+00A0 (hard space)
+#     ;; which is useful to have verbatim strings starting/ending with space(s).
+#     (setq org-latex-inputenc-alist '(("utf8" . "utf8x")))
+
+#     ;; Preserve indentation for makefiles
+#     (setq org-src-preserve-indentation t)
+
+#   ;; Export to Github Flavoured Markdown
+#   ;;
+# ;; (require 'ox-gfm)
+
+#   ;; Automatically refresh inline images in org-babel
+#   (add-hook 'org-babel-after-execute-hook 'org-display-inline-images)
+
+#   ;; Highlight fragments!
+#   (setq org-highlight-latex-and-related (list 'latex 'script))
+# #+END_SRC
+# ** COMMENT Applescript
+# #+begin_src #emacs-lisp
+#   (autoload 'applescript-mode "applescript-mode" "major mode for editing AppleScript source." t)
+#   (setq auto-mode-alist
+#        (cons '("\\.applescript$" . applescript-mode) auto-mode-alist))
+# #+END_SRC
+# ** COMMENT VHDL
+# http://www.iis.ee.ethz.ch/~zimmi/emacs/vhdl-mode.html#download
+# #+begin_src #emacs-lisp
+# (setq load-path (cons (expand-file-name "~/.elisp/vhdl-mode-3.36.1") load-path))
+# (autoload 'vhdl-mode "vhdl-mode" "VHDL Mode" t)
+# (setq auto-mode-alist (cons '("\\.vhdl?\\'" . vhdl-mode) auto-mode-alist))
+# (setq auto-mode-alist (cons '("\\.hdl?\\'" . vhdl-mode) auto-mode-alist))
+# #+END_SRC
+
+
+# ** Scheme
+# #+BEGIN_SRC emacs-lisp
+# (setenv "MITSCHEME_LIBRARY_PATH"
+#     (shell-quote-argument "/Applications/MIT:GNU Scheme.app/Contents/Resources"))
+# (setq scheme-program-name "sicm")
+# #+END_SRC
+# *** SLIME
+# Use contributed Swank SLIME plugin to use SLIME with mit-scheme.
+# This lives in [[file:elpa/slime-20150601.1411/contrib/swank-mit-scheme.scm][swank-mit-scheme.el]]
+# #+BEGIN_SRC emacs-lisp
+# (use-package slime-scheme
+#   :defer t)
+# (use-package slime
+#   :defer t
+#   :config
+#   (setq slime-lisp-implementations
+# 	'((mit-scheme ("sicm") :init mit-scheme-init)))
+
+#   (defun mit-scheme-init (file encoding)
+#     (format "%S\n\n"
+# 	    `(begin
+# 	      (load-option 'format)
+# 	      (load-option 'sos)
+# 	      (eval
+# 	       '(create-package-from-description
+# 		 (make-package-description '(swank) (list (list))
+# 					   (vector) (vector) (vector) false))
+# 	       (->environment '(package)))
+# 	      (load ,(expand-file-name
+# 		      "contrib/swank-mit-scheme.scm" ; <-- insert your path
+# 		      slime-path)
+# 		    (->environment '(swank)))
+# 	      (eval '(start-swank ,file) (->environment '(swank))))))
+
+#   (defun mit-scheme ()
+#     (interactive)
+#     (slime 'mit-scheme))
+
+#   (defun find-mit-scheme-package ()
+#     (save-excursion
+#       (let ((case-fold-search t))
+# 	(and (re-search-backward "^[;]+ package: \\((.+)\\).*$" nil t)
+# 	     (match-string-no-properties 1)))))
+
+#   (setq slime-find-buffer-package-function 'find-mit-scheme-package)
+#   (add-hook 'scheme-mode-hook (lambda () (slime-mode 1))))
+# #+END_SRC
+
+# * COMMENT Misc
+# #+begin_src emacs-lisp
+#   ;; ;;;; Recompile everything that has to be
+#   ;; (byte-recompile-directory (expand-file-name "~/.elisp") 0)
+
+#   ;; ;; Unicode
+#   ;; (prefer-coding-system 'utf-8)
+#   ;; (set-default-coding-systems 'utf-8)
+#   ;; (set-terminal-coding-system 'utf-8)
+#   ;; (set-keyboard-coding-system 'utf-8)
+#   ;; ;; backwards compatibility as default-buffer-file-coding-system
+#   ;; ;; is deprecated in 23.2.
+#   ;; (if (boundp 'buffer-file-coding-system)
+#   ;;     (setq-default buffer-file-coding-system 'utf-8)
+#   ;;   (setq default-buffer-file-coding-system 'utf-8))
+
+#   ;; ;; Treat clipboard input as UTF-8 string first; compound text next, etc.
+#   ;; (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING))
+# #+end_src
+# ** Tramp
+# Double hop with ssh: http://stackoverflow.com/questions/715855/how-can-i-use-emacs-tramp-to-double-hop-ssh
+# #+BEGIN_SRC lisp
+# (add-to-list 'tramp-default-proxies-alist
+#                  '("brunel" nil "/ssh:soton:")) ;; configure user name etc via .ssh/config
+# #+END_SRC
+# ** Elnode
+# #+begin_src emacs-lisp
+#   ;; ;; Elnode: Elisp webserver (Async like node.js)
+#   ;; ;(require 'elnode)
+
+#   ;; ;; Folding with fold-dwim
+#   ;; (require 'fold-dwim)
+#   ;; (require 'fold-dwim-org)
+#   ;; (global-set-key (kbd "<f7>")      'fold-dwim-toggle)
+#   ;; (global-set-key (kbd "<M-f7>")    'fold-dwim-hide-all)
+#   ;; (global-set-key (kbd "<S-M-f7>")  'fold-dwim-show-all)
+# #+end_src
+# ** COMMENT W3m
+# #+BEGIN_SRC emacs-lisp
+# (use-package w3m
+#   :defer t
+#   :config
+#   (setq w3m-command
+#         (cond
+#          (office-p "/usr/bin/w3m")
+#          (mac-osx-p "/opt/local/bin/w3m")))
+#   (let ((path-to-w3m
+#          (cond
+#           (office-p "/usr/bin/w3m")
+#           (mac-osx-p "/opt/local/bin/w3m"))))))
+#   ;;(if window-system (require 'w3m-load)))
+
+# #+END_SRC
+# ** More functions
+# #+begin_src emacs-lisp
+
+
+
+#     ;; (defun ipython-filter-private-attributes ()
+#     ;;   "Insert regexp to filter private elements from list"
+#     ;;   (interactive)
+#     ;;   (setq ido-enable-regexp t)
+#     ;;   (insert "^[^_][^_]"))
+#     (defun copy-to-char (char)
+#       "Copy region between point and char"
+#       (interactive "cCopy to character:")
+#       (if (char-table-p translation-table-for-input)
+#           (setq char (or (aref translation-table-for-input char) char)))
+#       (save-excursion
+#         (kill-ring-save (point)
+#                         (progn
+#                           (search-forward (char-to-string char))
+#                           (point)))))
+#     (defalias 'cc 'copy-to-char)
+
+#                                             ;(global-set-key (kbd "\C-;") 'ipython-filter-private-attributes)
+#     ;; From mastering emacs blog
+#     (defun push-mark-no-activate () ;; use C-SPC C-SPC instead
+#       "Pushes `point' to `mark-ring' and does not activate the region
+#     Equivalent to \\[set-mark-command] when \\[transient-mark-mode] is disabled"
+#       (interactive)
+#       (push-mark (point) t nil)
+#       (message "Pushed mark to ring"))
+#                                             ;(global-set-key (kbd "M- ") 'push-mark-no-activate)
+#     (defun jump-to-mark ()
+#       "Jumps to the local mark, respecting the `mark-ring' order.
+#     This is the same as using \\[set-mark-command] with the prefix argument."
+#       (interactive)
+#       (set-mark-command 1))
+#                                             ;(global-set-key (kbd "M-\r") 'jump-to-mark)
+
+#     ;; PDF viewer
+#     (defvar pdf-viewer nil "pdf viewer")
+#     (cond (office-p (setq pdf-viewer "xdg-open"))
+#           (mac-osx-p (setq pdf-viewer "open")))
+#     ;; OLD IMPLEMENTATION: only works for one directory
+#     ;; Open reference from folder containing biblio
+#     (defvar sam-biblio-directory nil "Directory containg all the bibliography from zotero")
+#     (setq sam-biblio-directory "~/Dropbox/bib/files")
+#     ;(cond (office-p (setq sam-biblio-directory "~/documents/biblio/mendeley"))
+#     ;      (mac-osx-p (setq sam-biblio-directory "~/Documents/biblio/mendeley")))
+
+#     (defvar sam-mendeley-directory nil "Directory containg all the bibliography from mendeley")
+#     (setq sam-mendeley-directory "~/Dropbox/bib/mendeley")
+
+#     (defun sam-send-biblio-file (&optional arg)
+#       "Create email with file from bibliography using ido.
+#     The default location of the bibliography is defined in the
+#     variable `sam-biblio-directory'. If an argument is supplied, the
+#     user is prompted for the directory of the bibliography."
+#       (interactive "P")
+#       (let*
+#           ;; primpt user for path is arg is supplied (C-u M-x `sam-open-biblio-file')
+#           ((ref-path (if arg
+#                          (ido-read-directory-name "Biblio directory: ")
+#                        (expand-file-name sam-biblio-directory)))
+#            ;; we want only pdf and ps files
+#            (ref-regexp "\\.pdf\\|\\.ps")
+#            ;; select file to open and append ref-path in front to get absolute path
+#            (ref-file (expand-file-name
+#                       (ido-completing-read "Open reference:"
+#                                            (directory-files ref-path
+#                                                             nil
+#                                                             ref-regexp))
+#                       ref-path)))
+#         ;; start composing email
+#         (compose-mail)
+#         ;; attach
+#         (mml-attach-file ref-file)))
+
+#     (defun sam-open-pdf-in-directory (ref-path)
+#       "Open pdf file in directory"
+#       (interactive)
+#       (let* ((ref-regexp "\\.pdf\\|\\.ps\\|.djvu")
+#              (ref-file (expand-file-name
+#                         (ido-completing-read "Open reference:"
+#                                              (directory-files ref-path
+#                                                               nil
+#                                                               ref-regexp))
+#                         ref-path)))
+#         ;; open file in sub-process and return immediately
+#         (call-process pdf-viewer nil 0 nil ref-file)))
+
+#     (defun sam-open-biblio-file (&optional arg)
+#       "Open file from bibliography using ido.
+#     The default location of the bibliography is defined in the
+#     variable `sam-biblio-directory'. If an argument is supplied, the
+#     user is prompted for the directory of the bibliography."
+#       (interactive "P")
+#       (sam-open-pdf-in-directory
+#        (if arg
+#            (ido-read-directory-name "Biblio directory: ")
+#          (expand-file-name sam-biblio-directory))))
+
+#     (defun sam-send-file (&optional arg)
+#       "Create email with file, chosen using ido, attached."
+#       (interactive "P")
+#       ;; start composing email
+#       (compose-mail)
+#       ;; attach
+#       (mml-attach-file (expand-file-name
+#                      (ido-completing-read "Email file:" (directory-files ".")))))
+
+#     (defun mendeley ()
+#       "Open pdf from mendeley"
+#       (interactive)
+#       (sam-open-pdf-in-directory sam-mendeley-directory))
+
+#     ;; NEW IMPLEMENTATION: works for multiple directories
+#     (defvar sam-biblio-directories nil "List of directories containing references")
+#     (setq sam-biblio-directories
+#           (list
+#            (pjoin DBOX "bib" "files") ;; from zotero
+#            (pjoin DBOX "bib" "mendeley") ;; from mendeley
+#            ;; AIAA 2014
+#            (pjoin DBOX "bib" "aiaa2014")
+#            ;; My publications
+#            (pjoin DBOX "publications") ;; cv, MSc, PhD
+#            (pjoin DBOX "publications" "journal-papers") ;; Journals
+#            (pjoin DBOX "publications" "conference-papers") ;; Journals
+#            (pjoin DBOX "bib" "todo") ;; Journals
+#            ;;(pjoin DBOX "docs" "COURSES") ;; Books
+
+#     ))
+#     (defun sam-biblio-database ()
+#       "Return association list of biblio references in the form (filename . absolute_path)"
+#       (loop with regexp = "\\.pdf\\|\\.ps\\|.djvu"
+#             for dir in sam-biblio-directories
+#             append (loop for file in (directory-files dir nil regexp)
+#                          collect (cons file (expand-file-name file dir)))))
+
+#     (defun sam-biblio-open ()
+#       "Open bibliography reference.
+#   The function uses `ido-mode' and searches papers in the folders listed in `sam-biblio-directories'."
+#       (interactive)
+#       (let* ((database (sam-biblio-database))
+#              (files (loop for pair in database collect (car pair)))
+#              (file (ido-completing-read "Open reference:" files))
+#              (pair (assq file database))
+#              (path (cdr pair)))
+#         (call-process pdf-viewer nil 0 nil path)))
+
+#     ;;(defalias 'bib 'sam-open-biblio-file)
+#     (defalias 'bib 'sam-biblio-open)
+#     (defalias 'sbib 'sam-send-biblio-file)
+#     (defalias 'smail 'sam-send-file) ; use gnus-dired-attach instead
+# #+end_src
+
+# * COMMENT Run some stuff
+# ** Emacs server
+# #+begin_src emacs-lisp :output silent :results none
+#   (load "server")
+#   (unless (server-running-p) (server-start))
+# #+end_src
+
+# * COMMENT Options
+# #+begin_src emacs-lisp
+#   ;; Default options
+#   (tool-bar-mode -1)
+#   (show-paren-mode 1)
+#   (global-font-lock-mode t)
+#   (winner-mode 1) ; go back between layouts
+#   (global-visual-line-mode 1) ; visual line mode
+
+
+#   (setq confirm-kill-emacs 'yes-or-no-p
+#         transient-mark-mode t
+#         inhibit-splash-screen t
+#         visible-bell t
+#         indent-tabs-mode nil
+#         sentence-end-double-space nil
+#         ;; Scrolling
+#         scroll-margin 3
+#         scroll-conservatively 100000
+#         scroll-preserve-screen-position 1)
+
+#   (put 'set-goal-column 'disabled nil)
+
+#   ;; scrolling
+#   (put 'scroll-left 'disabled nil)
+#   (put 'scroll-right 'disabled nil)
+
+#   (put 'downcase-region 'disabled nil)
+
+#   ;; For one-key
+#   ;;(setq max-lisp-eval-depth 10000)
+#   ;;(setq max-specpdl-size 10000)
+
+#   ;; ;; Clipboard
+#   ;; (setq mouse-drag-copy-region nil)
+#   ;; (setq x-select-enable-primary t)
+#   ;; (setq x-select-enable-clipboard t)
+
+#   (put 'narrow-to-region 'disabled nil)
+#   ;; Delete trailing white spaces
+#   (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+#   ;; Revert buffers automatically
+#   (global-auto-revert-mode 1)
+
+#   ;; Frame title
+#   (setq frame-title-format (concat "%b - emacs@" (system-name)))
+#   ;; For mu4e
+#   (set-language-environment "UTF-8")
+
+#   ;; Recursive mini-buffer
+#   (setq enable-recursive-minibuffers nil)
+# #+end_src
+# ** Color theme
+# #+BEGIN_SRC emacs-lisp
+#   ;;(load-theme 'tango-dark)
+#   ;;(load-theme 'tangotangofixed t)
+#   ;;(load-theme 'tango-2 t) ;; in MELPA repository
+#   ;;(load-theme 'tangotango t) ;; in MELPA repository
+#   (load-theme 'naquadah t) ;; in MELPA repository
+#   ;(load-theme 'badwolf t) ;; in MELPA repository
+#   ;; Modify the block headers in org-mode to better isolated the code from the org-mode stuff
+#   ;; (custom-theme-set-faces
+#   ;;  'tangotango
+#   ;;  '(org-block-begin-line ((t (:underline t :foreground "#888a85" :background "#2e3434"))))
+#   ;;  '(org-block-end-line ((t (:foreground "#888a85" :overline t :background "#2e3434"))))
+# ;;  )
+# (setq naquadah-p nil)
+# (defun sam/toggle-theme ()
+#   "Toggle NAQUADAH theme on and off"
+#   (interactive)
+#   (if naquadah-p
+#       (enable-theme 'naquadah)
+#     (disable-theme 'naquadah))
+#   (setq naquadah-p (not naquadah-p)))
+# #+END_SRC
+
+
+# # #+begin_src emacs-lisp
+# #   ;; Colour themes
+
+# #   (add-to-list 'load-path "~/.elisp/color-theme-6.6.0")
+# #   (require 'color-theme)
+# #   (setq color-theme-load-all-themes nil)
+# #   (require 'color-theme-tangotango)
+
+# #   ;; Source : http://www.emacswiki.org/emacs/ColorTheme#toc9
+# #   (setq color-theme-choices
+# #         '(color-theme-tangotango color-theme-tangotango))
+# #   ;; default-start
+# #   (funcall (lambda (cols)
+# #              (let ((color-theme-is-global nil))
+# #                (eval
+# #                 (append '(if (window-system))
+# #                         (mapcar (lambda (x) (cons x nil))
+# #                                 cols)))))
+# #            color-theme-choices)
+# #   ;; test for each additional frame or console
+# #   (require 'cl)
+# #   (fset 'test-win-sys
+# #         (funcall (lambda (cols)
+# #                    (lexical-let ((cols cols))
+# #                      (lambda (frame)
+# #                        (let ((color-theme-is-global nil))
+# #                          ;; must be current for local ctheme
+# #                          (select-frame frame)
+# #                          ;; test winsystem
+# #                          (eval
+# #                           (append '(if (window-system frame))
+# #                                   (mapcar (lambda (x) (cons x nil))
+# #                                           cols)))))))
+# #                  color-theme-choices ))
+# #   ;; hook on after-make-frame-functions
+# #   (add-hook 'after-make-frame-functions 'test-win-sys)
+# #   (color-theme-tangotango)
+# #   (require 'color-theme)
+# #   (require 'color-theme-tangotango)
+# #   (color-theme-tangotango)
+# # #+end_src
+
+# ** Fonts
+# #+begin_src emacs-lisp
+# ;; Change font size (e.g. for lectures) :height is point * 10
+# ;; Use (face-attribute 'default :height) to get the default value
+# ;;(set-face-attribute 'default nil :height 120)
+#   ;; Fonts
+#   ;; Changed 2014-09-20
+#   ;; (add-to-list 'default-frame-alist
+#   ;;              (cons 'font (if mac-osx-p
+#   ;;                              ;;'(:family "Monaco" :width medium)
+#   ;;                            "Monospace 11"
+#   ;;                            "DejaVu Sans Mono-11")))
+
+#   ;;(set-default-font "Bitstream Vera Sans Mono-12")
+#   ;; (if mac-osx-p
+#   ;;     (set-default-font "Inconsolata-11")
+#   ;;   (set-default-font "Inconsolata-13"))
+#   ;;^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#   ;; (set-frame-font (if mac-osx-p
+#   ;;                     "Monaco 12"
+#   ;;                   "Monospace 9")
+#   ;;                 nil t)
+#   ;;(set-default-font "Lucida Sans Typewriter-12")
+#   ;;(set-default-font "DejaVu Sans Mono-12 ")
+# #+end_src
+
+# ** Backups
+# - Keep 7 emergency backups of files being edited in ~/.backup-dir
+# - Keeps 5 latest versions, 2 oldest versions, deletes everything in between
+# #+begin_src emacs-lisp
+#   ;; Backups
+#   (setq backup-by-copying t
+#         backup-directory-alist '(("." . "~/.backup-dir"))
+#         delete-old-versions t
+#         kept-new-versions 5
+#         kept-old-versions 2
+#         version-control t)
+# #+end_src
+# * COMMENT Custom variables
+# See file:~/.emacs.d/custom.el
+# #+begin_src #emacs-lisp
+#   ;;Custom variables
+#   (custom-set-variables
+#    ;; custom-set-variables was added by Custom.
+#    ;; If you edit it by hand, you could mess it up, so be careful.
+#    ;; Your init file should contain only one such instance.
+#    ;; If there is more than one, they won't work right.
+#    '(TeX-PDF-mode t)
+#    '(TeX-output-view-style (quote (("^pdf$" "." "okular %s.pdf") ("^html?$" "." "google-chrome %o") ("^eps$" "." "display %o"))))
+#    '(TeX-source-correlate-method (quote synctex))
+#    '(TeX-source-correlate-mode t)
+#    '(TeX-source-correlate-start-server t)
+#    '(TeX-view-predicate-list (quote ((output-pdf-osx (and (string-match "pdf" (TeX-output-extension)) mac-osx-p)))))
+#    '(TeX-view-program-list (quote (("Open" "open %o") ("Skim" "/Applications/Skim.app/Contents/SharedSupport/displayline %n %o %b") ("Okular" "okular -unique %o#src:%n%b"))))
+#    '(TeX-view-program-selection (quote ((engine-omega "dvips and gv") (output-dvi "xdvi") (output-pdf-osx "Skim") (output-pdf "Okular") (output-html "xdg-open"))))
+#    '(asy-command "asy -V")
+#    '(asy-compilation-buffer (quote none))
+#    '(canlock-password "945831ee6cafe4f5cd3a5d7c28ebc128ff09cd0f")
+#    '(column-number-mode t)
+#    '(delete-selection-mode nil)
+#    '(file-name-shadow-mode t)
+#    '(gnus-ignored-from-addresses (quote ("s\\\\.sinayoko@eng\\\\.cam\\\\.ac\\\\.uk" "ss2059@cam\\\\.ac\\\\.uk")))
+#    '(mark-even-if-inactive t)
+#    '(org-agenda-files (quote ("~/Dropbox/docs/organisation/agenda.org" "~/Dropbox/docs/organisation/journal.org" "~/Dropbox/docs/organisation/learn.org" "~/Dropbox/docs/organisation/todo.org")))
+#    '(org-file-apps (quote ((auto-mode . emacs) ("\\.mm\\'" . default) ("\\.x?html?\\'" . default) ("\\.pdf\\'" . "/usr/bin/kpdf %s"))))
+#    '(org-mobile-agendas (quote all))
+#    ;; Remove js-info
+#    ;; '(org-modules (quote (org-bbdb org-bibtex org-docview org-gnus org-info org-jsinfo org-habit org-irc org-mew org-mhe org-rmail org-vm org-wl org-w3m)))
+#     '(org-modules (quote (org-bibtex org-docview org-info org-habit)))
+#    '(pdf-view-command pdf-viewer)
+#    '(ps-view-command pdf-viewer)
+#    '(safe-local-variable-values (quote ((speck-dictionary . hu))))
+#    '(scroll-bar-mode (quote right))
+#    '(send-mail-function (quote smtpmail-send-it))
+#    '(sp-ignore-modes-list (quote (calc-mode dired-mode gnus-article-mode gnus-group-mode gnus-summary-mode ibuffer-mode magit-branch-manager-mode magit-commit-mode magit-diff-mode magit-key-mode magit-log-mode magit-reflog-mode magit-stash-mode magit-status-mode magit-wazzup-mode minibuffer-inactive-mode monky-mode sr-mode term-mode)))
+#    '(sql-sqlite-program "sqlite3")
+#    '(term-bind-key-alist (quote (("C-c C-c" . term-interrupt-subjob) ("C-p" . previous-line) ("C-n" . next-line) ("C-s" . isearch-forward) ("C-r" . isearch-backward) ("C-m" . term-send-raw) ("M-b" . term-send-backward-word) ("M-p" . term-send-up) ("M-n" . term-send-down) ("M-M" . term-send-forward-kill-word) ("M-N" . term-send-backward-kill-word) ("M-r" . term-send-reverse-search-history) ("M-," . term-send-input) ("M-." . comint-dynamic-complete))))
+#    '(transient-mark-mode 1)
+#    '(w3m-key-binding (quote info))
+#    '(w3m-use-cookies t))
+
+#   ;; (custom-set-faces
+#   ;;  ;; custom-set-faces was added by Custom.
+#   ;;  ;; If you edit it by hand, you could mess it up, so be careful.
+#   ;;  ;; Your init file should contain only one such instance.
+#   ;;  ;; If there is more than one, they won't work right.
+#   ;;  '(speck-mouse ((((class color)) (:background "brown"))))
+#   ;;  '(speck-query ((((class color)) (:background "red")))))
+# #+end_src
+# * COMMENT Tmp
+# ** beancount and money
+# #+BEGIN_SRC emacs-lisp
+# (fset 'sam/transactions-to-beancount
+#    [?\M-a ?\M-\; ?\M-x ?r ?e ?p ?l ?a ?c ?e ?- ?r ?e ?g ?e ?x ?p ?\C-m ?\C-m ?\M-\; ?  ?G ?B ?P ?\C-r ?  ?\C-r ?\M-j ?\M-l ?\" ?\M-h nil nil nil ?  ?* ?\M-l ?\" ?\M-\; ?\C-r ?  ?  ?\C-r ?\M-l ?\C-m ?  ?  ?A ?s ?s ?e ?t ?s ?: ?U ?K ?: ?T ?S ?B ?: ?C ?u ?r ?r ?e ?n ?t ?  ?\C-c ?\; ?\M-k ?\C-a])
+# #+END_SRC
+# ** interleave pdf reader
+
+# https://github.com/rudolfochrist/interleave
+
+# #+BEGIN_SRC verbatim
+# Some history, what this is all about…
+
+# In the past, textbooks were sometimes published as interleaved editions. That meant, each page was followed by a blank page and ambitious students/scholars had the ability to take their notes directly in their copy of the textbook. Newton and Kant were prominent representatives of this technique [fn:blumbach].
+
+# Nowadays textbooks (or lecture material) come in PDF format. Although almost every PDF Reader has the ability to add some notes to the PDF itself, it is not as powerful as it could be. This is what this Emacs minor mode tries to accomplish. It presents your PDF side by side to an Org Mode buffer with you notes. Narrowing down to just those passages that are relevant to this particular page in the document viewer.
+
+# In a later step it should be possible to create truly interleaved PDFs of your notes.
+# #+END_SRC
+
+# #+BEGIN_SRC emacs-lisp
+# (use-package interleave
+#   :ensure t)
+# #+END_SRC
+
+# | Key   | Description                                 | Availability       |
+# | [[ n]]     | Go to next page                             | PDF Buffer         |
+# | p     | Go to previous page                         | PDF Buffer         |
+# | SPC   | Scroll up                                   | PDF Buffer         |
+# | S-SPC | Scroll down                                 | PDF Buffer         |
+# | DEL   | Scroll down                                 | PDF Buffer         |
+# | i     | Insert new notes/go to notes                | PDF Buffer         |
+# | q     | Quit interleave-mode                        | PDF Buffer         |
+# | M-.   | Go to page of currently visible notes       | PDF and Org Buffer |
+# | M-p   | Go to the page of the previous set of notes | PDF and Org Buffer |
+# | M-n   | Go to the page of the next set of notes     | PDF and Org Buffer |
+
+
+
+
+# ** Scaling LaTeX fragments
+# When zooming in/out, latex fragments don't scale properly (try adding a hook to the zoom function).
+# : (plist-put org-format-latex-options :scale 1.5)
+# ** Pyvenv autoactivate
+# #+BEGIN_SRC emacs-lisp
+# (defun sam/pyvenv-init (name)
+#   (interactive
+#    (list
+#     (completing-read "Work on: " (pyvenv-virtualenv-list)
+#                      nil t nil 'pyvenv-workon-history nil nil)))
+#   (when (not (or (equal name "")
+#                  ;; Some completion frameworks can return nil for the
+#                  ;; default, see
+#                  ;; https://github.com/jorgenschaefer/elpy/issues/144
+#                  (equal name nil)))
+#     (add-dir-local-variable 'pyvenv-mode 'pyvenv-activate name)))
+# #+END_SRC
+# ** Top/Htop replacements
+# *** Symon
+# System monitor
+# #+BEGIN_SRC emacs-lisp
+# (require 'symon)
+# ;;(symon-mode)
+# #+END_SRC
+# *** Proced
+# Requires emacs 26 on OSX
+# https://www.masteringemacs.org/article/displaying-interacting-processes-proced
+
+# ** KIM
+# Modify and run this script to update the envs on OS X for Docker.
+# #+BEGIN_SRC
+# (setenv "DOCKER_TLS_VERIFY" "1")
+# (setenv "DOCKER_HOST" "tcp://192.168.99.100:2376")
+# (setenv "DOCKER_CERT_PATH" "/Users/sinayoks/.docker/machine/machines/default3")
+# (setenv "DOCKER_MACHINE_NAME" "default3")
+# #+END_SRC
+# ** Software Projects
+# *** Searching and Replacing in a project
+# **** Grep + wgrep
+# - M-x rgrep + wgrep (C-c C-p to start and C-x C-s to save)
+# - In dired buffer, mark files (% m) and use Q to interactively search and replace
+# #+BEGIN_SRC emacs-lisp
+# (eval-after-load 'grep
+#   '(define-key grep-mode-map
+#     (kbd "C-x C-q") 'wgrep-change-to-wgrep-mode))
+
+# (eval-after-load 'wgrep
+#   '(define-key grep-mode-map
+#     (kbd "C-c C-c") 'wgrep-finish-edit))
+# #+END_SRC
+# **** Occur + edit
+# - use =M-s o= (occur) to search/replace active buffers (edit mode)
+# - Use =occur= or =multi-occur= + edit mode (E) to search
+# **** Projects
+# ***** Projectile
+# - C-c p s g (projectile search grep)
+# - C-c p s s (projectile search ag)
+# - M-- C-s p s s (projectile search ag default files)
+# - C-c p f (projectile search file)
+# - C-c p o (projectile occur)
+# #+BEGIN_SRC emacs-lisp
+# (projectile-global-mode t)
+# #+END_SRC
+# ***** Ag mode and wgrep-ag
+# - install =ag= and =wgrep-ag=
+# - M-x ag-project (bind to 'ap ??)
+# *** Projectile
+# **** Install Exhuberant ctags
+# #+BEGIN_SRC emacs-lisp
+# (use-package projectile
+# :ensure t
+# :config
+# (setq projectile-keymap-prefix (kbd "C-c C-p"))
+# (setq projectile-tags-command (expand-file-name "~/apps/bin/ctags -Re -f \"%s\" %s")))
+# #+END_SRC
+# **** Keybindings
+# | C-c C-p C-h | bindings help                                    |
+# | C-c C-p f   | find file                                        |
+# | C-c C-p d   | find directory                                   |
+# | C-c C-p 4 f | find file other window                           |
+# | C-c C-p T   | find test files                                  |
+# | C-c C-p R   | Regenerate TAGS                                  |
+# | C-c C-p D   | Dired project root                               |
+# | C-c C-p t   | Toggle between test file and implementation file |
+# | C-c C-p 4 t | Toggle other window                              |
+# | C-c C-p r   | (query) replace in project!                      |
+# | C-c C-p o   | multi-occur on currently opened project files    |
+# | C-c C-p s s | search with ag                                   |
+# | C-c C-p s g | search with grep                                 |
+
+# ** Paredit
+# #+BEGIN_SRC emacs-lisp
+# (use-package paredit
+# :ensure t
+# :config
+# (global-set-key (kbd "C-M-U") #'paredit-backward-up)
+# (global-set-key (kbd "C-M-n") #'paredit-forward-up)
+# ;; This one's surpisingly useful for writing prose.
+# (global-set-key (kbd "M-S")
+#   #'paredit-splice-sexp-killing-backward)
+# (global-set-key (kbd "M-R") #'paredit-raise-sexp)
+# (global-set-key (kbd "M-(") #'paredit-wrap-round)
+# (global-set-key (kbd "M-[") #'paredit-wrap-square)
+# (global-set-key (kbd "M-{") #'paredit-wrap-curly))
+# #+END_SRC
+
+# #+RESULTS:
+# : paredit-wrap-curly
+
+# ** TAGS table for data repos
+# #+BEGIN_SRC emacs-lisp
+# (setq tags-table-list
+#       '("~/dev/algoapi/TAGS" "~/dev/algotick/TAGS" "~/dev/tickdata/TAGS"))
+
+# #+END_SRC
+# ** TeTePy
+# #+BEGIN_SRC emacs-lisp
+#   (defun tetepy-email-python-assignment ()
+#     (interactive)
+#     (let ((fname (buffer-file-name)))
+#       (mail)
+#       ;;(mail-to) (insert "ss53g10@gmail.com")
+#       ;;(mail-to) (insert "feeg1001@soton.ac.uk")
+#       (mail-to) (insert "tetepytest@gmail.com")
+#       (mail-subject) (insert (file-name-sans-extension
+#                               (file-name-nondirectory fname)))
+#       (mail-add-attachment fname)
+#       (mail-send)
+#       (bury-buffer "*mail*")))
+
+#   (defun tetepy-email-C-assignment ()
+#     (interactive)
+#     (let ((fname (buffer-file-name)))
+#       (mail)
+#       ;;(mail-to) (insert "ss53g10@gmail.com")
+#       ;;(mail-to) (insert "feeg1001@soton.ac.uk")
+#       ;;(mail-to) (insert "sesg6025@soton.ac.uk")
+#       (mail-to) (insert "feeg6002@soton.ac.uk")
+#       (mail-subject) (insert "training1")
+#       (mail-add-attachment fname)
+#       (mail-send)
+#       (bury-buffer "*mail*")))
+
+#   (defvar tetepy-last-course nil "Last tetepy course. Automatically set by `tetepy-email-assignment'")
+#   (defvar tetepy-last-assignment nil "Last tetepy assignment. Automatically set by `tetepy-email-assignment' or `tetepy-email-assignment-testing")
+#   (defvar tetepy-last-course-testing nil "Last tetepy course for testing. Automatically set by `tetepy-email-assignment-testing'")
+
+#   ;;(defvar tetepy-default-course "feeg6002" "Default tetepy course.")
+
+#   (defun tetepy-email-assignment (&optional other-course-p)
+#     (interactive "P")
+#     (let* ((fname (buffer-file-name))
+#            (default-course (or tetepy-last-course "feeg6002"))
+#            (default-assignment (or tetepy-last-assignment
+#                                 (file-name-sans-extension
+#                                  (file-name-nondirectory fname)))))
+#       ;; Get course and assignment interactively
+#       (setq assignment
+#             (read-string
+#              (format "Assignment [%s]: " default-assignment) nil nil default-assignment))
+#       (setq course
+#             (if other-course-p
+#                 (read-string
+#                  (format "Course [%s]: " default-course) nil nil default-course)
+#               default-course))
+#       ;; Store them to use as defualts next time
+#       (setq tetepy-last-course course)
+#       (setq tetepy-last-assignment assignment)
+#       ;; Compose and send email
+#       ;;(mu4e-compose-new)
+#       (compose-mail)
+#       (mail-to) (insert (format "%s@soton.ac.uk" course))
+#       (mail-subject) (insert assignment)
+#       (mail-add-attachment fname)
+#       ;;(mail-send)
+#       (message-send-and-exit)
+#       ;;(bury-buffer "*mail*")
+#       ))
+
+
+#   (defun tetepy-email-assignment-testing (&optional other-course-p)
+#     (interactive "P")
+#     (let* ((fname (buffer-file-name))
+#            (default-course (or tetepy-last-course-testing "feeg6002dev"))
+#            (default-assignment (or tetepy-last-assignment
+#                                 (file-name-sans-extension
+#                                  (file-name-nondirectory fname)))))
+#       ;; Get course and assignment interactively
+#       (setq assignment
+#             (read-string
+#              (format "Assignment [%s]: " default-assignment) nil nil default-assignment))
+#       (setq course
+#             (if other-course-p
+#                 (read-string
+#                  (format "Course [%s]: " default-course) nil nil default-course)
+#               default-course))
+#       ;; Store them to use as defualts next time
+#       (setq tetepy-last-course course)
+#       (setq tetepy-last-assignment assignment)
+#       ;; Compose and send email
+#       (mu4e-compose-new)
+#       (mail-to) (insert (format "%s@gmail.com" course))
+#       (mail-subject) (insert assignment)
+#       (mail-add-attachment fname)
+#       ;;(mail-send)
+#       (message-send-and-exit)
+#       ;;(bury-buffer "*mail*")
+#       ))
+
+#   (defun uniquify-students-list ()
+#     "Make the student list unique: flush aliases, demonstrators and academics"
+#     (interactive)
+#     ;; Remove aliases
+#     (flush-lines "[a-zA-Z]+\\.[a-zA-Z0-9]+@soton.ac.uk")
+#     ;; Remove academics and demonstrators
+#     (flush-lines "academic")
+#     (flush-lines "demonstrator"))
+# #+END_SRC
+# ** ipython can't run file
+# (setq py-execute-keep-temporary-file-p t)
+# ** insert hash key
+# #+BEGIN_SRC emacs-lisp
+#   (defun insert-hash ()
+#     "insert hash symbol: useful on osx when it's nowhere to be found"
+#     (interactive)
+#     (insert "#"))
+# #+END_SRC
+# ** COMMENT helm
+# #+begin_src emacs-lisp
+# (add-to-list 'load-path "~/.elisp/helm")
+# (require 'helm-config)
+# #+end_src
+# ** Code folding with python
+# # #+begin_src emacs-lisp
+# #   ;;======= Code folding =======
+# #   (add-hook 'python-mode-hook 'my-python-outline-hook)
+# #   ; this gets called by outline to deteremine the level. Just use the length of the whitespace
+# #   (defun py-outline-level ()
+# #     (let (buffer-invisibility-spec)
+# #       (save-excursion
+# #         (skip-chars-forward "    ")
+# #         (current-column))))
+# #   ; this get called after python mode is enabled
+# #   (defun my-python-outline-hook ()
+# #     ; outline uses this regexp to find headers. I match lines with no indent and indented "class"
+# #     ; and "def" lines.
+# #     (setq outline-regexp "[^ \t]\\|[ \t]*\\(def\\|class\\) ")
+# #     ; enable our level computation
+# #     (setq outline-level 'py-outline-level)
+# #     ; do not use their \C-c@ prefix, too hard to type. Note this overides some bindings.
+# #     (setq outline-minor-mode-prefix "\C-t")
+# #     ; turn on outline mode
+# #     (outline-minor-mode t)
+# #     ; initially hide all but the headers
+# #     ;(hide-body)
+# #     ; make paren matches visible
+# #     (show-paren-mode 1)
+# #   )
+
+# #   (add-hook 'python-mode-hook (lambda ()
+# #                                 (require 'fold-dwim)
+# #                                 (define-key py-mode-map (kbd "C-M-f") 'fold-dwim-toggle)))
+# # #+end_src
+# ** Create tags
+# #+begin_src emacs-lisp
+#  (defun create-tags (dir-name)
+#      "Create tags file."
+#      (interactive "DDirectory: ")
+#      (eshell-command
+#       (format "find %s -type f -name \"*.py\" | etags -" dir-name)))
+# #+end_src
+# ** Run some tests with python
+# #+BEGIN_SRC emacs-lisp
+# (defun run-tests ()
+#   (interactive)
+#   (let ((cmd "~/anaconda/bin/nosetests --with-doctest test_tracking.py tracking.py -v")
+# 	(process "*ansi-term*<3>"))
+#     (comint-send-string process cmd)
+#     (comint-send-string process "\n")))
+# #+END_SRC
+# ** Run ipython notebook server
+# #+BEGIN_SRC emacs-lisp
+# ;; --pylab=inline has been deprecated
+# ;; (defun ipython-server-inline ()
+# ;;   (interactive)
+# ;;   (let ((cmd "~/apps/anaconda/bin/ipython notebook --script --pylab=inline"))
+# ;;     (async-shell-command cmd)))
+# (defun ipython-server ()
+#   (interactive)
+#   (let ((cmd "jupyter notebook --script"))
+#     (async-shell-command cmd)))
+# #+END_SRC
+# ** Socks
+# #+BEGIN_SRC emacs-lisp
+#   (defun cam-socks ()
+#     (interactive)
+#     (shell-command "ssh -ND 1080 ss2059@eng.cam.ac.uk"))
+# #+END_SRC
+# ** Display ansi colors
+# When outputing results from in the shell with colors, these are
+# encoded using ANSI color codes. It is possible to save the output and
+# display it in colors in emacs by doing this:
+# : command > output.log
+# #+BEGIN_SRC emacs-lisp
+# (require 'ansi-color)
+# (defun display-ansi-colors ()
+#   (interactive)
+#   (ansi-color-apply-on-region (point-min) (point-max)))
+# #+END_SRC
+# ** Revert with sudo
+# #+BEGIN_SRC emacs-lisp
+# (defun xwl-revert-buffer-with-sudo ()
+#   "Revert buffer using tramp sudo.
+#     This will also reserve changes already made by a non-root user."
+#   (interactive)
+#   (let ((f (buffer-file-name))
+#         (p (point)))
+#     (when f
+#       (let ((content (when (buffer-modified-p)
+# 		       (widen)
+# 		       (buffer-string))))
+# 	  (kill-buffer (current-buffer))
+# 	  (if (file-remote-p f)
+# 	      (find-file
+# 	       (replace-regexp-in-string "^\\/[^:]+:" "/sudo:" f))
+# 	    (find-file (concat "/sudo::" f)))
+# 	  (when content
+# 	    (let ((buffer-read-only nil))
+# 	      (erase-buffer)
+# 	      (insert content)))
+#           (goto-char p)))))
+# #+END_SRC
+# ** To try
+# #+BEGIN_SRC
+# ;; Conflicts with sam/backward-kill-word-or-kill-region
+# (defadvice kill-ring-save (before slick-copy activate compile)
+#   "When called interactively with no active region, copy a single
+# line instead."
+#   (interactive
+#     (if mark-active (list (region-beginning) (region-end))
+#       (message "Copied line")
+#       (list (line-beginning-position)
+#                (line-beginning-position 2)))))
+
+# (defadvice kill-region (before slick-cut activate compile)
+#   "When called interactively with no active region, kill a single
+# line instead."
+#   (interactive
+#     (if mark-active (list (region-beginning) (region-end))
+#       (list (line-beginning-position)
+#         (line-beginning-position 2)))))
+# #+END_SRC
+# *** Company mode
+# #+BEGIN_SRC
+# (require 'company)
+# (setq company-idle-delay 0.3)
+# (setq company-tooltip-limit 20)
+# (setq company-minimum-prefix-length 2)
+# (setq company-echo-delay 0)
+# (setq company-auto-complete nil)
+# (global-company-mode 1)
+# (add-to-list 'company-backends 'company-dabbrev t)
+# (add-to-list 'company-backends 'company-ispell t)
+# (add-to-list 'company-backends 'company-files t)
+# (setq company-backends (remove 'company-ropemacs company-backends))
+# #+END_SRC
+# ** Babel
+# *** Execute with transcript
+# #+BEGIN_SRC emacs-lisp
+#   ;; (defun babel-execute-w-transcript ()
+#   ;;   "Execute the current source-code block, and copy the activated
+#   ;; portion of the results buffer to the kill ring."
+#   ;;   (interactive)
+#   ;;   (let* ((session-buffer (cdr (assoc :session (third
+#   ;;                                                (org-babel-get-src-block-info)))))
+#   ;;          (beginning (save-excursion (set-buffer session-buffer)
+#   ;;                                     (process-mark (get-buffer-process
+#   ;;                                                    (current-buffer)))))
+#   ;;          ending)
+#   ;;     (org-babel-execute-src-block)
+#   ;;     (save-excursion
+#   ;;       (with-current-buffer session-buffer
+#   ;;         (setq ending (point))
+#   ;;         (kill-ring-save beginning ending)
+#   ;;         (princ (list beginning ending))))))
+
+#   (defun babel-execute-w-transcript ()
+#     "Execute the current source-code block, and copy the activated
+#   portion of the results buffer to the kill ring."
+#     (interactive)
+#     (let* ((session-buffer (cdr (assoc :session (third
+#                                                  (org-babel-get-src-block-info)))))
+#            (beginning (save-excursion (set-buffer session-buffer)
+#                                       (comint-goto-process-mark)
+#                                       (forward-char -1)
+#                                       (beginning-of-visual-line)
+#                                       (point)))
+#            ending)
+#       (org-babel-execute-src-block)
+#       (org-babel-remove-result)
+#       (let* ((output (save-excursion
+#                       (with-current-buffer session-buffer
+#                         (forward-line -2)
+#                         (beginning-of-visual-line)
+#                         (kill-ring-save beginning (point))
+#                         (buffer-substring-no-properties beginning (point))))))
+#         (org-babel-insert-result output))))
+# #+END_SRC
+# **** TODO Use minted with bash environment to include a bash session
+# - http://tex.stackexchange.com/questions/18532/listing-language-for-screen-session
+# - Example of tex file: [[file:~/dbox/soton/teaching/advanced-computational-methods-feeg6002/test.tex::echo%20salut][file:~/dbox/soton/teaching/advanced-computational-methods-feeg6002/test.tex::echo salut]]
+# - Example of org file: TODO
+#   + Use babel-execute-w-transcript but wrap the output into another source block of language "bash" that's similar to verbatim but exports to bash?
+#   + Or use the bash environment for all verbatims? Most of our results are bash anyway...
+# - Would be even better to have ANSI colors directly: https://github.com/ypid/ansi2html/tree/ansi2latex
+# **** TODO Long term: allow org-babel results to be fontified, first in Emacs (would be nice), but also in LaTeX & HTML exports...
+# -> results = colored-output
+
+# *** Skelettons for python and elisp blocks
+# #+BEGIN_SRC emacs-lisp
+# ;; add <p for python expansion
+# (add-to-list 'org-structure-template-alist
+#              '("p" "#+BEGIN_SRC python\n?\n#+END_SRC" "<src lang=\"python\">\n?\n</src>"))
+# (add-to-list 'org-structure-template-alist
+#              '("C" "#+BEGIN_SRC C\n?\n#+END_SRC" "<src lang=\"C\">\n?\n</src>"))
+
+# ;; add <el for emacs-lisp expansion
+# (add-to-list 'org-structure-template-alist
+#              '("el" "#+BEGIN_SRC emacs-lisp\n?\n#+END_SRC" "<src lang=\"emacs-lisp\">\n?\n</src>"))
+
+# #+END_SRC
+# ** Mouse buttons on OS X
+# #+BEGIN_SRC emacs-lisp
+# ;;(define-key artist-mode-map [down-mouse-3] 'artist-mouse-choose-operation)
+# #+END_SRC
+# ** Killing running process
+# This is useful if a running process hangs. The key command is the non-interactive command =kill-process=. There is a wrapper below.
+# #+BEGIN_SRC emacs-lisp
+# (define-key process-menu-mode-map (kbd "C-c k") 'sam/delete-process-at-point)
+
+# (defun sam/delete-process-at-point ()
+#   (interactive)
+#   (let ((process (get-text-property (point) 'tabulated-list-id)))
+#     (cond ((and process
+#                 (processp process))
+#            (delete-process process)
+#            (revert-buffer))
+#           (t
+#            (error "no process at point!")))))
+# #+END_SRC
+# ** Insert Pound (GBP) symbolx
+# #+BEGIN_SRC emacs-lisp
+# (defun insert-pound()
+#   "Insert pound symbol £. "
+#   (interactive)
+#   (insert "£"))
+# (defun insert-euro()
+#   "Insert euro symbol €. "
+#   (interactive)
+#   (insert "€"))
+# (defun insert-dollar()
+#   "Insert dollar symbol $. "
+#   (interactive)
+#   (insert "$"))
+# ;;(global-set-key (kbd "C-c e") 'insert-euro) ; C-c M-2
+# ;;(global-set-key (kbd "C-c p") 'insert-pound); C-c M-3
+# ;;(global-set-key (kbd "C-c d") 'insert-dollar) ; C-c M-4
+# (defalias 'gbp 'insert-pound)
+# (defalias 'eur 'insert-euro)
+# (defalias 'usd 'insert-dollar)
+# #+END_SRC
+
+# #+RESULTS:
+# : insert-dollar
+
+
+# ** FEEG6002 marking
+# #+BEGIN_SRC emacs-lisp
+# (defun feeg6002-narrow-to-question ()
+#   "Narrow buffer to question in marking file feeg6002-manual-review-XXXX.txt"
+#   (interactive)
+#   (let* ((qstr (read-string (format "Question: ")))
+# 	 (qint (string-to-int qstr))
+# 	 start)
+#     (widen)
+#     (goto-char 1)
+#     (search-forward (format "%s: (" qstr))
+#     (beginning-of-visual-line)
+#     (setq start (point))
+#     (search-forward (format "%d:" (+ 1 qint)))
+#     (end-of-visual-line 0)
+#     (narrow-to-region start (point))
+#     (goto-char 1)
+#     ))
+# (defun feeg6002-compile-report ()
+#   "Compile feeg6002 report and "
+#   (interactive)
+#   (compile "make report; tail -f report-results.log"))
+# (defun feeg6002-backup-marking ()
+#   "Backup marking report to folder backup/"
+#   (interactive)
+#   (let* ((date (replace-regexp-in-string " " "_" (substring (with-temp-buffer
+# 							      (shell-command "date" 1)
+# 							      (buffer-string))
+# 							    0 -1)))
+# 	 (file (buffer-file-name))
+# 	 (backup (concat file "." date)))
+#     (copy-file file backup)
+#     (shell-command (concat "mv " (shell-quote-argument backup) " backup/"))
+#     (shell-command "ls backup")))
+
+# (defun feeg6002-next-edit ()
+#   "Goto next edit of the form -420.XXX"
+#   (interactive)
+#   (search-forward "-420.")
+#   (backward-char 5)
+#   (kill-word 2)
+#   (save-excursion
+#     (end-of-line)
+#     (insert "# MARKED"))
+#   (feeg6002-current-question))
+
+
+# (defun feeg6002-current-question ()
+#   "Display current question in mini-buffer"
+#   (interactive)
+#   (save-excursion
+#     (let (beg end)
+#       (search-backward-regexp " \\([0-9]+\\): (")
+#       (setq beg (point))
+#       ;;(princ (match-string 1))
+#       (forward-line 5)
+#       (setq end (point))
+#       (princ (buffer-substring beg end)))))
+
+# (define-minor-mode feeg6002-marking-mode
+#   "Help with marking for feeg6002"
+#   :ligher "feeg6002"
+#   :keymap (let ((map (make-sparse-keymap)))
+#     ;; example definition
+#     ;;(define-key-map (kbd "M-o") 'other-window)
+#     (define-key map (kbd "C-x n q") 'feeg6002-narrow-to-question)
+#     (define-key map (kbd "C-c C-c") 'feeg6002-compile-report)
+#     (define-key map (kbd "C-c C-s") 'feeg6002-backup-marking)
+#     (define-key map (kbd "M-n") 'feeg6002-next-edit)
+#     (define-key map (kbd "C-c q") 'feeg6002-current-question)
+#     map))
+
+
+
+# #+END_SRC
+
+# #+RESULTS:
+# | keymap | (3 keymap (3 . feeg6002-compile-report)) | (24 keymap (110 keymap (113 . feeg6002-narrow-to-question))) |
+# ** FEEG6002 coursework
+# #+BEGIN_SRC emacs-lisp
+# (defun feeg6002c-increment-number-at-point ()
+#   (interactive)
+#   (skip-chars-backward "0123456789")
+#   (or (looking-at "[0123456789]+")
+#       (error "No number at point"))
+#   (replace-match (number-to-string (1+ (string-to-number (match-string 0))))))
+
+# (defun feeg6002c-decrement-number-at-point ()
+#   (interactive)
+#   (skip-chars-backward "0123456789")
+#   (or (looking-at "[0123456789]+")
+#       (error "No number at point"))
+#   (replace-match (number-to-string (1- (string-to-number (match-string 0))))))
+
+# ;;(setq feeg6002c-studlist (directory-files "/Users/sinayoks/data/teaching" nil "[a-zA-Z].*"))
+
+# (defun feeg6002c-get-id ()
+#   "Get a user id"
+#   (interactive)
+#   (if (looking-at "[-.a-zA-Z0-9]*")
+#       (let ((str (match-string-no-properties 0)))
+# 	(if (member str feeg6002c-studlist)
+# 	    str
+# 	  (ido-completing-read "Student:" feeg6002c-studlist)))))
+
+# (defun feeg6002c-open-user-py (arg)
+#   "Open coursework and pdf for this user"
+#   (interactive "P")
+#   (let ((id (if (not arg)
+# 		(feeg6002c-get-id)
+# 	      arg)))
+#     (find-file-other-window (concat "/Users/sinayoks/data/teaching/" id "/coursework/multi.py"))
+#     (rename-buffer (format "multi.py<%s>" id))))
+
+# (defun feeg6002c-open-user-pdf (arg)
+#   "Open coursework and pdf for this user"
+#   (interactive "P")
+#   (let ((id (if (not arg)
+# 		(feeg6002c-get-id)
+# 	      arg)))
+#     (call-process pdf-viewer nil 0 nil (concat "/Users/sinayoks/data/teaching/" id "/coursework/multi.pdf"))))
+
+
+
+
+#   ;; Open folder
+# (define-minor-mode feeg6002c-mode
+#   "Help with marking coursework for feeg6002"
+#   :ligher "feeg6002c"
+#   :keymap (let ((map (make-sparse-keymap)))
+#     ;; example definition
+#     ;;(define-key-map (kbd "M-o") 'other-window)
+#     (define-key map (kbd "<up>") 'feeg6002c-increment-number-at-point)
+#     (define-key map (kbd "<down>") 'feeg6002c-decrement-number-at-point)
+#     (define-key map (kbd "C-c C-[") 'feeg6002c-open-user-py)
+#     (define-key map (kbd "C-c C-'") 'feeg6002c-open-user-pdf)
+#     map))
+# (define-key feeg6002c-mode-map (kbd "C-c C-[") 'feeg6002c-open-user-py)
+# #+END_SRC
+
+# ** Wind turbine paper - Org-mode odt export
+# #+BEGIN_SRC emacs-lisp
+# (setq org-latex-to-mathml-convert-command
+#                 "/Applications/Application\\ Loader.app/Contents/MacOS/itms/java/bin/java -jar %j -unicode -force -df %o %I")
+# (setq org-latex-to-mathml-jar-file
+#                 "/Users/sinayoks/docs/share/conferences/2015/wtn2015/mathtoweb.jar")
+# #+END_SRC
+
+# #+RESULTS:
+# : /Users/sinayoks/docs/share/conferences/2015/wtn2015/mathtoweb.jar
+# #+BEGIN_SRC emacs-lisp
+# (defun odt-flatten-refs ()
+#   "Convert links to plain text in .odt buffer. This is because links become broken in word 2011"
+#   (interactive)
+#   (goto-char 1)
+#   (while (search-forward "ref-name" nil t nil)
+#     (let (start)
+#       (search-backward "<")
+#       (setq start (point))
+#       (forward-sexp)
+#       (delete-region start (point))
+#       (search-forward "<")
+#       (setq start (- (point) 1))
+#       (search-forward ">")
+#       (delete-region start (point)))))
+# ;; (fset 'flatten-references-in-odt-buffer
+# ;;    [?\C-s ?- ?r ?e ?f ?\M-l ?\C-r ?< ?\M-j ?\M-l ?\C-s ?> ?\C-x ?\C-x ?\C-w ?\C-s ?< ?\M-j ?\M-x ?z ?a ?p return ?>])
+# #+END_SRC
+
+
+# #+RESULTS:
+# : odt-flatten-refs
+# ** Fonts
+# *** Trying a different font in a buffer
+# https://www.emacswiki.org/emacs/FacesPerBuffer
+# #+BEGIN_SRC emacs-lisp
+#  ;; Use variable width font faces in current buffer
+#  (defun my-buffer-face-mode-variable ()
+#    "Set font to a variable width (proportional) fonts in current buffer"
+#    (interactive)
+#    (setq buffer-face-mode-face '(:family "Computer Modern Serif"))
+#    (buffer-face-mode))
+# #+END_SRC
+# *** Serif fonts
+# #+BEGIN_SRC emacs-lisp
+# (defvar serif-preserve-default-list nil
+#   "A list holding the faces that preserve the default family and
+#   height when TOGGLE-SERIF is used.")
+# (setq serif-preserve-default-list
+#       '(;; LaTeX markup
+#         font-latex-math-face
+#         font-latex-sedate-face
+#         font-latex-warning-face
+#         ;; org markup
+#         org-latex-and-related
+#         org-meta-line
+#         org-verbatim
+#         org-block-begin-line
+#         ;; syntax highlighting using font-lock
+#         font-lock-builtin-face
+#         font-lock-comment-delimiter-face
+#         font-lock-comment-face
+#         font-lock-constant-face
+#         font-lock-doc-face
+#         font-lock-function-name-face
+#         font-lock-keyword-face
+#         font-lock-negation-char-face
+#         font-lock-preprocessor-face
+#         font-lock-regexp-grouping-backslash
+#         font-lock-regexp-grouping-construct
+#         font-lock-string-face
+#         font-lock-type-face
+#         font-lock-variable-name-face
+#         font-lock-warning-face))
+
+# (defun toggle-serif ()
+#   "Change the default face of the current buffer to use a serif family."
+#   (interactive)
+#   (when (display-graphic-p)  ;; this is only for graphical emacs
+#     ;; the serif font familiy and height, save the default attributes
+#     (let (;(serif-fam "Liberation Serif")
+#           ;;(serif-fam "Garamond")
+#           (serif-fam "CMU Serif")
+#           (serif-height 140)
+#           (default-fam (face-attribute 'default :family))
+#           (default-height (face-attribute 'default :height)))
+#       (if (not (bound-and-true-p default-cookie))
+#           (progn (make-local-variable 'default-cookie)
+#                  (make-local-variable 'preserve-default-cookies-list)
+#                  (setq preserve-default-cookies-list nil)
+#                  ;; remap default face to serif
+#                  (setq default-cookie
+#                        (face-remap-add-relative
+#                         'default :family serif-fam :height serif-height))
+#                  ;; keep previously defined monospace fonts the same
+#                  (dolist (face serif-preserve-default-list)
+#                    (add-to-list 'preserve-default-cookies-list
+#                                 (face-remap-add-relative
+#                                  face :family default-fam :height default-height)))
+#                  (message "Turned on serif writing font."))
+#         ;; undo changes
+#         (progn (face-remap-remove-relative default-cookie)
+#                (dolist (cookie preserve-default-cookies-list)
+#                  (face-remap-remove-relative cookie))
+#                (setq default-cookie nil)
+#                (setq preserve-default-cookies-list nil)
+#                (message "Restored default fonts."))))))
+# #+END_SRC
+# ** Jupyter export in Org-Mode
+# #+BEGIN_SRC emacs-lisp
+# (require 'ox-jupyter)
+# #+END_SRC
+
+# #+RESULTS:
+# : ox-jupyter
+# ** Conditional selection of babel backends
+# #+BEGIN_SRC emacs-lisp
+# (defmacro by-backend (&rest body)
+#     `(case (if (boundp 'backend) (org-export-backend-name backend) nil)
+#        ,@body))
+# #+END_SRC
+# # For example:
+# # #+BEGIN_SRC sh  :file (by-backend (latex "fig04-01.pdf") (t "fig04-01.png")) :exports silent
+# # #+END_SRC
+
+# # #+RESULTS:
+# # [[file:fig04-01.png]]
+# * timing
+# #+BEGIN_SRC emacs-lisp
+# (show-time-since-init "EO Tmp")
+# #+END_SRC

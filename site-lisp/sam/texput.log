@@ -1,0 +1,7859 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=latex 2013.7.27)  31 JUL 2013 23:23
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**\scrollmode
+
+*
+(Please type a command or say `\end')
+*\documentclass[12pt]{article}
+
+*\def\ASYprefix{}
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/local/texlive/2013/texmf-dist/tex/latex/base/size12.clo
+File: size12.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+*\newbox\ASYbox
+\ASYbox=\box26
+
+*\newdimen\ASYdimen
+\ASYdimen=\dimen103
+
+*\long\def\ASYbase#1#2{\leavevmode\setbox\ASYbox=\hbox{#1}\ASYdimen=\ht\ASYbox%
+
+
+*\setbox\ASYbox=\hbox{#2}\lower\ASYdimen\box\ASYbox}
+
+*\usepackage{graphicx}
+
+*\begin{document}
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/local/texlive/2013/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: dvips.def on input line 91.
+
+(/usr/local/texlive/2013/texmf-dist/tex/latex/graphics/dvips.def
+File: dvips.def 1999/02/16 v3.0i Driver-dependant file (DPC,SPQR)
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+No file texput.aux.
+\openout1 = `texput.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 0.
+LaTeX Font Info:    ... okay on input line 0.
+
+*\makeatletter%
+
+*\let\ASYencoding\f@encoding%
+
+*\let\ASYfamily\f@family%
+
+*\let\ASYseries\f@series%
+
+*\let\ASYshape\f@shape%
+
+*\makeatother%
+
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 0.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 0.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 0.
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\fontsize{12}{14.4}\selectfont
+
+*\usefont{\ASYencoding}{\ASYfamily}{\ASYseries}{\ASYshape}%
+
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$8$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$9$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$10$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 11.74988pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$5$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$6$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\setbox\ASYbox=\hbox{\vphantom{$10^4$}$7$}
+
+*
+(Please type a command or say `\end')
+*\showthe\wd\ASYbox
+> 5.87494pt.
+<*> \showthe\wd\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\ht\ASYbox
+> 9.51027pt.
+<*> \showthe\ht\ASYbox
+                      
+
+
+*
+(Please type a command or say `\end')
+*\showthe\dp\ASYbox
+> 0.0pt.
+<*> \showthe\dp\

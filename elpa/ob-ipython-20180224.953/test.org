@@ -1,0 +1,53 @@
+#+BEGIN_SRC ipython :session :results raw drawer
+print('hi')
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[10]:
+:END:
+
+#+BEGIN_SRC ipython :session :results raw drawer
+  %matplotlib inline
+  import matplotlib.pyplot as plt
+  import numpy as np
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[6]:
+:END:
+
+#+BEGIN_SRC ipython :session :exports both :results raw drawer
+  def foo(x):
+      return x + 9
+
+  [foo(x) + 7 for x in range(7)]
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[8]:
+: [16, 17, 18, 19, 20, 21, 22]
+:END:
+
+#+BEGIN_SRC ipython :session :ipyfile /tmp/test3.png :exports both :results raw drawer
+  plt.hist(np.random.randn(2000), bins=20)
+#+END_SRC
+
+#+RESULTS:
+:RESULTS:
+# Out[18]:
+#+BEGIN_EXAMPLE
+  (array([   2.,    6.,   11.,   21.,   39.,   79.,  122.,  172.,  239.,
+  249.,  281.,  249.,  217.,  128.,   84.,   44.,   35.,   15.,
+  5.,    2.]),
+  array([-3.5321922 , -3.18644904, -2.84070587, -2.49496271, -2.14921954,
+  -1.80347638, -1.45773321, -1.11199004, -0.76624688, -0.42050371,
+  -0.07476055,  0.27098262,  0.61672578,  0.96246895,  1.30821211,
+  1.65395528,  1.99969844,  2.34544161,  2.69118477,  3.03692794,
+  3.3826711 ]),
+  <a list of 20 Patch objects>)
+#+END_EXAMPLE
+[[file:/tmp/test3.png]]
+:END:

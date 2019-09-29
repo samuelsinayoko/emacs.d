@@ -1,0 +1,24 @@
+Editing keyboard macro (calc-User-r, bound to zr).
+Original keys: <return> 0 SPC 1 SPC C-u v x <tab> / M-TAB M-TAB M-TAB M-TAB M-TAB <tab> <return> M-TAB - M-TAB * - 
+Press `C-c C-c' to finish, `C-x k RET' to cancel.
+
+RET			;; calc-enter
+0			;; calc digits
+SPC			;; calc-enter
+1			;; calc digits
+SPC			;; calc-enter
+C-u v x			;; calc-index
+TAB			;; yas/expand
+/			;; calc-divide
+M-TAB			;; calc-roll-up
+M-TAB			;; calc-roll-up
+M-TAB			;; calc-roll-up
+M-TAB			;; calc-roll-up
+M-TAB			;; calc-roll-up
+TAB			;; yas/expand
+RET			;; calc-enter
+M-TAB			;; calc-roll-up
+-			;; calc-minus
+M-TAB			;; calc-roll-up
+*			;; calc-times
+-			;; calc-minus

@@ -1,0 +1,244 @@
+* Shortcuts
+Create a global minor mode that contains my default bindings. This is so they won't be overwridden by other major modes. Also the mode can be unactivated easily if some else wants to use my emacs.
+** sam-keys-mode
+*** Define the mode
+#+BEGIN_SRC emacs-lisp
+(define-minor-mode sam-keys-mode
+  "Sam's keybindings, hopefully more convenient than emacs defaults. It is a global mode so it overwrides all other minor modes' bindings. "
+  :lighter " Sam"
+  :global t
+  :keymap (let ((map (make-sparse-keymap)))
+    ;; Make cursor movement keys under right hand's home-row.
+    (define-key map "\M-j" 'backward-char)
+    (define-key map "\M-l" 'forward-char)
+    (define-key map "\M-i" 'previous-line)
+    (define-key map "\M-k" 'next-line)
+    (define-key map "\M-h" 'move-beginning-of-line)
+    (define-key map (kbd "M-;") 'move-end-of-line)
+    ;; Movements in terms of words and sentences
+    (define-key map "\M-L" 'forward-word)
+    (define-key map "\M-J" 'backward-word)
+    (define-key map "\M-H" 'backward-sentence)
+    (define-key map "\M-:" 'forward-sentence)
+    (define-key map "\M-I" 'scroll-down)
+    (define-key map "\M-K" 'scroll-up)
+    (define-key map "\M-a" 'set-mark-command)
+    (define-key map (kbd "C-M-i") 'back-to-indentation)
+    ;; Buffer
+    (define-key map "\M-f" 'ido-switch-buffer)
+    (define-key map (kbd "M-c") 'ido-kill-buffer)
+    (define-key map (kbd "C-M-c") 'sam/kill-help-buffer)
+    (define-key map (kbd "C-x C-b") 'ibuffer)
+
+    ;; Delete
+    (define-key map (kbd "M-'") 'zap-up-to-char) ;; stop just before char
+    (define-key map (kbd "M-w") 'sam/backward-kill-word-or-kill-region) ;; so we can
+    ;; Windows
+    (define-key map "\M-0" 'delete-window)
+    (define-key map "\M-1" 'delete-other-windows)
+    (define-key map "\M-2" 'split-window-vertically)
+    (define-key map "\M-3" 'split-window-horizontally)
+    (define-key map "\M-o" 'other-window)
+    (define-key map "\C-\M-u" 'winner-undo) ;; requires winner-mode
+    (define-key map "\M-}"  'enlarge-window)
+    (define-key map (kbd "C-M-{")  'shrink-window)
+    (define-key map (kbd "C-M-]") 'enlarge-window-horizontally)
+    (define-key map (kbd "C-M-[") 'shrink-window-horizontally)
+    (define-key map "\M-=" 'balance-windows)
+    ;; Registers
+    (define-key map (kbd "M-SPC") 'push-mark-no-activate)
+    (define-key map (kbd "C-SPC") 'just-one-space)
+    (define-key map (kbd "M-<return>") 'jump-to-mark)
+    ;; Comments
+    (define-key map "\C-cc"  'comment-region)
+    (define-key map "\C-cu"  'uncomment-region)
+    ;; Misc
+    ;;(define-key map "\M-g" 'goto-line)
+    (define-key map (kbd "C-<tab>") 'indent-relative) ; see also tab-to-tab-stops
+    (define-key map (kbd "M-r") 'undo) ;; undo easily
+    (define-key map "\M-m" 'dabbrev-expand) ;; dynamic expansions
+    (define-key map (kbd "C-c C-;") 'iedit-mode)
+    ;;   replace regexps interactively
+    (define-key map "\C-c\C-r" 'query-replace-regexp)
+    ;; My functions
+    (define-key map (kbd "<f5>") 'sam/reload-configuration)
+    (define-key map (kbd "C-,") 'sam/transpose-comma)
+    (define-key map (kbd "C-c ;") 'sam/copy-buffer-file-name)
+    (define-key map (kbd "C-o") 'sam/open-previous-line)
+    (define-key map (kbd "C-M-o") 'sam/open-next-line)
+    ;; Magit (Version Control for Git)
+    (define-key map (kbd "C-c m") 'magit-status)
+    map))
+#+END_SRC
+*** Activate the mode
+#+BEGIN_SRC emacs-lisp
+(sam-keys-mode t)
+#+END_SRC
+
+** sam/functions
+#+BEGIN_SRC emacs-lisp
+;; Define the functions
+(defun sam/copy-buffer-file-name ()
+  "Copy buffer file name to clipboard"
+  (interactive)
+  (kill-new buffer-file-name)
+  (message "copied %s" buffer-file-name))
+(defun sam/reload-configuration ()
+  "Reload .emacs file"
+  (interactive)
+  (load-file emacs-init-file))
+;; Open previous / next line
+(defun sam/open-next-line (arg)
+  "Move to the next line and then opens a line.
+      See also `newline-and-indent'."
+  (interactive "p")
+  (end-of-line)
+  (open-line arg)
+  (next-line 1)
+  (indent-according-to-mode))
+(defun sam/open-previous-line (arg)
+  "Open a new line before the current one.
+       See also `newline-and-indent'."
+  (interactive "p")
+  (beginning-of-line)
+  (open-line arg)
+  (indent-according-to-mode))
+(defun sam/backward-kill-word-or-kill-region (&optional arg)
+  (interactive "p")
+  (if (region-active-p)
+      (copy-region-as-kill (region-beginning) (region-end))
+    (backward-kill-word arg)))
+(defun sam/transpose-comma (&optional N)
+  "Transpose words around comma. Point needs to be in word before
+  comma.
+  Useful to transpose the arguments of a function
+  definition when coding.
+  TODO: allow for negative arguments
+  "
+  (interactive "p")
+  (let (eol)
+    (save-excursion
+      (end-of-line)
+      (setq eol (point)))
+    (beginning-of-sexp)
+    (if (re-search-forward "\\(\\w+\\), \\(\\w+\\)"  eol t 1)
+	(replace-match "\\2, \\1")))
+  (if (and N (> N 1))
+      (transpose-comma (1- N))))
+
+(defun sam/kill-help-buffer()
+    "Kill buffer in other window"
+    (interactive)
+    ;;  (fset 'kill-help-buffer "\C-xoq")
+    (save-excursion
+      ;; Cycle window until we reach *Help* buffer
+      (while (not (equal (buffer-name) "*Help*"))
+        (select-window (next-window)))
+      (View-quit)))
+#+END_SRC
+
+** old way of defining my bindings
+#+begin_src
+  ;;;;Personal shortcuts
+  ;; Global key map
+  (global-set-key "\M-a" 'set-mark-command)
+  (global-set-key (kbd "M-SPC") 'push-mark-no-activate)
+  (global-set-key (kbd "C-SPC") 'just-one-space)
+  (global-set-key "\M-\r" 'jump-to-mark)
+  ;;(global-set-key "\M-A" 'push-mark-no-activate)
+  ;; Switch buffer
+  (global-set-key "\M-f" 'ido-switch-buffer)
+  ;;(global-set-key "\M-m" 'dabbrev-expand)
+  ;; make cursor movement keys under right hand's home-row.
+  (global-set-key "\M-j" 'backward-char)
+  (global-set-key "\M-l" 'forward-char)
+  (global-set-key "\M-i" 'previous-line)
+  (global-set-key "\M-k" 'next-line)
+  (global-set-key "\M-h" 'move-beginning-of-line)
+  (global-set-key (kbd "M-;") 'move-end-of-line)
+  ;; movement in terms of words and sentences
+  (global-set-key "\M-L" 'forward-word)
+  (global-set-key "\M-J" 'backward-word)
+  (global-set-key "\M-H" 'backward-sentence)
+  (global-set-key "\M-:" 'forward-sentence)
+  (global-set-key "\M-I" 'scroll-down)
+  (global-set-key "\M-K" 'scroll-up)
+  ;; cancel/stop command
+  (global-set-key "\M-g" 'goto-line)
+  ;; go back to indentation
+  (global-set-key (kbd "C-M-i") 'back-to-indentation)
+
+  ;; Define interactive function to set custom shortcuts
+  (defun sam-keys ()
+    "Sam's keys. Move with right hand while holding M, C or S keys with left hand"
+    (interactive)
+    ;; Alt-G to jump to certain line number
+    (global-set-key "\M-g" 'goto-line)
+    ;(global-set-key "\M-g" 'keyboard-quit)
+    ;; rebind tab-to-tab-stop: allow to define new tab stops
+    (global-set-key (kbd "C-A") 'indent-relative) ; see also tab-to-tab-stops
+    ;; Switch buffer
+    (global-set-key "\M-f" 'ido-switch-buffer)
+    ;; make cursor movement keys under right hand's home-row.
+    (global-set-key "\M-j" 'backward-char)
+    (global-set-key "\M-l" 'forward-char)
+    (global-set-key "\M-i" 'previous-line)
+    (global-set-key "\M-k" 'next-line)
+    (global-set-key "\M-h" 'move-beginning-of-line)
+    (global-set-key (kbd "M-;") 'move-end-of-line)
+    ;; movement in terms of words and sentences
+    (global-set-key "\M-L" 'forward-word)
+    (global-set-key "\M-J" 'backward-word)
+    (global-set-key "\M-H" 'backward-sentence)
+    (global-set-key "\M-:" 'forward-sentence)
+    (global-set-key "\M-I" 'scroll-down)
+    (global-set-key "\M-K" 'scroll-up)
+    (global-set-key "\M-a" 'set-mark-command)
+    ;; Dynamic expansion
+    (global-set-key "\M-m" 'dabbrev-expand)
+    ;; Comments
+    (global-set-key "\C-cc"  'comment-region)
+    (global-set-key "\C-cu"  'uncomment-region)
+    ;; Replace regexp
+    (global-set-key "\C-c\C-r" 'query-replace-regexp)
+    ;; Windows
+    (global-set-key "\M-0" 'delete-window)
+    (global-set-key "\M-1" 'delete-other-windows)
+    (global-set-key "\M-2" 'split-window-vertically)
+    (global-set-key "\M-3" 'split-window-horizontally)
+    (global-set-key "\M-o" 'other-window)
+    (global-set-key "\C-\M-u" 'winner-undo)
+    (global-set-key "\M-Q" 'kill-help-buffer)
+    ;; Resize window
+    (global-set-key "\M-}"  'enlarge-window)
+    (global-set-key "\M-{"  'shrink-window)
+    (global-set-key "\M-]" 'enlarge-window-horizontally)
+    (global-set-key "\M-[" 'shrink-window-horizontally)
+    (global-set-key "\M-=" 'balance-windows)
+    ;; Registers
+    (global-set-key (kbd "M-SPC") 'push-mark-no-activate)
+    (global-set-key (kbd "C-SPC") 'just-one-space)
+    (global-set-key "\M-\r" 'jump-to-mark)
+    ;; Reload configuration
+    (global-set-key (kbd "<f5>") 'reload-configuration)
+    ;; Set sam-keys in each major mode
+    ;;(add-hook 'after-change-major-mode-hook 'sam-keys)
+    ;; go back to indentation (S-TAB)
+    (global-set-key (kbd "C-M-i") 'back-to-indentation))
+
+  (sam-keys)
+#+end_src
+*** More
+#+begin_src
+  (global-set-key (kbd "C-o") 'open-previous-line)
+  (global-set-key (kbd "C-M-o") 'open-next-line)
+  (global-set-key (kbd "M-r") 'undo) ;; undo easily
+  (global-set-key (kbd "M-c") 'ido-kill-buffer) ;;
+  (global-set-key (kbd "M-'") 'zap-to-char)
+  (global-set-key (kbd "M-w") 'backward-kill-word-or-kill-region) ;; so we can delete words easily
+  ;;(global-set-key (kbd "C-h") 'backward-delete-char-untabify) ;; so we can delete words easily
+  (global-set-key "\M-s" 'backward-delete-char-untabify)
+  ;; (define-key isearch-mode-map "\C-h" 'isearch-delete-char)
+  ;; (global-set-key (kbd "C-M-h") 'help-command)
+  ;; (global-set-key (kbd "M-C") 'delete-other-window)
+#+end_src

@@ -1,0 +1,498 @@
+;; This library implements a Jupyter notebook back-end for Org
+;; exporter, based on the Github flavored Markdown back-end.
+;; TODO:
+;; - [ ] pre-processing before exporting: remove COMMENT headlines
+;; -
+;;; Code:
+
+(require 'ox-gfm)
+(require 'ox-md)
+(require 'subr-x)
+
+
+;;; User-Configurable Variables
+
+(defgroup org-export-jupyter nil
+  "Options specific to Markdown export back-end."
+  :tag "Org Jupyter Notebook"
+  :group 'org-export
+  :version "24.4"
+  :package-version '(Org . "8.0"))
+
+(defcustom org-jupyter-lang '(("emacs-lisp" . "lisp") ("elisp" . "lisp"))
+  "Alist of languages that are not recognized by Github, to
+  languages that are. Emacs lisp is a good example of this, where
+  we can use lisp as a nice replacement."
+  :group 'org-export-jupyter)
+
+
+
+;;; Define Back-End
+
+(org-export-define-derived-backend 'jupyter 'md
+  :export-block '("JUPYTER" "JUPYTER NOTEBOOK")
+  :filters-alist '((:filter-parse-tree . org-md-separate-elements))
+  :menu-entry
+  '(?j "Export to Jupyter Notebook"
+       ((?J "To temporary buffer"
+            (lambda (a s v b) (org-jupyter-export-as-markdown a s v)))
+        (?j "To file" (lambda (a s v b) (org-jupyter-export-to-markdown a s v)))
+        (?o "To file and open"
+            (lambda (a s v b)
+              (if a (org-jupyter-export-to-markdown t s v)
+		(org-open-link-from-string (concat "http://localhost:8888/notebooks/" (file-name-nondirectory (org-jupyter-export-to-markdown nil s v)))))))))
+	;;(org-open-file (org-jupyter-export-to-markdown nil s v))))
+  :translate-alist '((inner-template . org-jupyter-inner-template)
+                     (strike-through . org-jupyter-strike-through)
+		     (section . org-jupyter-section)
+		     (headline . org-jupyter-headline)
+                     (src-block . org-jupyter-src-block)))
+
+;;; Transcode Functions
+
+;;;; Src Block
+
+(defun org-jupyter-src-block (src-block contents info)
+  "Transcode SRC-BLOCK element into Github Flavored Markdown
+format. CONTENTS is nil.  INFO is a plist used as a communication
+channel."
+  (org-element-src-block-interpreter src-block contents))
+;; (let* ((lang (org-element-property :language src-block))
+;;        (lang (or (assoc-default lang org-jupyter-lang) lang))
+;;        (code (org-export-format-code-default src-block info))
+;;        (prefix (concat "```" lang "\n"))
+;;        (suffix "```"))
+;;   (concat prefix code suffix)))
+
+
+;;;; Strike-Through
+
+(defun org-html-strike-through (strike-through contents info)
+  "Transcode STRIKE-THROUGH from Org to Markdown (JUPYTER).
+CONTENTS is the text with strike-through markup.  INFO is a plist
+holding contextual information."
+  (format "~~%s~~" contents))
+
+;;;; Table of contents
+
+(defun org-jupyter-format-toc (headline)
+  "Return an appropriate table of contents entry for HEADLINE. INFO is a
+plist used as a communication channel."
+  (let* ((title (org-export-data
+                 (org-export-get-alt-title headline info) info))
+         (level (1- (org-element-property :level headline)))
+         (indent (concat (make-string (* level 2) ? )))
+         (ref-str (replace-regexp-in-string " " "-" (downcase title))))
+    (concat indent "- [" title "]" "(#" ref-str ")")))
+
+
+;; Three functions that do most of the work: cell, template and org-jupyter-export-buffer-to-ipynb
+(defun org-jupyter-cell (type string &optional metadata)
+  "Return string corresponding to a cell in Jupyter notebook"
+  (defun pre-process-string-latex (string)
+    "Replace \\(XXX\\) by $XXX$ for LaTeX fragments"
+    (setq string (replace-regexp-in-string "\\\\(\\(.*?\\)\\\\)" "$\\1$" string)))
+
+  (defun pre-process-string (string)
+    "Pre-process the string"
+    (pre-process-string-latex string))
+
+  (let* ((lines-list (split-string (pre-process-string string) "\n"))
+	 (lines-string (with-temp-buffer
+			 (insert (mapconcat (lambda (l)
+					      (format "%s\\n\"," (with-temp-buffer
+								   (insert (prin1-to-string l))
+								   (delete-char -1)
+								   (buffer-string))))
+					    lines-list
+					    "\n  "))
+			 (delete-char -1)
+			 ;; remove trailing newlines
+			 (replace-regexp-in-string "\\\\n\",\n[ ]*\"\\\\n\"" "\"" (buffer-string)))))
+
+    (format "{
+ \"cell_type\": \"%s\",
+ \"metadata\": %s,
+  %s
+ \"source\": [
+  %s
+  ]
+ }" type
+ (if metadata
+     metadata
+   "{}")
+ (if (string= type "code")
+     "\"outputs\": [],\n \"execution_count\": 1,\n"
+   "")
+ lines-string)))
+
+(defun org-jupyter-section (section contents info)
+  "Transcode a SECTION element from Org to Jupyter notebook.
+CONTENTS holds the contents of the section.  INFO is a plist
+holding contextual information."
+  (with-temp-buffer
+    (insert contents)
+    (org-mode)
+    (export-buffer-to-notebook t)))
+;; (let ((end (point-max)))
+;;   (with-temp-buffer
+;;     (insert contents)
+;;     (org-mode)
+;;     ;; Don't put trailing comma if this is the last section in the buffer
+;;     (export-buffer-to-notebook t (eq end (org-element-property :end section))))))
+
+
+(defun org-jupyter-get-level (headline)
+  "Get the level of the headline"
+  ;; Simply counts the number of '*' characters
+  (org-element-property :level headline))
+
+
+(defun append-cell2 (input-cell &optional prepend output no-trailing-comma)
+  (let ((cell (if no-trailing-comma
+		  input-cell
+		(concat input-cell ","))))
+    (if output
+	(if input-cell
+	    (if prepend
+		(format "%s\n%s" cell output)
+	      (format "%s\n%s" output cell))
+	  output)
+      (if input-cell
+	  cell
+	nil))))
+
+
+(defun org-jupyter-headline (headline contents info)
+  "Transcode HEADLINE element from Org to Jupyter notebook.
+CONTENTS holds the headline contenots.  INFO is a plist
+holding contextual information."
+  ;; (with-temp-buffer
+  ;;   (insert (org-export-data (org-element-property :title headline) info))
+  ;;   (export-buffer-to-notebook t))
+  (unless (org-element-property :footnote-section-p headline)
+    (let* ((level (org-export-get-relative-level headline info))
+	   (level (org-jupyter-get-level headline))
+	   (title (org-export-data (org-element-property :title headline) info))
+	   (todo (and (plist-get info :with-todo-keywords)
+		      (let ((todo (org-element-property :todo-keyword
+							headline)))
+			(and todo (concat (org-export-data todo info) " ")))))
+	   (tags (and (plist-get info :with-tags)
+		      (let ((tag-list (org-export-get-tags headline info)))
+			(and tag-list
+			     (format "     :%s:"
+				     (mapconcat 'identity tag-list ":"))))))
+	   (priority
+	    (and (plist-get info :with-priority)
+		 (let ((char (org-element-property :priority headline)))
+		   (and char (format "[#%c] " char)))))
+	   (anchor
+	    (when (plist-get info :with-toc)
+	      (org-html--anchor
+	       (or (org-element-property :CUSTOM_ID headline)
+		   (concat "sec-"
+			   (mapconcat 'number-to-string
+				      (org-export-get-headline-number
+				       headline info) "-"))))))
+	   ;; Headline text without tags.
+	   (heading (concat todo priority title)))
+      (cond
+       ;; Cannot create a headline.  Fall-back to a list.
+       ((or (org-export-low-level-p headline info)
+	    (not (memq org-md-headline-style '(atx setext)))
+	    (and (eq org-md-headline-style 'atx) (> level 6))
+	    (and (eq org-md-headline-style 'setext) (> level 2)))
+	(let ((bullet
+	       (if (not (org-export-numbered-headline-p headline info)) "-"
+		 (concat (number-to-string
+			  (car (last (org-export-get-headline-number
+				      headline info))))
+			 "."))))
+	  (concat bullet (make-string (- 4 (length bullet)) ? ) heading tags
+		  "\n\n"
+		  (and contents
+		       (replace-regexp-in-string "^" "    " contents)))))
+       ;; Use "Setext" style.
+       ((eq org-md-headline-style 'setext)
+	(concat heading tags anchor "\n"
+		(make-string (length heading) (if (= level 1) ?= ?-))
+		"\n\n"
+		contents))
+       ;; Use "atx" style.
+       (t (if contents
+	      (concat (org-jupyter-cell "markdown" (concat (make-string level ?#) " " (substring-no-properties heading) tags anchor)) ",\n" contents)
+	    (concat (org-jupyter-cell "markdown" (concat (make-string level ?#) " " (substring-no-properties heading) tags anchor)) "\n" contents)))))))
+;;(t (concat (make-string level ?#) " " (substring-no-properties heading) tags anchor "\n\n" contents))))))
+
+
+(defun org-jupyter-inner-template (contents info)
+  "Return body of document after converting it to Markdown syntax.
+CONTENTS is the transcoded contents string.  INFO is a plist
+holding export options."
+
+  ;; Make sure the contents are properly formatted:
+      ;; Add title cell to notebook: should probably be part of inner-template.
+    ;;; -> change the style of the title hre
+    ;;; -> should be customizable variable
+  (message "****** in org-jupyter-inner-template")
+
+  (let* ((style "<h1 align=\"center\"><font color=\"0066FF\" size=110>%s</font></h1>")
+  	 (title (plist-get (org-export-get-environment)  :title))
+  	 tcell)
+    (message "title = %s" title)
+    (setq tcell (if title
+  		    (org-jupyter-cell "markdown"
+				      (format style
+					      (substring-no-properties (car title))))
+  		  ""))
+    (message "tcell = %s" tcell)
+    (when tcell
+      (setq contents (append-cell2 tcell t contents)))
+    (message "contents = %s" contents)
+    (replace-regexp-in-string "},\\([ \n\t]*\\)]" "}\\1]"
+			      (format "{
+\"cells\": [
+ %s
+],
+ \"metadata\": {
+  \"kernelspec\": {
+   \"display_name\": \"Python 2\",
+   \"language\": \"python\",
+   \"name\": \"python2\"
+  },
+  \"language_info\": {
+   \"codemirror_mode\": {
+    \"name\": \"ipython\",
+    \"version\": 2
+   },
+   \"file_extension\": \".py\",
+   \"mimetype\": \"text/x-python\",
+   \"name\": \"python\",
+   \"nbconvert_exporter\": \"python\",
+   \"pygments_lexer\": \"ipython2\",
+   \"version\": \"2.7.10\"
+  }
+ },
+ \"nbformat\": 4,
+ \"nbformat_minor\": 0
+}" contents))))
+
+
+(defun export-region-as-markdown (beg end)
+  "Export region as Github flavoured markdown"
+  (condition-case nil
+      (org-jupyter-cell "markdown"
+			(org-export-string-as
+			 ;;(buffer-substring-no-properties beg end) 'gfm t))
+			 (buffer-substring-no-properties beg end) 'gfm t '(:with-toc nil)))
+    (error (format "ERROR: Markdown export for region %d %d failed " beg end)
+	   nil)))
+
+(defun ox-jupyter-python-block-p ()
+  (interactive)
+  (condition-case nil
+      (let* ((info (org-babel-get-src-block-info 'light))
+	     (lang (nth 0 info)))
+	(member lang '("python" "ipython")))
+    (error nil)))
+
+
+(defun export-buffer-to-notebook (&optional return-cells no-trailing-comma)
+  "Export current buffer to cells"
+  (interactive)
+  ;; Remove all results
+  (save-excursion
+    (condition-case nil
+        (while 1
+      	  (progn
+	    (org-babel-next-src-block)
+	    (org-babel-remove-result)))
+      (error nil)))
+  (let ((start 1) output old)
+
+    (defun append-cell (input-cell &optional prepend)
+      (let ((cell (if no-trailing-comma
+		      input-cell
+		    (concat input-cell ","))))
+	(setq output (if output
+			 (if input-cell
+			     (if prepend
+				 (format "%s\n%s" cell output)
+			       (format "%s\n%s" output cell))
+			   output)
+		       (if input-cell
+			   cell
+			 nil)))))
+
+
+    ;; ;; Add title cell to notebook: should probably be part of inner-template.
+    ;; ;;; -> change the style of the title hre
+    ;; ;;; -> should be customizable variable
+    ;; (append-cell (org-jupyter-cell "markdown"
+    ;; 				     (format "<h1 align=\"center\"><font color=\"0066FF\" size=110>%s</font></h1>"
+    ;; 					     (substring-no-properties
+    ;; 					      (car
+    ;; 					       (plist-get (org-export-get-environment)  :title))))))
+    (save-excursion
+      (goto-char 1)
+      ;;(message "DBG: before catch %d" (point))
+      (catch 'no-more-blocks
+	(while t
+	  (condition-case nil
+	      (progn
+		;;(message "DBG: before next block %d" (point))
+		(setq old (point))
+		;;(org-next-block 1))
+		(let (stop)
+		  (while (not stop)
+		    (org-next-block 1)
+		    (when (ox-jupyter-python-block-p)
+		      (setq stop t)))))
+	    (error (progn
+		     ;;(message "DBG: no more blocks %d" (point))
+		     ;; sometimes org-next-block moves point even though it shouldn't...
+		     (goto-char old)
+		     (unless (looking-at org-babel-src-block-regexp)
+		       (throw 'no-more-blocks nil))
+		     nil)))
+
+	  ;; Process region until next block as markdown cell
+	  (append-cell (export-region-as-markdown start (point)))
+	  ;; Update point
+	  (setq start (point))
+
+	  ;; Process block
+	  (org-babel-mark-block)
+	  (append-cell (org-jupyter-cell "code"
+					 (buffer-substring-no-properties
+					  (region-beginning) (region-end))))
+	  ;; Update point
+	  (goto-char (region-end))
+	  (forward-line 2)
+	  (setq start (point))))
+      ;; No more blocks: process region until the end as markdown cell
+      (append-cell (export-region-as-markdown start (point-max)))
+
+
+      ;; This is now done in inner-template
+      ;; ;; Add title cell
+      ;; (let* ((style "<h1 align=\"center\"><font color=\"0066FF\" size=110>%s</font></h1>")
+      ;; 	     (title (plist-get (org-export-get-environment)  :title))
+      ;; 	     tcell)
+      ;; 	(message "**** (export-buffer-to-notebook)title = %s" title)
+      ;; 	(if title
+      ;; 	    (append-cell (org-jupyter-cell "markdown"
+      ;; 				      (format style
+      ;; 					      (substring-no-properties (car title))))
+      ;; 			 t)))
+
+      ;; Create notebook
+      (if return-cells
+	  output
+	(with-temp-buffer
+	  ;;(message "****** in export-buffer-to-notebook: calling inner-template")
+	  (insert (org-jupyter-inner-template output nil))
+	  (json-mode)
+	  (mark-whole-buffer)
+	  (indent-for-tab-command)
+	  ;;(write-file "simple-notebook-test.ipynb"))
+	  ;;(write-file notebook-filename)
+	  (buffer-string))))))
+
+
+
+
+;;; Interactive function
+
+;;;###autoload
+(defun org-jupyter-export-as-markdown (&optional async subtreep visible-only)
+  "Export current buffer to a Github Flavored Markdown buffer.
+
+If narrowing is active in the current buffer, only export its
+narrowed part.
+
+If a region is active, export that region.
+
+A non-nil optional argument ASYNC means the process should happen
+asynchronously.  The resulting buffer should be accessible
+through the `org-export-stack' interface.
+
+When optional argument SUBTREEP is non-nil, export the sub-tree
+at point, extracting information from the headline properties
+first.
+
+When optional argument VISIBLE-ONLY is non-nil, don't export
+contents of hidden elements.
+
+Export is done in a buffer named \"*Org JUPYTER Export*\", which will
+be displayed when `org-export-show-temporary-export-buffer' is
+non-nil."
+  (interactive)
+  (org-export-to-buffer 'jupyter "*Org JUPYTER Export*"
+    async subtreep visible-only nil nil (lambda () (text-mode))))
+
+
+;;;###autoload
+(defun org-jupyter-convert-region-to-md ()
+  "Assume the current region has org-mode syntax, and convert it
+to Github Flavored Markdown.  This can be used in any buffer.
+For example, you can write an itemized list in org-mode syntax in
+a Markdown buffer and use this command to convert it."
+  (interactive)
+  (org-export-replace-region-by 'jupyter))
+
+
+;;;###autoload
+(defun org-jupyter-export-to-markdown (&optional async subtreep visible-only)
+  "Export current buffer to a Github Flavored Markdown file.
+
+If narrowing is active in the current buffer, only export its
+narrowed part.
+
+If a region is active, export that region.
+
+A non-nil optional argument ASYNC means the process should happen
+asynchronously.  The resulting file should be accessible through
+the `org-export-stack' interface.
+
+When optional argument SUBTREEP is non-nil, export the sub-tree
+at point, extracting information from the headline properties
+first.
+
+When optional argument VISIBLE-ONLY is non-nil, don't export
+contents of hidden elements.
+
+Return output file's name."
+  (interactive)
+  (let ((outfile (org-export-output-file-name ".ipynb" subtreep)))
+    (org-export-to-file 'jupyter outfile async subtreep visible-only)))
+
+(defun org-jupyter-fix-inline-equations ()
+  "Temporary fix for inline equations given a notebook: \\(Ax=b\\) -> $Ax=b$"
+  (interactive)
+  (let ((outfile (org-export-output-file-name ".ipynb")))
+    (with-temp-file  outfile
+	(insert-file-contents outfile)
+	(replace-string "\\\\(" "$" nil (point-min) (point-max))
+	(replace-string "\\\\)" "$" nil (point-min) (point-max))
+	;; Fix headline for self study
+	;;(replace-string "# Self study" "## Self study")
+	)))
+
+(defun org-jupyter-fix-double-commas ()
+  "Temporary fix for inline equations given a notebook: \\(Ax=b\\) -> $Ax=b$"
+  (interactive)
+  (let ((outfile (org-export-output-file-name ".ipynb")))
+    (with-temp-file outfile
+      (insert-file-contents outfile)
+      (replace-string "},," "}," nil (point-min) (point-max)))))
+
+
+(provide 'ox-jupyter)
+
+;; Local variables:
+;; generated-autoload-file: "org-loaddefs.el"
+;; End:
+
+;;; ox-jupyter.el ends here

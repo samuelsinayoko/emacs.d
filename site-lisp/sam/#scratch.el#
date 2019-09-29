@@ -1,0 +1,99 @@
+(defun sam/match-buffer-regexp (regexp)
+  "Match regexp in buffer"
+  (save-excursion
+    (goto-char 0)
+    (search-forward-regexp regexp)))
+
+(defun sam/match-number (name)
+  "search for name = value in current buffer"
+  (sam/match-buffer-regexp (format "%s = \\([-.e0-9]+\\)" name)))
+
+(defun sam/match-string (name)
+  "search for name = value in current buffer"
+(sam/match-buffer-regexp (format "%s = '\\([a-zA-Z]+\\)'" name)))
+
+(defun sam/edit (name match)
+  "Search and replace value using user input"
+  (interactive)
+  (funcall match name)
+  (let* ((old (match-string 1))
+	 (new (read-string (format "%s (%s): " name old) nil nil old)))
+    (funcall match name)
+    (replace-match  new nil nil nil 1)))
+
+(defun rerun ()
+  "Display result from fdcode for specified step.
+
+Look for script to find line 'step = N' and ask user for desired step number N.
+"
+  (interactive)
+  (sam/edit "step")
+  (py-execute-buffer))
+
+
+(sam/edit "step" 'sam/match-number)
+(sam/edit "cmax" 'sam/match-number)
+(sam/edit "sol_name" 'sam/match-string)
+
+step = 10
+cmax = 5e-4
+sol_name = 'rho'
+
+
+(defun rerun ()
+  "Display result from fdcode for specified step.
+
+Look for script to find line 'step = N' and ask user for desired step number N.
+"
+  (interactive)
+  (save-excursion
+    (goto-char 0)
+    (search-forward-regexp "step = \\([0-9]+\\)")
+    (replace-match
+     (format "step = %d"
+	     (read-number "Number? "
+			  (string-to-number (match-string 1))))))
+  (py-execute-buffer))
+
+;; Copy filename to clipboard
+(defun sam/copy-buffer-file-name ()
+  "Copy buffer file name to clipboard"
+  (interactive)
+  (kill-new buffer-file-name)
+  (message "copied %s" buffer-file-name))
+
+;; Consider adding this to .emacs
+(defvar *user*    (user-login-name) "unix user name, defined in .emacs")
+(defvar *home*    (or (getenv "HOME") (getenv "LOGNAME"))
+                      "unix home directory, defined in .emacs")
+(defvar *hostname*
+  (let ((n (system-name))) (substring n 0 (string-match "\\." n)))
+  "name of computer, sans domain name (use system-name for the FQDN)")
+(defvar *uname*
+  (let ((u (shell-command-to-string "uname")))
+    (substring u 0 (string-match "\n" u))) "unix variety" )
+
+
+;; Biblio
+;; List of bib directories
+(setq bib-directories
+      (list
+       (pjoin DBOX "bib" "files") ;; from zotero
+       (pjoin DBOX "bib" "mendeley") ;; from mendeley
+       (pjoin DBOX "publications") ;; my publications
+))
+;; Create alist with filenames as keys and abs path as value
+(setq database
+      (loop for dir in bib-directories
+	    append (loop for file in (directory-files dir nil "\\.pdf\\|\\.ps")
+			 collect (cons file (expand-file-name file dir)))))
+;; Exact list of files for quick filtering with ido
+(setq files
+      (loop for pair in database
+	    collect (car pair)))
+;; Select a paper with ido and open
+(let (pair file path)
+  (setq file (ido-completing-read "Open reference:" files))
+  (setq pair (assq file database))
+  (setq path (cdr pair))
+  (call-process pdf-viewer nil 0 nil path))

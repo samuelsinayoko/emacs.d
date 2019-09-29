@@ -1,0 +1,30 @@
+*** latex.el.old	Sun Jan 30 22:10:00 2011
+--- latex.el	Sun Jan 30 20:08:43 2011
+***************
+*** 306,316 ****
+  		   (LaTeX-outline-offset))))
+  	(t
+  	 (save-excursion
+! 	  (skip-chars-forward " \t")
+  	  (forward-char 1)
+  	  (cond ((looking-at "appendix") 1)
+  		((looking-at "documentstyle") 1)
+  		((looking-at "documentclass") 1)
+  		((TeX-look-at LaTeX-section-list)
+  		 (max 1 (+ (TeX-look-at LaTeX-section-list)
+  			   (LaTeX-outline-offset))))
+--- 306,319 ----
+  		   (LaTeX-outline-offset))))
+  	(t
+  	 (save-excursion
+! 	   (skip-chars-forward " \t")
+  	  (forward-char 1)
+  	  (cond ((looking-at "appendix") 1)
+  		((looking-at "documentstyle") 1)
+  		((looking-at "documentclass") 1)
++ 		;; Modified by Samuel Sinayoko
++ 		((looking-at " ") 6)
++ 		((looking-at "% ") 7)
+  		((TeX-look-at LaTeX-section-list)
+  		 (max 1 (+ (TeX-look-at LaTeX-section-list)
+  			   (LaTeX-outline-offset))))
