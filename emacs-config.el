@@ -1,9 +1,4 @@
 
-;; Add ~/.elisp to load path
-(add-to-list 'load-path "~/.elisp")
-(add-to-list 'load-path "~/.elisp/sam")
-(load-file "~/.elisp/sam/sam.el")
-
 ;;;; Info files
 (require 'info)
 (setq Info-directory-list
@@ -368,18 +363,19 @@ This is particularly useful under Mac OSX, where GUI apps are not started from a
 ;;         ad-do-it))))
 
 ;; smex
-;;(load-file "~/.elisp/smex.el") ;; use elpa instead
+;;(load-file "~/.emacs.d/site-lisp/smex.el") ;; use elpa instead
 ;;(smex-initialize)
 ;; (setq smex-save-file "~/.emacs.d/.smex-items")
 ;; (global-set-key (kbd "M-x") 'smex)
 ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 ;; idomenu
-;;(load-file "~/.elisp/idomenu.el")
+;;(load-file "~/.emacs.d/site-lisp/idomenu.el")
 (autoload 'idomenu "idomenu" nil t)
 (global-set-key (kbd "M-/") 'idomenu)
 
 ;; Iedit: to replace things easily locally
+(load-file "~/.emacs.d/site-lisp/iedit.el")
 (require 'iedit)
 (define-key global-map (kbd "C-;") 'iedit-mode)
 (define-key isearch-mode-map (kbd "C-;") 'iedit-mode)

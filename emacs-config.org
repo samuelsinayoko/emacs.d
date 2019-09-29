@@ -1,12 +1,6 @@
 * Basics
 Mostly the keybindings.
-[[file:basics.org]]
-* Load path
-#+begin_src emacs-lisp
-  ;; Add ~/.elisp to load path
-  (add-to-list 'load-path "~/.elisp")
-  (add-to-list 'load-path "~/.elisp/sam")
-  (load-file "~/.elisp/sam/sam.el")
+[[file:basics.org]]/sam.el")
 #+end_src
 ** info
 This has to come before el-get!
@@ -429,14 +423,14 @@ Facilitates loading packages.
 *** smex & idomenu
 #+BEGIN_SRC emacs-lisp
 ;; smex
-;;(load-file "~/.elisp/smex.el") ;; use elpa instead
+;;(load-file "~/.emacs.d/site-lisp/smex.el") ;; use elpa instead
 ;;(smex-initialize)
 ;; (setq smex-save-file "~/.emacs.d/.smex-items")
 ;; (global-set-key (kbd "M-x") 'smex)
 ;; (global-set-key (kbd "M-X") 'smex-major-mode-commands)
 ;; (global-set-key (kbd "C-c C-c M-x") 'execute-extended-command)
 ;; idomenu
-;;(load-file "~/.elisp/idomenu.el")
+;;(load-file "~/.emacs.d/site-lisp/idomenu.el")
 (autoload 'idomenu "idomenu" nil t)
 (global-set-key (kbd "M-/") 'idomenu)
 #+END_SRC
@@ -447,6 +441,7 @@ Facilitates loading packages.
 ** idedit
 #+begin_src emacs-lisp
   ;; Iedit: to replace things easily locally
+  (load-file "~/.emacs.d/site-lisp/iedit.el")
   (require 'iedit)
   (define-key global-map (kbd "C-;") 'iedit-mode)
   (define-key isearch-mode-map (kbd "C-;") 'iedit-mode)
@@ -641,8 +636,8 @@ TOTAL                                                                           
 #     ;;; python.el
 #     ;;(require 'python) ;; using python-mode instead
 #     ;; python-mode
-#     ;;(add-to-list 'load-path "~/.elisp/python-mode")
-#     ;;(setq py-install-directory (expand-file-name "~/.elisp/python-mode"))
+#     ;;(add-to-list 'load-path "~/.emacs.d/site-lisp/python-mode")
+#     ;;(setq py-install-directory (expand-file-name "~/.emacs.d/site-lisp/python-mode"))
 #     (require 'python-mode)
 #     ;;(setq py-shell-name (pjoin PYTHON "ipython"))
 #     ;;(setq py-python-command (pjoin PYTHON "ipython"))
@@ -727,23 +722,23 @@ TOTAL                                                                           
 # # See https://github.com/gregsexton/ob-ipython
 # # This looks great: use IPython session in Org Babel. Better than ein? Doesn't seem to work at the moment...
 # # #+BEGIN_SRC #emacs-lisp
-# # (add-to-list 'load-path "~/.elisp/ob-ipython")
+# # (add-to-list 'load-path "~/.emacs.d/site-lisp/ob-ipython")
 # # (require 'ob-ipython)
 # # #+END_SRC
 # # **** Old
 # # **** python-mode
 # # Unofficial python mode, more features than the official Emacs python mode (python.el). IPython support seems to be broken (03/06/2014) with version 6.1.3: starts ipython properly but then starts a separate terminal when evaluating buffer... :-(
 # # #+BEGIN_SRC
-# # (add-to-list 'load-path "~/.elisp/python-mode")
-# # (setq py-install-directory "~/.elisp/python-mode")
+# # (add-to-list 'load-path "~/.emacs.d/site-lisp/python-mode")
+# # (setq py-install-directory "~/.emacs.d/site-lisp/python-mode")
 # # (require 'python-mode)
 # # (setq py-shell-name (pjoin PYTHON "ipython"))
 
 # # #+END_SRC
 # # **** ipython
 # # #+BEGIN_SRC
-# #   ;; (add-to-list 'load-path "~/.elisp/python-mode")
-# #   ;; (setq py-install-directory "~/.elisp/python-mode")
+# #   ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/python-mode")
+# #   ;; (setq py-install-directory "~/.emacs.d/site-lisp/python-mode")
 # #   ;; (require 'python-mode)
 # #   (setq py-shell-name (pjoin PYTHON "ipython"))
 # #   (require 'ipython)
@@ -760,10 +755,10 @@ TOTAL                                                                           
 # #   ;; (require 'python-pep8)
 # #   ;; (require 'python-pylint)
 # #   ;; ;; Emacs Ipython Notebook
-# #   ;; ;;(add-to-list 'load-path "~/.elisp/tkf-emacs-ipython-notebook-85c6d2e/")
+# #   ;; ;;(add-to-list 'load-path "~/.emacs.d/site-lisp/tkf-emacs-ipython-notebook-85c6d2e/")
 # #   ;; ;;(require 'ein)
 # #   ;; ;; websocket
-# #   ;; ;;(add-to-list 'load-path "~/.elisp/websocket")
+# #   ;; ;;(add-to-list 'load-path "~/.emacs.d/site-lisp/websocket")
 # #   ;; ;;(require 'websocket)
 # #   ;; ipython
 # #   ;; (setq ipython-command (pjoin PYTHON "ipython"))
@@ -855,7 +850,7 @@ TOTAL                                                                           
 # #   ;; (require 'pymacs)
 # #   ;; (pymacs-load "ropemacs" "rope-")
 # #                                           ;(setq ropemacs-enable-autoimport t)
-# #                                           ;(load-file "~/.elisp/emacs-for-python/epy-init.el")
+# #                                           ;(load-file "~/.emacs.d/site-lisp/emacs-for-python/epy-init.el")
 # #                                           ;(epy-setup-checker "pyflakes %f")
 
 
@@ -999,8 +994,8 @@ elpy and they can be activated in the menu.
 # *** Main
 # #+begin_src emacs-lisp
 # ;; ;; Org-Mode
-# ;; (setq load-path (cons "~/.elisp/org-mode/lisp" load-path))
-# ;; (setq load-path (cons "~/.elisp/org-mode/contrib/lisp" load-path))
+# ;; (setq load-path (cons "~/.emacs.d/site-lisp/org-mode/lisp" load-path))
+# ;; (setq load-path (cons "~/.emacs.d/site-lisp/org-mode/contrib/lisp" load-path))
 # ;; (require 'org-install)
 # ;; (require 'org-exp-bibtex)
 # (use-package org-protocol)
@@ -1632,7 +1627,7 @@ elpy and they can be activated in the menu.
 #   ;(define-key message-mode-map (kbd "<tab>") 'bbdb-complete-name)
 #   ;;(define-key message-mode-map (kbd "<tab>") 'yas/expand)
 #   (define-key message-mode-map (kbd "M-;") 'move-end-of-line)
-#   (add-to-list 'load-path "~/.elisp/bbdb")
+#   (add-to-list 'load-path "~/.emacs.d/site-lisp/bbdb")
 #   (require 'bbdb-autoloads)
 #   (require 'bbdb)
 #   (bbdb-insinuate-message)
@@ -1641,7 +1636,7 @@ elpy and they can be activated in the menu.
 # ** COMMENT o-blog
 # *** Load o-blog
 # #+BEGIN_SRC #emacs-lisp
-# (add-to-list 'load-path "~/.elisp/o-blog")
+# (add-to-list 'load-path "~/.emacs.d/site-lisp/o-blog")
 # (require 'o-blog)
 # #+END_SRC
 # *** Compile / Publish blog
@@ -1804,7 +1799,7 @@ elpy and they can be activated in the menu.
 # #+BEGIN_SRC emacs-lisp
 # (when mac-osx-p
 #   ;; mu-0.9.9.6: installed with homebrew
-#   (add-to-list 'load-path "~/.elisp/mu4e"))
+#   (add-to-list 'load-path "~/.emacs.d/site-lisp/mu4e"))
 # (when isvr-p
 #   ;; mu-0.9.8.1: couldn't compile newer version
 #   (add-to-list 'load-path "$APPS/share/emacs/site-lisp/mu4e"))
@@ -2022,7 +2017,7 @@ elpy and they can be activated in the menu.
 # # #+end_src
 # ** google
 # #+begin_src emacs-lisp
-#   (add-to-list 'load-path "~/.elisp/google-maps")
+#   (add-to-list 'load-path "~/.emacs.d/site-lisp/google-maps")
 #   (use-package google-maps)
 #   ;;(require 'google-maps) ; this is extremely cool
 # #+end_src
@@ -2107,8 +2102,8 @@ Install with MELPA
 
   ;; ;; Option 1: global
   ;; ;;(add-to-list 'load-path "~/.emacs.d//yasnippet")
-  ;; (add-to-list 'load-path "~/.elisp/yasnippet.el")
-  ;; (load-file "~/.elisp/yasnippet/yasnippet.el")
+  ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/yasnippet.el")
+  ;; (load-file "~/.emacs.d/site-lisp/yasnippet/yasnippet.el")
   ;; (require 'yasnippet)
   ;; (yas/global-mode 1)
 
@@ -2167,7 +2162,7 @@ Install with MELPA
 # (use-package rainbow-delimiters)
 # 					;(unless mac-osx-p
 # ;;(add-to-list 'load-path "~/Apps/share/emacs/site-lisp")
-# ;;(add-to-list 'load-path "~/.elisp/auctex")
+# ;;(add-to-list 'load-path "~/.emacs.d/site-lisp/auctex")
 # (use-package tex-site
 #   :ensure auctex
 #   :config
@@ -2204,7 +2199,7 @@ Install with MELPA
 #   (setq TeX-brace-indent-level 4)
 #   ;;(setq TeX-electric-escape t) ;; to get suggestions when entering macros
 #   ;; Don't change case in abbrevs in LaTeX
-#   (load-file "~/.elisp/auto-complete-auctex.el")
+#   (load-file "~/.emacs.d/site-lisp/auto-complete-auctex.el")
 #   (require 'auto-complete-auctex)
 #   (add-hook 'LaTeX-mode-hook (lambda ()
 #                                (setq dabbrev-case-replace nil)
@@ -2228,7 +2223,7 @@ Install with MELPA
 # #+end_src
 # *** cdlatex
 # #+begin_src emacs-lisp
-#   (load-file "~/.elisp/cdlatex.el")
+#   (load-file "~/.emacs.d/site-lisp/cdlatex.el")
 #   ;; CDLaTeX minor mode for fast math input
 #   (require 'cdlatex)
 #   ;;; modify the paren keymaps cause we use smartparens
@@ -2398,9 +2393,9 @@ Install with MELPA
 # *** Sunrise Commander
 # #+BEGIN_SRC #emacs-lisp
 #     ;; Orthodox file manager
-#     (load-file "~/.elisp/sunrise-commander.el")
-#     (load-file "~/.elisp/sunrise-x-modeline.el")
-#     (load-file "~/.elisp/sunrise-x-tabs.el")
+#     (load-file "~/.emacs.d/site-lisp/sunrise-commander.el")
+#     (load-file "~/.emacs.d/site-lisp/sunrise-x-modeline.el")
+#     (load-file "~/.emacs.d/site-lisp/sunrise-x-tabs.el")
 #     (require 'sunrise-commander)
 #     (ad-deactivate 'dired-dwim-target-directory)
 #     (ad-activate 'dired-dwim-target-directory)
@@ -2614,7 +2609,7 @@ Install with MELPA
 # # ** expand region
 # # #+begin_src emacs-lisp
 # #   ;; Selecting with expand-region (from Magnar Sveen)
-# #   (add-to-list 'load-path "~/.elisp/expand-region.el")
+# #   (add-to-list 'load-path "~/.emacs.d/site-lisp/expand-region.el")
 # #   (require 'expand-region)
 # #   (global-set-key (kbd "M-@") 'er/expand-region)
 # #   (global-set-key (kbd "M-~") 'er/contract-region)
@@ -2622,7 +2617,7 @@ Install with MELPA
 # # ** ace jump
 # # #+begin_src emacs-lisp
 # #   ;; Ace jump: move quickly within visible buffer
-# #   (add-to-list 'load-path "~/.elisp/ace-jump-mode")
+# #   (add-to-list 'load-path "~/.emacs.d/site-lisp/ace-jump-mode")
 # #   (require 'ace-jump-mode)
 # #   ;;(define-key global-map (kbd "M-b") 'ace-jump-mode)
 # # #+end_src
@@ -2640,7 +2635,7 @@ Install with MELPA
 # #   (require 'pos-tip) ; bug: crashes emacs when moving window
 # #   (require 'auto-complete)
 # #   (require 'auto-complete-config)
-# #   ;;(add-to-list 'ac-dictionary-directories "~/.elisp//ac-dict")
+# #   ;;(add-to-list 'ac-dictionary-directories "~/.emacs.d/site-lisp//ac-dict")
 # #   (ac-config-default)
 # #   (global-auto-complete-mode t)
 
@@ -2702,7 +2697,7 @@ Install with MELPA
 #   ;;; Don't save *anything*
 #   (setq compilation-save-buffers-predicate '(lambda () nil))
 #   ;; ;; Autopair
-#   ;; (add-to-list 'load-path "~/.elisp/autopair")
+#   ;; (add-to-list 'load-path "~/.emacs.d/site-lisp/autopair")
 #   ;; (require 'autopair)
 #   ;; (autopair-global-mode t) ;; enable autopair in all buffers
 #   ;; (setq autopair-autowrap t) ;; to wrap character around selection -> GREAT!!
@@ -2781,7 +2776,7 @@ Install with MELPA
 #   ;;; Web
 #   (require 'palette) ; to help with colours
 #   ;; nXhtml mode
-#                                           ;(load "~/.elisp/nxhtml/autostart.el")
+#                                           ;(load "~/.emacs.d/site-lisp/nxhtml/autostart.el")
 #                                           ;(autoload 'css-mode "css-mode")
 #   ;;; Ruby
 #   (autoload 'ruby-mode "ruby-mode"
@@ -2887,7 +2882,7 @@ Install with MELPA
 #   ;; (require 'gas-mode)
 #   ;; (add-to-list 'auto-mode-alist '("\\.S\\'" . gas-mode))
 #   ;; ;; Haskell
-#   ;; (load "~/.elisp/haskell-mode-2.4/haskell-site-file")
+#   ;; (load "~/.emacs.d/site-lisp/haskell-mode-2.4/haskell-site-file")
 #   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-doc-mode)
 #   ;; (add-hook 'haskell-mode-hook 'turn-on-haskell-indent)
 #   ;; (add-hook 'haskell-mode-hook 'font-lock-mode)
@@ -3059,7 +3054,7 @@ Install with MELPA
 # ** COMMENT VHDL
 # http://www.iis.ee.ethz.ch/~zimmi/emacs/vhdl-mode.html#download
 # #+begin_src #emacs-lisp
-# (setq load-path (cons (expand-file-name "~/.elisp/vhdl-mode-3.36.1") load-path))
+# (setq load-path (cons (expand-file-name "~/.emacs.d/site-lisp/vhdl-mode-3.36.1") load-path))
 # (autoload 'vhdl-mode "vhdl-mode" "VHDL Mode" t)
 # (setq auto-mode-alist (cons '("\\.vhdl?\\'" . vhdl-mode) auto-mode-alist))
 # (setq auto-mode-alist (cons '("\\.hdl?\\'" . vhdl-mode) auto-mode-alist))
@@ -3117,7 +3112,7 @@ Install with MELPA
 # * COMMENT Misc
 # #+begin_src emacs-lisp
 #   ;; ;;;; Recompile everything that has to be
-#   ;; (byte-recompile-directory (expand-file-name "~/.elisp") 0)
+#   ;; (byte-recompile-directory (expand-file-name "~/.emacs.d/site-lisp") 0)
 
 #   ;; ;; Unicode
 #   ;; (prefer-coding-system 'utf-8)
@@ -3410,7 +3405,7 @@ Install with MELPA
 # # #+begin_src emacs-lisp
 # #   ;; Colour themes
 
-# #   (add-to-list 'load-path "~/.elisp/color-theme-6.6.0")
+# #   (add-to-list 'load-path "~/.emacs.d/site-lisp/color-theme-6.6.0")
 # #   (require 'color-theme)
 # #   (setq color-theme-load-all-themes nil)
 # #   (require 'color-theme-tangotango)
@@ -3807,7 +3802,7 @@ Install with MELPA
 # #+END_SRC
 # ** COMMENT helm
 # #+begin_src emacs-lisp
-# (add-to-list 'load-path "~/.elisp/helm")
+# (add-to-list 'load-path "~/.emacs.d/site-lisp/helm")
 # (require 'helm-config)
 # #+end_src
 # ** Code folding with python

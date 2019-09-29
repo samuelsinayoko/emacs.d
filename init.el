@@ -1,7 +1,6 @@
 (require 'cl)
 (require 'package)
 (load "package")
-(package-initialize)
 
 (if (fboundp 'normal-top-level-add-to-load-path)
     (let* ((my-lisp-dir "~/.emacs.d/site-lisp/")
@@ -15,6 +14,7 @@
                load-path)))))
 
 (add-to-list 'package-archives '("elpa" . "~/.emacs.d/elpa"))
+(package-initialize)
 
 ;;; init.el --- Where all the magic begins
 ;; ;; Comments out to benchmark
