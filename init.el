@@ -19,7 +19,7 @@
 ;;; init.el --- Where all the magic begins
 ;; ;; Comments out to benchmark
 
-(require 'benchmark-init-loaddefs)
+(require 'benchmark-init)
 (benchmark-init/activate)
 
 ;; Time emacs startup
